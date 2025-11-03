@@ -1,12 +1,12 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Character {
+public class Player {
     private String name;
     private Room currentRoom;
     private List<Item> inventory;
 
-    public Character(String name, Room startingRoom) {
+    public Player (String name, Room startingRoom) {
         this.name = name;
         this.currentRoom = startingRoom;
         this.inventory = new ArrayList<>();

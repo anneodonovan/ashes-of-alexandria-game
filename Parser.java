@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class Parser {
-    private CommandWords commands;
+    private final CommandWords commands;
     private Scanner reader;
 
     public Parser() {

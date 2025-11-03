@@ -65,4 +65,15 @@ public class Item {
     	}
         return found;
     }
+
+    public static List<Item> dropItems(String itemName, String location) {
+        List<Item> dropped = new ArrayList<>(); //new array list for items that have been dropped
+    	for (Item item : allItems) {
+    		if (item.isVisible() && item.location != null && item.location.equalsIgnoreCase(location)
+                    && item.name.equalsIgnoreCase(itemName)) {
+    			dropped.add(item);
+    		}
+    	}
+        return dropped;
+    }       
 }

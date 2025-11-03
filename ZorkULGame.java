@@ -13,12 +13,12 @@ Overall, it recreates the classic Zork interactive fiction experience with a uni
 emphasizing exploration and simple command-driven gameplay
 */
 
+import java.util.Iterator;
 import java.util.List;
-import java.util.Scanner;
 
 public class ZorkULGame {
     private Parser parser;
-    private Character player;
+    private Player player;
 
     public ZorkULGame() {
         createRooms();
@@ -27,40 +27,18 @@ public class ZorkULGame {
     }
 
     private void createRooms() {
-        Room outside, theatre, pub, lab, office, hallway, cafe;
+        Room outside, classroom;
 
         // create rooms
         outside = new Room("outside", "outside the main entrance of the university");
-        theatre = new Room("theatre", "in a lecture theatre");
-        pub = new Room("pub", "in the campus pub");
-        lab = new Room("lab", "in a computing lab");
-        office = new Room("office", "in the computing admin office");
-        hallway = new Room("hallway", "in an empty hallway"); //add new room
-        cafe = new Room("cafe", "in the cafe"); //add new room
+        classroom = new Room("classroom", "a regular classroom"); //example room
 
         // initialise room exits
-        outside.setExit("east", theatre);
-        outside.setExit("south", lab);
-        outside.setExit("west", pub);
-
-        theatre.setExit("west", outside);
-
-        pub.setExit("east", outside);
-
-        lab.setExit("north", outside);
-        lab.setExit("east", office);
-
-        office.setExit("west", lab);
-        office.setExit("east", hallway); //add direction to new room
-        
-        hallway.setExit("west", office); //set an exit for new room
-        hallway.setExit("east", cafe); //add direction to new room
-        
-        cafe.setExit("west", hallway); //set an exit for new room
-        cafe.setExit("north", outside); //set an exit for new room
+        outside.setExit("east", classroom); 
+        classroom.setExit("west", outside); 
 
         // create the player character and start outside
-        player = new Character("player", outside);
+        player = new Player("player", outside);
     }
 
     public void play() {
@@ -113,6 +91,9 @@ public class ZorkULGame {
             case "show":
             	showInventory();
             	break;
+            case "drop":
+            	dropItem(command);
+            	break;
             default:
                 System.out.println("I don't know what you mean...");
                 break;
@@ -148,22 +129,13 @@ public class ZorkULGame {
     	Item chair, desk, couch, muffin;
     	
     	//create items
-    	chair = new Item("chair", "a soft chair");
-    	desk = new Item("desk", "a wooden desk");
-    	couch = new Item("couch", "a red couch");
-    	muffin = new Item("muffin", "a chocolate chip muffin");
+    	chair = new Item("chair", "a wooden chair");
     	
     	//set object locations
-    	chair.setLocation("office");
-    	desk.setLocation("office");
-    	couch.setLocation("pub");
-    	muffin.setLocation("cafe");
+    	chair.setLocation("classroom");
     	
     	//set visibility
     	chair.setVisible(true);
-    	desk.setVisible(true);
-    	couch.setVisible(true);
-    	muffin.setVisible(true);
     }
     
     private void seeItem(Command command) {
@@ -200,6 +172,34 @@ public class ZorkULGame {
     	}
     	System.out.println("There is no " + itemName + " here.");
 
+    }
+
+    private void dropItem(Command command) {
+        if (!command.hasSecondWord()) {
+            System.out.println("Drop what?");
+            return;
+        }
+
+        String itemName = command.getSecondWord();
+        List<Item> inventory = player.getInventory();
+
+        if (inventory.isEmpty()) {
+            System.out.println("You have nothing to drop.");
+            return;
+        }
+
+        Iterator<Item> iterator = inventory.iterator();
+        while (iterator.hasNext()) {
+            Item item = iterator.next();
+            if (item.getName().equalsIgnoreCase(itemName)) {
+                iterator.remove(); // Remove from inventory using iterator
+                item.setVisible(true);
+                item.setLocation(player.getCurrentRoom().getName());
+                System.out.println("You dropped " + item.getName());
+                return;
+            }
+        }
+        System.out.println("You don't have a " + itemName + " to drop.");
     }
     
     private void showInventory() {
