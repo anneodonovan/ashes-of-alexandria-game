@@ -17,7 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class AshesOfAlexandriaGame {
-    private Parser parser;
+    private final Parser parser;
     private Player player;
 
     public AshesOfAlexandriaGame() {
@@ -48,72 +48,107 @@ public class AshesOfAlexandriaGame {
         hallway = new Room("hallways", "in the hallways. A long, narrow corridor lined with cracked marble columns and faded frescoes of scholars in debate. Every footstep echoes unnaturally, as if the hallway remembers every conversation ever held within it. Occasionally, the player hears whispers — fragments of ancient arguments or forgotten truths — but they vanish when pursued.");
         tower = new Room("tower", "in the tower. A spiraling stone staircase leads to what looks like a doorway, half hidden in shadows. The ceiling is painted with constellations, and a massive bronze astrolabe dominates the center. Dust motes drift in the sunlight filtering through cracked stained glass. From here, one can see the burning city beyond — and perhaps glimpse the stars that guided ancient scholars.");
         staircase = new Room("staircase", "on the staircase. It's dark and damp - nobody has been here in a long, long time. A faint sent of burnt wood and dust hangs in the air, and darkness shrouds the steps as they lead down into nothingness.");
-
-        // initialise room exits
-        main_hall.setExit("south", lecture_hall);
-        main_hall.setExit("west", library);
-        main_hall.setExit("north", social_hall);
+    
+        // create exits
+        Exit inquiry_arch, whispering_door, marble_threshold, scholars_door, ink_stained_arch, echoing_hall, bronze_gateway, gilded_door, secret_door, winning_portal, heavy_wooden_door, half_door, courtyard_door, stone_arch, vine_covered_gate, wreathed_arch, pantry_door, garden_door, stairway_door, iron_door, vault_door, marble_entrance, reading_passage, oak_door, steel_door;
         
-        lecture_hall.setExit("north", main_hall);
-        lecture_hall.setExit("west", library);
+        // main hall exits
+        inquiry_arch = new Exit(main_hall, lecture_hall, Direction.SOUTH, Direction.NORTH, "inquiry arch", true);
+        whispering_door = new Door(main_hall, library, Direction.WEST, Direction.EAST, "whispering door", true, null, false, true);
+        marble_threshold = new Exit(main_hall, social_hall, Direction.NORTH, Direction.SOUTH, "marble threshold", true);
 
-        social_hall.setExit("south", main_hall);
-        social_hall.setExit("north", dining_hall);
-        social_hall.setExit("north", kitchen); //have to fix the direction/exit classes to make this work
-        social_hall.setExit("west", courtyard);
-        social_hall.setExit("west", hallway);
-
-        kitchen.setExit("west", muse_garden);
-        kitchen.setExit("south", social_hall);
-        kitchen.setExit("east", dining_hall);
-
-        dining_hall.setExit("south", social_hall);
-        dining_hall.setExit("west", kitchen);
-
-        courtyard.setExit("east", social_hall);
-        courtyard.setExit("east", kitchen);
-        courtyard.setExit("west", residential_quarter);
-        courtyard.setExit("north", muse_garden);
-        courtyard.setExit("south", hallway);
+        // lecture hall exits
+        scholars_door = new Door(lecture_hall, library, Direction.WEST, Direction.EAST, "scholars' door", true, null,false, true);
         
-        muse_garden.setExit("south", courtyard);
+        // library exits
+        ink_stained_arch = new Exit(library, scribing_room, Direction.WEST, Direction.EAST, "ink-stained arch", true);
+        echoing_hall = new Exit(library, reading_room, Direction.EAST, Direction.WEST, "echoing hall", true);
+        bronze_gateway = new Door(library, tower, Direction.SOUTH, Direction.NORTH, "bronze gateway", true, "towerkey", true, false);
+        oak_door = new Door(library, hallway, Direction.NORTH, Direction.SOUTH, "oak door", true, null, false, true);
+
+        // social hall exits
+        heavy_wooden_door = new Door(social_hall, dining_hall, Direction.NORTH, Direction.SOUTH, "heavy wooden door", true, null, false, true);
+        half_door = new Door(social_hall, kitchen, Direction.NORTH, Direction.SOUTH, "half door", true, null, false, true);
+        courtyard_door = new Door(social_hall, courtyard, Direction.WEST, Direction.EAST, "courtyard door", true, null, false, true);
+        stone_arch = new Exit(social_hall, hallway, Direction.WEST, Direction.EAST, "stone arch", true);
+
+        // kitchen exits
+        pantry_door = new Door(kitchen, dining_hall, Direction.WEST, Direction.EAST, "pantry door", true, null, false, true);
+        garden_door = new Door(kitchen, courtyard, Direction.WEST, Direction.EAST, "garden door", true, null, false, true);
         
-        hallway.setExit("north", courtyard);
-        hallway.setExit("south", library);
-        hallway.setExit("east", social_hall);
-        hallway.setExit("west", scribing_room);
-        hallway.setExit("west", residential_quarter);
+        // tower exits
+        gilded_door = new Door(tower, serapeum, Direction.UP, Direction.DOWN, "gilded door", true, null, false, true);
 
-        residential_quarter.setExit("south", hallway);
-        residential_quarter.setExit("east", courtyard);
+        // serapeum exits
+        secret_door = new Door(serapeum, eratosthenes_chamber, Direction.EAST, Direction.WEST, "secret door", false, "eratostheneskey", true, false);
 
-        scribing_room.setExit("north", hallway);
-        scribing_room.setExit("south", reading_room);
-        scribing_room.setExit("east", library);
-        scribing_room.setExit("west", staircase);
+        //courtyard/garden exits
+        vine_covered_gate = new Door(courtyard, muse_garden, Direction.NORTH, Direction.SOUTH, "vine-covered gate", true, "gardenkey", true, false);
+        winning_portal = new Exit(muse_garden, eratosthenes_chamber, Direction.UP, Direction.DOWN, "winning portal", false);
+        steel_door = new Door(courtyard, residential_quarter, Direction.EAST, Direction.WEST, "steel door", true, null, false, true);
 
-        staircase.setExit("east", scribing_room);
-        staircase.setExit("west", sphinx_room);
+        //hallway exits
+        wreathed_arch = new Exit(hallway, courtyard, Direction.NORTH, Direction.SOUTH, "wreathed arch", true);
+        iron_door = new Door(hallway, residential_quarter, Direction.NORTH, Direction.SOUTH, "iron door", true, null, false, true);
+        marble_entrance = new Exit(hallway, scribing_room, Direction.SOUTH, Direction.NORTH, "vault archway", true);
+        
+        //scribing room exits
+        stairway_door = new Door(scribing_room, sphinx_room, Direction.DOWN, Direction.UP, "stairway door", true, null, false, true);
+        reading_passage = new Exit(scribing_room, reading_room, Direction.EAST, Direction.WEST, "reading passage", true);
 
-        sphinx_room.setExit("east", staircase);
-        sphinx_room.setExit("west", scroll_vault);
+        //sphinx room exits
+        vault_door = new Door(sphinx_room, scroll_vault, Direction.NORTH, Direction.SOUTH, "vault door", true, "sphinxkey", true, false);
 
-        reading_room.setExit("north", hallway);
-        reading_room.setExit("east", library);
-
-        library.setExit("north", hallway);
-        library.setExit("east", main_hall);
-        library.setExit("west", scribing_room);
-        library.setExit("east", reading_room);
-        library.setExit("south", tower);
-
-        tower.setExit("up", serapeum);
-        tower.setExit("down", library);
-
-        serapeum.setExit("north", tower);
-        serapeum.setExit("east", eratosthenes_chamber);
-
-        eratosthenes_chamber.setExit("west", serapeum);
+        //add exits to rooms
+        main_hall.addExit(inquiry_arch); //to lecture hall
+        main_hall.addExit(whispering_door); //to library
+        main_hall.addExit(marble_threshold); //to social hall
+        lecture_hall.addExit(inquiry_arch); //to main hall
+        lecture_hall.addExit(scholars_door); //to library
+        library.addExit(ink_stained_arch); //to scribing room
+        library.addExit(echoing_hall); //to reading room
+        library.addExit(bronze_gateway); //to tower
+        library.addExit(whispering_door); //to main hall
+        library.addExit(scholars_door); //to lecture hall
+        library.addExit(oak_door); //to hallway
+        library.addExit(gilded_door); //to tower
+        social_hall.addExit(heavy_wooden_door); //to dining hall
+        social_hall.addExit(half_door); //to kitchen
+        social_hall.addExit(courtyard_door); //to courtyard
+        social_hall.addExit(stone_arch); //to hallway
+        social_hall.addExit(marble_threshold); //to main hall
+        kitchen.addExit(pantry_door); //to dining hall
+        kitchen.addExit(garden_door); //to courtyard
+        kitchen.addExit(half_door); //to social hall
+        dining_hall.addExit(heavy_wooden_door); //to social hall
+        dining_hall.addExit(pantry_door); //to kitchen
+        tower.addExit(gilded_door); //to serapeum
+        tower.addExit(bronze_gateway); //to library
+        serapeum.addExit(secret_door); //to eratosthenes chamber
+        serapeum.addExit(gilded_door); //to tower
+        eratosthenes_chamber.addExit(secret_door); //to serapeum
+        eratosthenes_chamber.addExit(winning_portal); //to muse garden
+        courtyard.addExit(vine_covered_gate); //to muse garden
+        courtyard.addExit(courtyard_door); //to social hall
+        courtyard.addExit(garden_door); //to kitchen
+        courtyard.addExit(wreathed_arch); //to hallway
+        courtyard.addExit(steel_door); //to residential quarter
+        residential_quarter.addExit(steel_door); //to courtyard
+        residential_quarter.addExit(iron_door); //to hallway
+        muse_garden.addExit(winning_portal); //to eratosthenes chamber
+        muse_garden.addExit(vine_covered_gate); //to courtyard  
+        hallway.addExit(wreathed_arch); //to courtyard
+        hallway.addExit(iron_door); //to residential quarter
+        hallway.addExit(marble_entrance); //to scribing room
+        hallway.addExit(oak_door); //to library
+        hallway.addExit(stone_arch); //to hallway
+        scribing_room.addExit(stairway_door); //to sphinx room
+        scribing_room.addExit(reading_passage); // to reading room
+        scribing_room.addExit(ink_stained_arch); //to library
+        scribing_room.addExit(marble_entrance); //to hallway
+        sphinx_room.addExit(vault_door); //to scroll vault
+        sphinx_room.addExit(stairway_door); //to scribing room
+        scroll_vault.addExit(vault_door); //to sphinx room
 
         // create the player character and start in starting room
         player = new Player("player", main_hall);
@@ -185,7 +220,7 @@ public class AshesOfAlexandriaGame {
     }
 
     private void printHelp() {
-        System.out.println("You are lost. You are alone. You wander around the university.");
+        System.out.println("You are lost. You are alone. You wander around the library and it's grounds, in search of the master scroll.");
         System.out.print("Your command words are: ");
         parser.showCommands();
     }
@@ -196,9 +231,40 @@ public class AshesOfAlexandriaGame {
             return;
         }
 
-        String direction = command.getSecondWord();
+        String directionStr = command.getSecondWord().toUpperCase();
+        Direction direction; // Convert string to Direction enum
 
-        Room nextRoom = player.getCurrentRoom().getExit(direction);
+        try {
+            direction = Direction.valueOf(directionStr); // assign direction based on user input and convert to enum
+        } catch (Exception e) {
+            System.out.println("That's not a valid direction!");
+            return;
+        }
+
+        Room currentRoom = player.getCurrentRoom();
+        Room nextRoom = null;
+        Exit chosenExit = null;
+
+        for (Exit exit : currentRoom.getExits()) {
+            if (exit.getDirectionFrom(currentRoom) == direction) { //if direction mathches an exit from current room
+                chosenExit = exit;
+                if (chosenExit instanceof Door) {
+                    Door door = (Door) chosenExit;
+                    if (!door.canPass){
+                        System.out.println("The door is locked.");
+                        return;
+                    }
+                    if (door.requiredKeyID != null) {
+                        System.out.println("You need the " + door.requiredKeyID + " to unlock this door.");
+                        return;
+                    } else {
+                        System.out.println("You pass through the " + door.getLabel() + ".");
+                    }
+                }
+                nextRoom = exit.getOtherSide(currentRoom); //get the room on the other side of the exit
+                break;
+            }
+        }
 
         if (nextRoom == null) {
             System.out.println("There is no door!");

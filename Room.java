@@ -1,15 +1,14 @@
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
 
 public class Room {
 	private String name; //added this to make it easier to access seperate room objects
     private String description;
-    private Map<String, Room> exits; // Map direction to neighboring Room
+    private ArrayList<Exit> exits; // array list of exit objects for each room
 
     public Room(String name, String description) {
         this.name = name;
     	this.description = description;
-        exits = new HashMap<>();
+        exits = new ArrayList<>();
     }
 
     public String getName() {
@@ -20,19 +19,22 @@ public class Room {
         return description;
     }
 
-    public void setExit(String direction, Room neighbor) {
-        exits.put(direction, neighbor);
-    }
+    public void addExit(Exit exit) {
+        exits.add(exit); //call exit class to create exit object and add to exits arraylist
+    } 
 
-    public Room getExit(String direction) {
-        return exits.get(direction);
+    public ArrayList<Exit> getExits() {
+        return exits;
     }
 
     public String getExitString() {
         StringBuilder sb = new StringBuilder();
-        for (String direction : exits.keySet()) {
-            sb.append(direction).append(" ");
-        }
+        for (Exit exit : exits) { //iterate through list of exits and get direction names to display to player
+            Direction direction = exit.getDirectionFrom(this); //get direction based on current room
+            if (direction != null) {    
+                sb.append(direction.name().toLowerCase()).append(" "); //make sure the exits described are based on the current room
+                }
+            }
         return sb.toString().trim();
     }
 

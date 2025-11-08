@@ -24,8 +24,24 @@ public class Player {
         this.currentRoom = room;
     }
 
-    public void move(String direction) {
-        Room nextRoom = currentRoom.getExit(direction);
+    public void move(String dir) {
+        String directionStr = dir.toUpperCase();
+        Direction direction; // Convert string to Direction enum
+
+        try {
+            direction = Direction.valueOf(directionStr); // assign direction based on user input and convert to enum
+        } catch (Exception e) {
+            System.out.println("That's not a valid direction!");
+            return;
+        }
+        
+        Room nextRoom = null;
+        for (Exit exit : currentRoom.getExits()) {
+            if (exit.getDirectionFrom(currentRoom) == direction) { //if direction mathches an exit from current room
+                nextRoom = exit.getOtherSide(currentRoom); //get the room on the other side of the exit
+                break;
+            }
+        }
         if (nextRoom != null) {
             currentRoom = nextRoom;
             System.out.println("You moved to: " + currentRoom.getDescription());
