@@ -45,13 +45,17 @@ public class Exit {
         throw new IllegalArgumentException("Room not part of this exit");   //throw error if room not found
     }
 
-    public Direction getDirectionFrom(Room room) {
-        if (room.equals(roomA)) {
+    public Direction getDirectionFrom(Room room) { //problem
+        if (room == null) {
+            throw new IllegalArgumentException("Room is null");
+        }
+
+        if (room == roomA) {
             return directionFromA;
-        } else if (room.equals(roomB)) {
+        } else if (room == roomB) {
             return directionFromB;
         } else {
-            throw new IllegalArgumentException("Room not part of this exit"); //throw error if room not found
+            throw new IllegalArgumentException("Room " + room.getName() + " not part of this exit"); //throw error if room not found
         }
     }
     

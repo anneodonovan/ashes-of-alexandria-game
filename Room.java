@@ -20,7 +20,7 @@ public class Room {
     }
 
     public void addExit(Exit exit) {
-        exits.add(exit); //call exit class to create exit object and add to exits arraylist
+        exits.add(exit); //adds new exit to the room's exits arraylist
     } 
 
     public ArrayList<Exit> getExits() {
@@ -41,4 +41,5 @@ public class Room {
     public String getLongDescription() {
         return "You are " + description + ".\nExits: " + getExitString();
     }
+
 }

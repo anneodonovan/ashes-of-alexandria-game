@@ -37,7 +37,8 @@ public class Player {
         
         Room nextRoom = null;
         for (Exit exit : currentRoom.getExits()) {
-            if (exit.getDirectionFrom(currentRoom) == direction) { //if direction mathches an exit from current room
+            if (exit.getDirectionFrom(currentRoom) == direction) {
+                System.out.println("We're here"); //if direction mathches an exit from current room
                 nextRoom = exit.getOtherSide(currentRoom); //get the room on the other side of the exit
                 break;
             }

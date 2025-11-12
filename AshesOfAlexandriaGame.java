@@ -40,7 +40,7 @@ public class AshesOfAlexandriaGame {
         social_hall = new Room("social hall", "in the social hall. This is a gathering space for scholars to relax and debate informally. Cushions and low tables are scattered, and a harp lies broken in the corner.");
         kitchen = new Room("kitchen", "in the kitchen. This is a large vaulted room with tables, a fire pit and steel utensils which line the walls. This is where the cook resides, not having been told about the war raging outside the library walls.");
         courtyard = new Room("main courtyard", "in the main courtyard. This is an open-air courtyard with colonnades and a reflecting pool, now filled with ash and debris. The sky above glows orange from distant flames.");
-        library = new Room("main library", "in the main library. It consists of a maze of shelves filled with books and codices of all sorts — people often get lost. The air is thick with dust and the scent of old parchment.");
+        library = new Room("library", "in the library. It consists of a maze of shelves filled with books and codices of all sorts — people often get lost. The air is thick with dust and the scent of old parchment.");
         serapeum = new Room("serapeum", "in the serapeum. A grand temple annex in the library tower dedicated to the god Serapis, adorned with statues and offerings. The walls are inscribed with prayers and hymns, now partially obscured by soot.");
         eratosthenes_chamber = new Room("Eratosthene's chamber", "in Eratosthene's chamber. This is the library keepers chambers, the location of which was lost for years after his death. It is filled with his personal belongings, scrolls, and a large desk covered in star charts and maps.");
         sphinx_room = new Room("sphinx room", "in the sphinx's room. A vast, echoing chamber carved from sandstone, lit only by flickering oil lamps set into lion-headed sconces. At its center sits the Sphinx — not a statue, but a living guardian of riddles, its eyes glowing faintly with ancient wisdom. The air is thick with incense and silence, broken only when the Sphinx speaks. The walls are etched with faded riddles and failed answers — some scratched in desperation.");
@@ -62,7 +62,7 @@ public class AshesOfAlexandriaGame {
         
         // library exits
         ink_stained_arch = new Exit(library, scribing_room, Direction.WEST, Direction.EAST, "ink-stained arch", true);
-        echoing_hall = new Exit(library, reading_room, Direction.EAST, Direction.WEST, "echoing hall", true);
+        echoing_hall = new Exit(library, reading_room, Direction.WEST, Direction.EAST, "echoing hall", true);
         bronze_gateway = new Door(library, tower, Direction.SOUTH, Direction.NORTH, "bronze gateway", true, "towerkey", true, false);
         oak_door = new Door(library, hallway, Direction.NORTH, Direction.SOUTH, "oak door", true, null, false, true);
 
@@ -77,15 +77,15 @@ public class AshesOfAlexandriaGame {
         garden_door = new Door(kitchen, courtyard, Direction.WEST, Direction.EAST, "garden door", true, null, false, true);
         
         // tower exits
-        gilded_door = new Door(tower, serapeum, Direction.UP, Direction.DOWN, "gilded door", true, null, false, true);
+        gilded_door = new Door(tower, serapeum, Direction.SOUTH, Direction.NORTH, "gilded door", true, null, false, true);
 
         // serapeum exits
         secret_door = new Door(serapeum, eratosthenes_chamber, Direction.EAST, Direction.WEST, "secret door", false, "eratostheneskey", true, false);
 
         //courtyard/garden exits
         vine_covered_gate = new Door(courtyard, muse_garden, Direction.NORTH, Direction.SOUTH, "vine-covered gate", true, "gardenkey", true, false);
-        winning_portal = new Exit(muse_garden, eratosthenes_chamber, Direction.UP, Direction.DOWN, "winning portal", false);
-        steel_door = new Door(courtyard, residential_quarter, Direction.EAST, Direction.WEST, "steel door", true, null, false, true);
+        winning_portal = new Exit(muse_garden, eratosthenes_chamber, Direction.NORTH, Direction.SOUTH, "winning portal", false);
+        steel_door = new Door(courtyard, residential_quarter, Direction.WEST, Direction.EAST, "steel door", true, null, false, true);
 
         //hallway exits
         wreathed_arch = new Exit(hallway, courtyard, Direction.NORTH, Direction.SOUTH, "wreathed arch", true);
@@ -93,7 +93,7 @@ public class AshesOfAlexandriaGame {
         marble_entrance = new Exit(hallway, scribing_room, Direction.SOUTH, Direction.NORTH, "vault archway", true);
         
         //scribing room exits
-        stairway_door = new Door(scribing_room, sphinx_room, Direction.DOWN, Direction.UP, "stairway door", true, null, false, true);
+        stairway_door = new Door(scribing_room, sphinx_room, Direction.NORTH, Direction.SOUTH, "stairway door", true, null, false, true);
         reading_passage = new Exit(scribing_room, reading_room, Direction.EAST, Direction.WEST, "reading passage", true);
 
         //sphinx room exits
@@ -111,7 +111,6 @@ public class AshesOfAlexandriaGame {
         library.addExit(whispering_door); //to main hall
         library.addExit(scholars_door); //to lecture hall
         library.addExit(oak_door); //to hallway
-        library.addExit(gilded_door); //to tower
         social_hall.addExit(heavy_wooden_door); //to dining hall
         social_hall.addExit(half_door); //to kitchen
         social_hall.addExit(courtyard_door); //to courtyard
@@ -246,9 +245,9 @@ public class AshesOfAlexandriaGame {
         Exit chosenExit = null;
 
         for (Exit exit : currentRoom.getExits()) {
-            if (exit.getDirectionFrom(currentRoom) == direction) { //if direction mathches an exit from current room
-                chosenExit = exit;
+            if (exit.getDirectionFrom(currentRoom) == direction) { //problem? 
                 if (chosenExit instanceof Door) {
+                    System.out.println("This is a door.");
                     Door door = (Door) chosenExit;
                     if (!door.canPass){
                         System.out.println("The door is locked.");
@@ -281,7 +280,7 @@ public class AshesOfAlexandriaGame {
     	chair = new Item("chair", "a wooden chair");
     	
     	//set object locations
-    	chair.setLocation("classroom");
+    	chair.setLocation("dining_hall");
     	
     	//set visibility
     	chair.setVisible(true);
