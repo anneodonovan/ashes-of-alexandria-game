@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Room {
 	private String name; //added this to make it easier to access seperate room objects
@@ -27,12 +29,16 @@ public class Room {
         return exits;
     }
 
+    //add code to prevent printing multiples of the same direction + to provide a list of the options for each direction
     public String getExitString() {
         StringBuilder sb = new StringBuilder();
+        Set<Direction> added = new HashSet<>();
+
         for (Exit exit : exits) { //iterate through list of exits and get direction names to display to player
             Direction direction = exit.getDirectionFrom(this); //get direction based on current room
-            if (direction != null) {    
-                sb.append(direction.name().toLowerCase()).append(" "); //make sure the exits described are based on the current room
+            if (direction != null && !added.contains(direction)) {    
+                sb.append(direction.name().toLowerCase()).append(" ");//make sure the exits described are based on the current room
+                added.add(direction); 
                 }
             }
         return sb.toString().trim();

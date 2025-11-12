@@ -3,15 +3,15 @@ public class Door extends Exit {
     protected String requiredKeyID;
     protected boolean canPass;
 
-    public Door(Room roomA, Room roomB, Direction directionFromA, Direction directionFromB, String label, boolean isVisible, String keyID, boolean isLocked, boolean canPass) {
+    public Door(Room roomA, Room roomB, Direction directionFromA, Direction directionFromB, String label, boolean isVisible, String requiredKeyID, boolean isLocked, boolean canPass) {
         super(roomA, roomB, directionFromA, directionFromB, label, isVisible);
-        this.requiredKeyID = keyID;
+        this.requiredKeyID = requiredKeyID;
         this.isLocked = isLocked;
         this.canPass = !isLocked;
     }
 
-    public void setRequiredKeyID(String keyID) {
-        this.requiredKeyID = keyID;
+    public void setRequiredKeyID(String requiredKeyID) {
+        this.requiredKeyID = requiredKeyID;
     }
 
     public void setIsLocked(boolean isLocked) {

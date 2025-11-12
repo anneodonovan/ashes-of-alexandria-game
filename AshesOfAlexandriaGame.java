@@ -13,6 +13,7 @@ Overall, it recreates the classic Zork interactive fiction experience with a uni
 emphasizing exploration and simple command-driven gameplay
 */
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -90,7 +91,7 @@ public class AshesOfAlexandriaGame {
         //hallway exits
         wreathed_arch = new Exit(hallway, courtyard, Direction.NORTH, Direction.SOUTH, "wreathed arch", true);
         iron_door = new Door(hallway, residential_quarter, Direction.NORTH, Direction.SOUTH, "iron door", true, null, false, true);
-        marble_entrance = new Exit(hallway, scribing_room, Direction.SOUTH, Direction.NORTH, "vault archway", true);
+        marble_entrance = new Exit(hallway, scribing_room, Direction.SOUTH, Direction.NORTH, "marble entrance", true);
         
         //scribing room exits
         stairway_door = new Door(scribing_room, sphinx_room, Direction.NORTH, Direction.SOUTH, "stairway door", true, null, false, true);
@@ -145,6 +146,8 @@ public class AshesOfAlexandriaGame {
         scribing_room.addExit(reading_passage); // to reading room
         scribing_room.addExit(ink_stained_arch); //to library
         scribing_room.addExit(marble_entrance); //to hallway
+        reading_room.addExit(echoing_hall); //to library
+        reading_room.addExit(reading_passage); //to scribing room
         sphinx_room.addExit(vault_door); //to scroll vault
         sphinx_room.addExit(stairway_door); //to scribing room
         scroll_vault.addExit(vault_door); //to sphinx room
@@ -225,7 +228,8 @@ public class AshesOfAlexandriaGame {
     }
 
     private void goRoom(Command command) {
-        if (!command.hasSecondWord()) {
+        //handle: if no second work
+        if (!command.hasSecondWord()) { 
             System.out.println("Go where?");
             return;
         }
@@ -233,6 +237,7 @@ public class AshesOfAlexandriaGame {
         String directionStr = command.getSecondWord().toUpperCase();
         Direction direction; // Convert string to Direction enum
 
+        //handle: invalid direction
         try {
             direction = Direction.valueOf(directionStr); // assign direction based on user input and convert to enum
         } catch (Exception e) {
@@ -240,38 +245,87 @@ public class AshesOfAlexandriaGame {
             return;
         }
 
+        //handle: getting all matching exits
         Room currentRoom = player.getCurrentRoom();
-        Room nextRoom = null;
-        Exit chosenExit = null;
+        List<Exit> matchingExits = new ArrayList<>();
 
         for (Exit exit : currentRoom.getExits()) {
-            if (exit.getDirectionFrom(currentRoom) == direction) { //problem? 
-                if (chosenExit instanceof Door) {
-                    System.out.println("This is a door.");
-                    Door door = (Door) chosenExit;
-                    if (!door.canPass){
-                        System.out.println("The door is locked.");
-                        return;
-                    }
-                    if (door.requiredKeyID != null) {
-                        System.out.println("You need the " + door.requiredKeyID + " to unlock this door.");
-                        return;
-                    } else {
-                        System.out.println("You pass through the " + door.getLabel() + ".");
-                    }
-                }
-                nextRoom = exit.getOtherSide(currentRoom); //get the room on the other side of the exit
-                break;
+            if (exit.getDirectionFrom(currentRoom) == direction) {
+                matchingExits.add(exit);
             }
         }
 
-        if (nextRoom == null) {
-            System.out.println("There is no door!");
-        } else {
-            player.setCurrentRoom(nextRoom);
-            System.out.println(player.getCurrentRoom().getLongDescription());
+        //print available exits regardless of room entered
+        System.out.println("Exits: " + currentRoom.getExitString());
+
+        //handle: no exits in that direction
+        if (matchingExits.isEmpty()) {
+            System.out.println("You can't go that way!");
+            return;
+        } 
+
+        //handle: multiple exits in that direction
+        if (matchingExits.size() > 1) {
+            System.out.println("Choose an exit going " + directionStr.toLowerCase() + ":");
+            for (int i = 0; i < matchingExits.size(); i++) {
+                Exit exit = matchingExits.get(i);
+                String label;
+                if (exit instanceof Door) {
+                    Door doorExit = (Door) exit;
+                    label = doorExit.getLabel();
+                } else {
+                    label = exit.getLabel();
+                }
+            System.out.println((i + 1) + ". " + label);    
+            }
+
+            //handle: choosing exit
+            System.err.println("Select the name of the exit you wish to take: ");
+            String inputExit = parser.getCommand().getSecondWord();
+
+            boolean found = false;
+            for (Exit exit : matchingExits) {
+                if (exit.getLabel().toLowerCase().contains(inputExit.toLowerCase())) {
+                    found = true;
+                    if (!(exit instanceof Door) || ((Door) exit).canPass) {
+                        Room nextRoom = exit.getOtherSide(currentRoom);
+                        player.setCurrentRoom(nextRoom);
+                        System.out.println(player.getCurrentRoom().getLongDescription());
+                    } else {
+                        Door doorThru = (Door) exit;
+                        System.out.println("The door is locked.");
+                        if (doorThru.requiredKeyID != null) {
+                            System.out.println("You need the " + doorThru.requiredKeyID + " to unlock this door.");
+                        }
+                    }
+                    return;
+                }
+            }
+            if (!found) {
+                System.out.println("That's not an exit choice; please try again.");
+            }
+        return;
         }
+
+        // One exit: just pass normally
+        Exit chosenExit = matchingExits.get(0);
+        if (chosenExit instanceof Door) {
+            Door doorThru = (Door) chosenExit;
+            if (!doorThru.canPass) {
+                System.out.println("The door is locked.");
+                if (doorThru.requiredKeyID != null) {
+                    System.out.println("You need the " + doorThru.requiredKeyID + " to unlock this door.");
+                }
+                return;
+            } else {
+                System.out.println("You pass through the " + doorThru.getLabel() + ".");
+            }
+        }
+        Room nextRoom = chosenExit.getOtherSide(currentRoom);
+        player.setCurrentRoom(nextRoom);
+        System.out.println(player.getCurrentRoom().getLongDescription());
     }
+    
     
     public void createItems() {
     	Item chair;
