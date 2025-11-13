@@ -1,7 +1,9 @@
+package com.alexandria.Traversal;
+
 public class Door extends Exit {
-    private boolean isLocked;
-    protected String requiredKeyID;
-    protected boolean canPass;
+    public boolean isLocked;
+    public String requiredKeyID;
+    public boolean canPass;
 
     public Door(Room roomA, Room roomB, Direction directionFromA, Direction directionFromB, String label, boolean isVisible, String requiredKeyID, boolean isLocked, boolean canPass) {
         super(roomA, roomB, directionFromA, directionFromB, label, isVisible);

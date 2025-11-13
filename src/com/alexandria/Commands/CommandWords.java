@@ -1,3 +1,5 @@
+package com.alexandria.Commands;
+
 import java.util.HashMap;
 import java.util.Map;
 

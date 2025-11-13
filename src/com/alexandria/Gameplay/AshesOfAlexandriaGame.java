@@ -12,6 +12,16 @@ Help system: Lists valid commands to guide the player.
 Overall, it recreates the classic Zork interactive fiction experience with a university-themed setting, 
 emphasizing exploration and simple command-driven gameplay
 */
+package com.alexandria.Gameplay;
+import com.alexandria.Inventory.Item;
+import com.alexandria.Player.Player;
+import com.alexandria.Traversal.Direction;
+import com.alexandria.Traversal.Exit;
+import com.alexandria.Traversal.Room;
+import com.alexandria.Traversal.Door;
+import com.alexandria.Commands.Command;
+import com.alexandria.Commands.Parser;
+//import com.alexandria.NPC.NPC;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -28,7 +38,7 @@ public class AshesOfAlexandriaGame {
     }
 
     private void createRooms() {
-        Room main_hall, scribing_room, reading_room, lecture_hall, residential_quarter, muse_garden, dining_hall, social_hall, kitchen, courtyard, library, scroll_vault, serapeum, eratosthenes_chamber, sphinx_room, hallway, tower, staircase;
+        Room main_hall, scribing_room, reading_room, lecture_hall, residential_quarter, muse_garden, dining_hall, social_hall, kitchen, courtyard, library, scroll_vault, serapeum, eratosthenes_chamber, sphinx_room, hallway, tower;
 
         // create rooms
         main_hall = new Room("main hall", "in the main hall. There are grand colomns, marble floors and a high ceiling. The main doors behind you are locked."); //starting room
@@ -48,7 +58,6 @@ public class AshesOfAlexandriaGame {
         scroll_vault = new Room("scroll vault", "in the ancient scroll storage vault. Climate-controlled areas for preserving papyrus scrolls. Used for older, damaged and crumbling scrolls that are too fragile for just anyone to handle. The walls are lined with scrolls in compartmentalised shelves. You are now deep underground, presumably to keep the scrolls protected from heat and light. The acrid scent of disintegrating papyrus and old leather is almost overpowering.");
         hallway = new Room("hallways", "in the hallways. A long, narrow corridor lined with cracked marble columns and faded frescoes of scholars in debate. Every footstep echoes unnaturally, as if the hallway remembers every conversation ever held within it. Occasionally, the player hears whispers — fragments of ancient arguments or forgotten truths — but they vanish when pursued.");
         tower = new Room("tower", "in the tower. A spiraling stone staircase leads to what looks like a doorway, half hidden in shadows. The ceiling is painted with constellations, and a massive bronze astrolabe dominates the center. Dust motes drift in the sunlight filtering through cracked stained glass. From here, one can see the burning city beyond — and perhaps glimpse the stars that guided ancient scholars.");
-        staircase = new Room("staircase", "on the staircase. It's dark and damp - nobody has been here in a long, long time. A faint sent of burnt wood and dust hangs in the air, and darkness shrouds the steps as they lead down into nothingness.");
     
         // create exits
         Exit inquiry_arch, whispering_door, marble_threshold, scholars_door, ink_stained_arch, echoing_hall, bronze_gateway, gilded_door, secret_door, winning_portal, heavy_wooden_door, half_door, courtyard_door, stone_arch, vine_covered_gate, wreathed_arch, pantry_door, garden_door, stairway_door, iron_door, vault_door, marble_entrance, reading_passage, oak_door, steel_door;

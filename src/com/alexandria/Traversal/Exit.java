@@ -1,3 +1,5 @@
+package com.alexandria.Traversal;
+
 public class Exit {
     private Room roomA;
     private Room roomB;

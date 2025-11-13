@@ -1,3 +1,4 @@
+package com.alexandria.Commands;
 import java.util.Scanner;
 
 public class Parser {

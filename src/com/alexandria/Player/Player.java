@@ -1,3 +1,10 @@
+package com.alexandria.Player;
+
+import com.alexandria.Traversal.Direction;
+import com.alexandria.Traversal.Exit;
+import com.alexandria.Traversal.Room;
+import com.alexandria.Inventory.Item;
+
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,3 +1,5 @@
+package com.alexandria.Commands;
+
 public class Command {
     private String commandWord;
     private String secondWord;
