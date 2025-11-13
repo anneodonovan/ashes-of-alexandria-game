@@ -223,6 +223,23 @@ public class AshesOfAlexandriaGame {
             case "drop":
             	dropItem(command);
             	break;
+            case "save":
+                try {
+                    player.savePlayerState();
+                    System.out.println("Game saved successfully.");
+                } catch (Exception e) {
+                    System.out.println("Error saving game: " + e.getMessage());
+                }
+                return true;
+            case "reload":
+                try {
+                    player = Player.reloadPlayerState(player.getName());
+                    System.out.println("Game reloaded successfully.");
+                    System.out.println(player.getCurrentRoom().getLongDescription());
+                } catch (Exception e) {
+                    System.out.println("Error reloading game: " + e.getMessage());
+                }
+                break;
             default:
                 System.out.println("I don't know what you mean...");
                 break;

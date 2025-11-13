@@ -2,8 +2,9 @@ package com.alexandria.Inventory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.io.Serializable;
 
-public class Item {
+public class Item implements Serializable {
 	private static List<Item> allItems = new ArrayList<>(); //array list to keep track of all items globally	
     private String description;
     private String name;

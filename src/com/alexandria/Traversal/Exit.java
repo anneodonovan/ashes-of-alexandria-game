@@ -1,6 +1,8 @@
 package com.alexandria.Traversal;
 
-public class Exit {
+import java.io.Serializable;
+
+public class Exit implements Serializable {
     private Room roomA;
     private Room roomB;
     private Direction directionFromA;

@@ -1,6 +1,8 @@
 package com.alexandria.Traversal;
 
-public class Door extends Exit {
+import java.io.Serializable;
+
+public class Door extends Exit implements Serializable {
     public boolean isLocked;
     public String requiredKeyID;
     public boolean canPass;
