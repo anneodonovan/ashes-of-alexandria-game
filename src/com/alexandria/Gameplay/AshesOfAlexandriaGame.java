@@ -162,7 +162,11 @@ public class AshesOfAlexandriaGame {
         scroll_vault.addExit(vault_door); //to sphinx room
 
         // create the player character and start in starting room
-        player = new Player("player", main_hall);
+        Parser parser = new Parser();
+        System.out.println("Creating player...");
+        System.out.println("Enter the name of your player character: ");
+        String playerName = parser.getInput();
+        player = new Player(playerName, main_hall);
     }
 
     public void play() {
