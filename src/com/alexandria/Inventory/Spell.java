@@ -1,10 +1,18 @@
 package com.alexandria.Inventory;
 
-public class Spell<T> extends Item {
+public class Spell<E> extends Item {
+    private E effect; 
 
-    public Spell(String name, String description, String Location, int id, boolean isVisible) {
+    public Spell(String name, String description, String Location, int id, boolean isVisible, E effect) {
         super(name, description, Location, id, isVisible);
-        //TODO Auto-generated constructor stub
+        this.effect = effect;
     }
     
+    public void setEffect(E effect) {
+        this.effect = effect;
+    }
+
+    public E getEffect() {
+        return effect;
+    }
 }

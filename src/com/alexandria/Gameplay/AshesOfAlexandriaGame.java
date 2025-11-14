@@ -14,6 +14,10 @@ emphasizing exploration and simple command-driven gameplay
 */
 package com.alexandria.Gameplay;
 import com.alexandria.Inventory.Item;
+import com.alexandria.Inventory.Lightsource;
+//import com.alexandria.Inventory.Scroll;
+//import com.alexandria.Inventory.Key;
+//import com.alexandria.Inventory.Spell;
 import com.alexandria.Player.Player;
 import com.alexandria.Traversal.Direction;
 import com.alexandria.Traversal.Exit;
@@ -340,8 +344,7 @@ public class AshesOfAlexandriaGame {
     	Item lamp1;
     	
     	//create items
-    	lamp1 = new Item("oil lamp", "an ancient oil lamp, still filled with oil - but only enough to last 10 minutes.", "main hall", 1, true);
-    	
+    	lamp1 = new Item("oil lamp", "an old oil lamp, still filled with oil - but only enough to last 10 minutes.", "main hall", 1, true);
     }
     
     private void seeItem(Command command) {
