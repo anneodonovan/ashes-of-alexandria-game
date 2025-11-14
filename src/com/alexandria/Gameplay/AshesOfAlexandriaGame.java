@@ -337,16 +337,11 @@ public class AshesOfAlexandriaGame {
     
     
     public void createItems() {
-    	Item chair;
+    	Item lamp1;
     	
     	//create items
-    	chair = new Item("chair", "a wooden chair");
+    	lamp1 = new Item("oil lamp", "an ancient oil lamp, still filled with oil - but only enough to last 10 minutes.", "main hall", 1, true);
     	
-    	//set object locations
-    	chair.setLocation("dining_hall");
-    	
-    	//set visibility
-    	chair.setVisible(true);
     }
     
     private void seeItem(Command command) {

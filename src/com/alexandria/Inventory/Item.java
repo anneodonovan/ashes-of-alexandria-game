@@ -11,19 +11,13 @@ public class Item {
     private int id;
     private boolean isVisible;
 
-    public Item(String name, String description) {
+    public Item(String name, String description, String Location, int id, boolean isVisible) {
         this.name = name;
         this.description = description;
+        this.location = Location;
+        this.id = id;
         this.isVisible = true;
         allItems.add(this); //add to global list
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getName() {
@@ -32,6 +26,14 @@ public class Item {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+     public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getLocation() {
