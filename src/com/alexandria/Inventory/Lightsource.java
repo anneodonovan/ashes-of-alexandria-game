@@ -5,7 +5,7 @@ import java.util.TimerTask;
 
 public class Lightsource extends Item {
     private boolean isLit;
-    private Timer timer = new Timer();
+    private transient Timer timer = new Timer();
     private boolean used;
 
     public Lightsource(String name, String description, int id, boolean isVisible, boolean isLit, boolean used) {

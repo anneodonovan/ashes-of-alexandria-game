@@ -2,11 +2,8 @@ package com.alexandria.Inventory;
 
 import java.util.ArrayList;
 import java.util.List;
-<<<<<<< HEAD
 import com.alexandria.Traversal.Room;
-=======
 import java.io.Serializable;
->>>>>>> player-edits
 
 public class Item implements Serializable {
 	private static List<Item> allItems = new ArrayList<>(); //array list to keep track of all items globally	
