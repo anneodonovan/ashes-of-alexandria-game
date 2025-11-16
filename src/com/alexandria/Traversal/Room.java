@@ -3,8 +3,9 @@ package com.alexandria.Traversal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.io.Serializable;
 
-public class Room {
+public class Room implements Serializable {
 	private String name; //added this to make it easier to access seperate room objects
     private String description;
     private ArrayList<Exit> exits; // array list of exit objects for each room

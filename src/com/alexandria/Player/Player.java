@@ -5,10 +5,16 @@ import com.alexandria.Traversal.Exit;
 import com.alexandria.Traversal.Room;
 import com.alexandria.Inventory.Item;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player {
+public class Player implements Serializable{
     private String name;
     private Room currentRoom;
     private List<Item> inventory;
@@ -64,6 +70,23 @@ public class Player {
 
     public List<Item> getInventory() {
         return inventory;
+    }
+
+    //handles saving player state to a file
+    public void savePlayerState() throws IOException {
+        FileOutputStream fos = new FileOutputStream(name + ".txt");
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+        oos.writeObject(this);
+        oos.close();
+    }
+
+    //handles reloading player state from a file
+    public static Player reloadPlayerState(String playerName) throws IOException, ClassNotFoundException {
+        FileInputStream fis = new FileInputStream(playerName + ".txt");
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        Player loaded = (Player)ois.readObject(); 
+        ois.close();
+        return loaded;
     }
 
 }
