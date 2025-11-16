@@ -165,38 +165,59 @@ public class AshesOfAlexandriaGame {
         scroll_vault.addExit(vault_door); //to sphinx room
 
         //creating objects
-        Item lamp1, lamp2, rosetta_stone, scroll_of_eratosthenes, everlasting_flame, serapeum_key, master_key, tower_key, kitchen_key, garden_key, sphinx_key, eratosthenes_key, dead_bird, ink, blank_scroll, shovel, light_spell, attack_spell, stun_spell, unlock_spell, teleport_spell, map_spell;
+        Item lamp1, lamp2, rosetta_stone, scroll_of_eratosthenes, everlasting_flame, master_key, tower_key, kitchen_key, garden_key, sphinxs_key, eratosthenes_key, dead_bird, ink, blank_scroll, shovel, light_spell, attack_spell, stun_spell, unlock_spell, teleport_spell, map_spell;
     	
     	//create items: lightsources
-    	lamp1 = new Lightsource("oil lamp", "an old oil lamp, still filled with oil - but only enough to last 10 minutes.", main_hall, 1, true, false, false);
-        lamp2 = new Lightsource("bronze lamp", "a bronze oil lamp, still filled with oil - but only enough to last 10 minutes.", hallway, 2, true, false, false);
-        everlasting_flame = new Lightsource("everlasting flame", "a strange piece of wood that burns blue at the tip, it never goes out and cannot burn", reading_room, 5, false, true, true);
-        
+    	lamp1 = new Lightsource("oil lamp", "an oil lamp, still filled with oil - but only enough to last 10 minutes.", 1, true, false, false);
+        lamp2 = new Lightsource("bronze lamp", "an oil lamp, still filled with oil - but only enough to last 10 minutes.", 2, true, false, false);
+        everlasting_flame = new Lightsource("everlasting flame", "a strange piece of wood that burns blue at the tip, it never goes out and cannot burn - the everlasting flame!", 5, false, true, true);
+        lamp1.setLocation(main_hall);
+        lamp2.setLocation(hallway);
+        everlasting_flame.setLocation(reading_room);
+
         //scrolls
-        rosetta_stone = new Scroll("rosetta stone", "the Rosetta Stone - a granodiorite stele inscribed with a decree issued in Memphis, Egypt in 196 BC.", scroll_vault, 3, true, "The Rosetta Stone is a granodiorite stele inscribed with a decree issued in Memphis, Egypt in 196 BC on behalf of King Ptolemy V. The decree appears in three scripts: the upper text is Ancient Egyptian hieroglyphs, the middle portion Demotic script, and the lowest Ancient Greek. Because it presents essentially the same text in all three scripts, it provided the key to the modern understanding of Egyptian hieroglyphs.");
-        scroll_of_eratosthenes = new Scroll("scroll of Eratosthenes", "a scroll containing the works of Eratosthenes, including his method for calculating the Earth's circumference.", eratosthenes_chamber, 4, true, "Eratosthenes of Cyrene was a Greek mathematician, geographer, poet, astronomer, and musician");
-        blank_scroll = new Scroll("blank scroll", "a blank scroll made of papyrus.", scroll_vault, 9, true, "This is a blank scroll made of papyrus, ready to be written on.");
-        
+        rosetta_stone = new Scroll("rosetta stone", "the Rosetta Stone - a granodiorite stele inscribed with a decree issued in Memphis, Egypt in 196 BC.",3, true, "The Rosetta Stone is a granodiorite stele inscribed with a decree issued in Memphis, Egypt in 196 BC on behalf of King Ptolemy V. The decree appears in three scripts: the upper text is Ancient Egyptian hieroglyphs, the middle portion Demotic script, and the lowest Ancient Greek. Because it presents essentially the same text in all three scripts, it provided the key to the modern understanding of Egyptian hieroglyphs.");
+        scroll_of_eratosthenes = new Scroll("scroll of Eratosthenes", "the scroll of Eratosthenes - a scroll containing the works of Eratosthenes, including his method for calculating the Earth's circumference.", 4, true, "Eratosthenes of Cyrene was a Greek mathematician, geographer, poet, astronomer, and musician");
+        blank_scroll = new Scroll("blank scroll", "a blank scroll made of papyrus.", 9, true, "This is a blank scroll made of papyrus, ready to be written on.");
+        rosetta_stone.setLocation(scroll_vault);
+        scroll_of_eratosthenes.setLocation(eratosthenes_chamber);
+        blank_scroll.setLocation(scroll_vault);
+
         //keys
-        master_key = new Key("master-key", "a large iron key that looks like it could open many doors.", lecture_hall, 7, true);
-        tower_key = new Key("towerkey", "a small iron key with a tower engraved on the bow.", residential_quarter, 8, true);
-        kitchen_key = new Key("kitchen-key", "a small iron key with a cooking pot engraved on the bow.", social_hall, 9, true);
-        garden_key = new Key("garden-key", "a small iron key with a flower engraved on the bow.", courtyard, 10, true);
-        sphinx_key = new Key("sphinx-key", "a small golden key with a sphinx engraved on the bow.", sphinx_room, 11, true);
-        eratosthenes_key = new Key("eratosthenes-key", "a small golden key with a star engraved on the bow.", serapeum, 12, true);
+        master_key = new Key("master key", "a large iron key that looks like it could open many doors; the master key.", 7, true);
+        tower_key = new Key("tower key", "a small iron key with a tower engraved on the bow; the tower key.", 8, true);
+        kitchen_key = new Key("kitchen key", "a small iron key with a cooking pot engraved on the bow; the kitchen key.", 9, true);
+        garden_key = new Key("garden key", "a small iron key with a flower engraved on the bow; the garden key.", 10, true);
+        sphinxs_key = new Key("sphinx's key", "a small golden key with a sphinx engraved on the bow; the sphinx's key.", 11, true);
+        eratosthenes_key = new Key("eratosthenes' key", "a small golden key with a star engraved on the bow; Eratosthenes' key.", 12, true);
+        master_key.setLocation(lecture_hall);
+        tower_key.setLocation(residential_quarter);
+        kitchen_key.setLocation(social_hall);
+        garden_key.setLocation(courtyard);
+        sphinxs_key.setLocation(sphinx_room);
+        eratosthenes_key.setLocation(serapeum);
         
         //items
-        dead_bird = new Item("dead bird", "a small, charred bird - it looks like it flew into a fire.", courtyard, 7, true);
-        ink = new Item("ink", "a small vial of black ink, still usable.", scribing_room, 8, true);
-        shovel = new Item("shovel", "a sturdy shovel, useful for digging.", kitchen, 10, true);
+        dead_bird = new Item("dead bird", "a small, charred bird - it looks like it flew into a fire.", 7, true);
+        ink = new Item("ink", "a small vial of black ink, still usable.", 8, true);
+        shovel = new Item("shovel", "a sturdy shovel, useful for digging.", 10, true);
+        dead_bird.setLocation(courtyard);
+        ink.setLocation(scribing_room);
+        shovel.setLocation(kitchen);
         
         //spells
-        light_spell = new Spell<>("light spell", "a spell that creates a small orb of light to illuminate dark areas.", sphinx_room, 11, true, "This spell conjures a small orb of light that hovers around the caster for 2 minutes, illuminating dark areas.");
-        attack_spell = new Spell<>("attack spell", "a spell that conjures a burst of energy to strike an enemy.", lecture_hall, 12, true, "This spell conjures a burst of energy that can be directed at an enemy, causing damage upon impact and damaging health points.");
-        stun_spell = new Spell<>("stun spell", "a spell that temporarily incapacitates an enemy.", reading_room, 13, true, "This spell emits a wave of energy that temporarily stuns an enemy, rendering them immobile for a short duration.");
-        unlock_spell = new Spell<>("unlock spell", "a spell that unlocks doors and chests.", residential_quarter, 14, true, "This spell magically unlocks doors and chests, allowing access without the need for a physical key.");
-        teleport_spell = new Spell<>("teleport spell", "a spell that teleports the caster to a known location.", scroll_vault, 15, true, "This spell allows the caster to instantly teleport to a previously visited location.");
-        map_spell = new Spell<>("map spell", "a spell that reveals a map of the surrounding area.", scroll_vault, 16, true, "This spell conjures a magical map that reveals the layout of the surrounding area, including hidden paths and locations.");
+        light_spell = new Spell<>("light spell", "a spell that creates a small orb of light to illuminate dark areas.", 11, true, "This spell conjures a small orb of light that hovers around the caster for 2 minutes, illuminating dark areas.");
+        attack_spell = new Spell<>("attack spell", "a spell that conjures a burst of energy to strike an enemy.", 12, true, "This spell conjures a burst of energy that can be directed at an enemy, causing damage upon impact and damaging health points.");
+        stun_spell = new Spell<>("stun spell", "a spell that temporarily incapacitates an enemy.", 13, true, "This spell emits a wave of energy that temporarily stuns an enemy, rendering them immobile for a short duration.");
+        unlock_spell = new Spell<>("unlock spell", "a spell that unlocks doors and chests.", 14, true, "This spell magically unlocks doors and chests, allowing access without the need for a physical key.");
+        teleport_spell = new Spell<>("teleport spell", "a spell that teleports the caster to a known location.", 15, true, "This spell allows the caster to instantly teleport to a previously visited location.");
+        map_spell = new Spell<>("map spell", "a spell that reveals a map of the surrounding area.", 16, true, "This spell conjures a magical map that reveals the layout of the surrounding area, including hidden paths and locations.");
+        light_spell.setLocation(sphinx_room);
+        attack_spell.setLocation(lecture_hall);
+        stun_spell.setLocation(reading_room);
+        unlock_spell.setLocation(residential_quarter);
+        teleport_spell.setLocation(scroll_vault);
+        map_spell.setLocation(library);
 
         // create the player character and start in starting room
         player = new Player("player", main_hall);
@@ -398,7 +419,8 @@ public class AshesOfAlexandriaGame {
     	
     	List<Item> items = Item.getItems(currentLoc);
     	for (Item item : items) {
-    		if (item.getName().equalsIgnoreCase(itemName) && item.isVisible()) {
+            System.out.println(itemName);
+    		if (item.getName().contains(itemName) && item.isVisible()) {
     			player.addItem(item);
     			item.setVisible(false);
     			System.out.println("You successfully took " + item.getName());

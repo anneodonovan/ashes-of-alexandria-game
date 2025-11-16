@@ -12,10 +12,9 @@ public class Item {
     private int id;
     private boolean isVisible;
 
-    public Item(String name, String description, Room location, int id, boolean isVisible) {
+    public Item(String name, String description, int id, boolean isVisible) {
         this.name = name;
         this.description = description;
-        this.location = location;
         this.id = id;
         this.isVisible = true;
         allItems.add(this); //add to global list
