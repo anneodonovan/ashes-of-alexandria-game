@@ -15,9 +15,9 @@ emphasizing exploration and simple command-driven gameplay
 package com.alexandria.Gameplay;
 import com.alexandria.Inventory.Item;
 import com.alexandria.Inventory.Lightsource;
-//import com.alexandria.Inventory.Scroll;
-//import com.alexandria.Inventory.Key;
-//import com.alexandria.Inventory.Spell;
+import com.alexandria.Inventory.Scroll;
+import com.alexandria.Inventory.Key;
+import com.alexandria.Inventory.Spell;
 import com.alexandria.Player.Player;
 import com.alexandria.Traversal.Direction;
 import com.alexandria.Traversal.Exit;
@@ -36,12 +36,11 @@ public class AshesOfAlexandriaGame {
     private Player player;
 
     public AshesOfAlexandriaGame() {
-        createRooms();
-        createItems();
+        createGameObjects();
         parser = new Parser();
     }
 
-    private void createRooms() {
+    private void createGameObjects() {
         Room main_hall, scribing_room, reading_room, lecture_hall, residential_quarter, muse_garden, dining_hall, social_hall, kitchen, courtyard, library, scroll_vault, serapeum, eratosthenes_chamber, sphinx_room, hallway, tower;
 
         // create rooms
@@ -68,50 +67,50 @@ public class AshesOfAlexandriaGame {
         
         // main hall exits
         inquiry_arch = new Exit(main_hall, lecture_hall, Direction.SOUTH, Direction.NORTH, "inquiry arch", true);
-        whispering_door = new Door(main_hall, library, Direction.WEST, Direction.EAST, "whispering door", true, null, false, true);
+        whispering_door = new Door(main_hall, library, Direction.WEST, Direction.EAST, "whispering door", true, "master-key", true, false);
         marble_threshold = new Exit(main_hall, social_hall, Direction.NORTH, Direction.SOUTH, "marble threshold", true);
 
         // lecture hall exits
-        scholars_door = new Door(lecture_hall, library, Direction.WEST, Direction.EAST, "scholars' door", true, null,false, true);
+        scholars_door = new Door(lecture_hall, library, Direction.WEST, Direction.EAST, "scholars' door", true, "master-key",true, false);
         
         // library exits
         ink_stained_arch = new Exit(library, scribing_room, Direction.WEST, Direction.EAST, "ink-stained arch", true);
         echoing_hall = new Exit(library, reading_room, Direction.WEST, Direction.EAST, "echoing hall", true);
-        bronze_gateway = new Door(library, tower, Direction.SOUTH, Direction.NORTH, "bronze gateway", true, "towerkey", true, false);
-        oak_door = new Door(library, hallway, Direction.NORTH, Direction.SOUTH, "oak door", true, null, false, true);
+        bronze_gateway = new Door(library, tower, Direction.SOUTH, Direction.NORTH, "bronze gateway", true, "tower-key", true, false);
+        oak_door = new Door(library, hallway, Direction.NORTH, Direction.SOUTH, "oak door", true, "master-key", true, false);
 
         // social hall exits
-        heavy_wooden_door = new Door(social_hall, dining_hall, Direction.NORTH, Direction.SOUTH, "heavy wooden door", true, null, false, true);
-        half_door = new Door(social_hall, kitchen, Direction.NORTH, Direction.SOUTH, "half door", true, null, false, true);
-        courtyard_door = new Door(social_hall, courtyard, Direction.WEST, Direction.EAST, "courtyard door", true, null, false, true);
+        heavy_wooden_door = new Door(social_hall, dining_hall, Direction.NORTH, Direction.SOUTH, "heavy wooden door", true, "master-key", true, false);
+        half_door = new Door(social_hall, kitchen, Direction.NORTH, Direction.SOUTH, "half door", true, "kitchen-key", true, false);
+        courtyard_door = new Door(social_hall, courtyard, Direction.WEST, Direction.EAST, "courtyard door", true, "master-key", true, false);
         stone_arch = new Exit(social_hall, hallway, Direction.WEST, Direction.EAST, "stone arch", true);
 
         // kitchen exits
-        pantry_door = new Door(kitchen, dining_hall, Direction.WEST, Direction.EAST, "pantry door", true, null, false, true);
-        garden_door = new Door(kitchen, courtyard, Direction.WEST, Direction.EAST, "garden door", true, null, false, true);
+        pantry_door = new Door(kitchen, dining_hall, Direction.WEST, Direction.EAST, "pantry door", true, "kitchen-key", true, false);
+        garden_door = new Door(kitchen, courtyard, Direction.WEST, Direction.EAST, "garden door", true, "kitchen-key", true, false);
         
         // tower exits
-        gilded_door = new Door(tower, serapeum, Direction.SOUTH, Direction.NORTH, "gilded door", true, null, false, true);
+        gilded_door = new Door(tower, serapeum, Direction.SOUTH, Direction.NORTH, "gilded door", true, "master-key", true, false);
 
         // serapeum exits
-        secret_door = new Door(serapeum, eratosthenes_chamber, Direction.EAST, Direction.WEST, "secret door", false, "eratostheneskey", true, false);
+        secret_door = new Door(serapeum, eratosthenes_chamber, Direction.EAST, Direction.WEST, "secret door", false, "eratosthenes-key", true, false);
 
         //courtyard/garden exits
-        vine_covered_gate = new Door(courtyard, muse_garden, Direction.NORTH, Direction.SOUTH, "vine-covered gate", true, "gardenkey", true, false);
+        vine_covered_gate = new Door(courtyard, muse_garden, Direction.NORTH, Direction.SOUTH, "vine-covered gate", true, "garden-key", true, false);
         winning_portal = new Exit(muse_garden, eratosthenes_chamber, Direction.NORTH, Direction.SOUTH, "winning portal", false);
-        steel_door = new Door(courtyard, residential_quarter, Direction.WEST, Direction.EAST, "steel door", true, null, false, true);
+        steel_door = new Door(courtyard, residential_quarter, Direction.WEST, Direction.EAST, "steel door", true, "master-key", true, false);
 
         //hallway exits
         wreathed_arch = new Exit(hallway, courtyard, Direction.NORTH, Direction.SOUTH, "wreathed arch", true);
-        iron_door = new Door(hallway, residential_quarter, Direction.NORTH, Direction.SOUTH, "iron door", true, null, false, true);
+        iron_door = new Door(hallway, residential_quarter, Direction.NORTH, Direction.SOUTH, "iron door", true, "master-key", true, false);
         marble_entrance = new Exit(hallway, scribing_room, Direction.SOUTH, Direction.NORTH, "marble entrance", true);
         
         //scribing room exits
-        stairway_door = new Door(scribing_room, sphinx_room, Direction.NORTH, Direction.SOUTH, "stairway door", true, null, false, true);
+        stairway_door = new Door(scribing_room, sphinx_room, Direction.NORTH, Direction.SOUTH, "stairway door", true, "master-key", true, false);
         reading_passage = new Exit(scribing_room, reading_room, Direction.EAST, Direction.WEST, "reading passage", true);
 
         //sphinx room exits
-        vault_door = new Door(sphinx_room, scroll_vault, Direction.NORTH, Direction.SOUTH, "vault door", true, "sphinxkey", true, false);
+        vault_door = new Door(sphinx_room, scroll_vault, Direction.NORTH, Direction.SOUTH, "vault door", true, "sphinx-key", true, false);
 
         //add exits to rooms
         main_hall.addExit(inquiry_arch); //to lecture hall
@@ -165,8 +164,43 @@ public class AshesOfAlexandriaGame {
         sphinx_room.addExit(stairway_door); //to scribing room
         scroll_vault.addExit(vault_door); //to sphinx room
 
+        //creating objects
+        Item lamp1, lamp2, rosetta_stone, scroll_of_eratosthenes, everlasting_flame, serapeum_key, master_key, tower_key, kitchen_key, garden_key, sphinx_key, eratosthenes_key, dead_bird, ink, blank_scroll, shovel, light_spell, attack_spell, stun_spell, unlock_spell, teleport_spell, map_spell;
+    	
+    	//create items: lightsources
+    	lamp1 = new Lightsource("oil lamp", "an old oil lamp, still filled with oil - but only enough to last 10 minutes.", main_hall, 1, true, false, false);
+        lamp2 = new Lightsource("bronze lamp", "a bronze oil lamp, still filled with oil - but only enough to last 10 minutes.", hallway, 2, true, false, false);
+        everlasting_flame = new Lightsource("everlasting flame", "a strange piece of wood that burns blue at the tip, it never goes out and cannot burn", reading_room, 5, false, true, true);
+        
+        //scrolls
+        rosetta_stone = new Scroll("rosetta stone", "the Rosetta Stone - a granodiorite stele inscribed with a decree issued in Memphis, Egypt in 196 BC.", scroll_vault, 3, true, "The Rosetta Stone is a granodiorite stele inscribed with a decree issued in Memphis, Egypt in 196 BC on behalf of King Ptolemy V. The decree appears in three scripts: the upper text is Ancient Egyptian hieroglyphs, the middle portion Demotic script, and the lowest Ancient Greek. Because it presents essentially the same text in all three scripts, it provided the key to the modern understanding of Egyptian hieroglyphs.");
+        scroll_of_eratosthenes = new Scroll("scroll of Eratosthenes", "a scroll containing the works of Eratosthenes, including his method for calculating the Earth's circumference.", eratosthenes_chamber, 4, true, "Eratosthenes of Cyrene was a Greek mathematician, geographer, poet, astronomer, and musician");
+        blank_scroll = new Scroll("blank scroll", "a blank scroll made of papyrus.", scroll_vault, 9, true, "This is a blank scroll made of papyrus, ready to be written on.");
+        
+        //keys
+        master_key = new Key("master-key", "a large iron key that looks like it could open many doors.", lecture_hall, 7, true);
+        tower_key = new Key("towerkey", "a small iron key with a tower engraved on the bow.", residential_quarter, 8, true);
+        kitchen_key = new Key("kitchen-key", "a small iron key with a cooking pot engraved on the bow.", social_hall, 9, true);
+        garden_key = new Key("garden-key", "a small iron key with a flower engraved on the bow.", courtyard, 10, true);
+        sphinx_key = new Key("sphinx-key", "a small golden key with a sphinx engraved on the bow.", sphinx_room, 11, true);
+        eratosthenes_key = new Key("eratosthenes-key", "a small golden key with a star engraved on the bow.", serapeum, 12, true);
+        
+        //items
+        dead_bird = new Item("dead bird", "a small, charred bird - it looks like it flew into a fire.", courtyard, 7, true);
+        ink = new Item("ink", "a small vial of black ink, still usable.", scribing_room, 8, true);
+        shovel = new Item("shovel", "a sturdy shovel, useful for digging.", kitchen, 10, true);
+        
+        //spells
+        light_spell = new Spell<>("light spell", "a spell that creates a small orb of light to illuminate dark areas.", sphinx_room, 11, true, "This spell conjures a small orb of light that hovers around the caster for 2 minutes, illuminating dark areas.");
+        attack_spell = new Spell<>("attack spell", "a spell that conjures a burst of energy to strike an enemy.", lecture_hall, 12, true, "This spell conjures a burst of energy that can be directed at an enemy, causing damage upon impact and damaging health points.");
+        stun_spell = new Spell<>("stun spell", "a spell that temporarily incapacitates an enemy.", reading_room, 13, true, "This spell emits a wave of energy that temporarily stuns an enemy, rendering them immobile for a short duration.");
+        unlock_spell = new Spell<>("unlock spell", "a spell that unlocks doors and chests.", residential_quarter, 14, true, "This spell magically unlocks doors and chests, allowing access without the need for a physical key.");
+        teleport_spell = new Spell<>("teleport spell", "a spell that teleports the caster to a known location.", scroll_vault, 15, true, "This spell allows the caster to instantly teleport to a previously visited location.");
+        map_spell = new Spell<>("map spell", "a spell that reveals a map of the surrounding area.", scroll_vault, 16, true, "This spell conjures a magical map that reveals the layout of the surrounding area, including hidden paths and locations.");
+
         // create the player character and start in starting room
         player = new Player("player", main_hall);
+        
     }
 
     public void play() {
@@ -339,16 +373,8 @@ public class AshesOfAlexandriaGame {
         System.out.println(player.getCurrentRoom().getLongDescription());
     }
     
-    
-    public void createItems() {
-    	Item lamp1;
-    	
-    	//create items
-    	lamp1 = new Item("oil lamp", "an old oil lamp, still filled with oil - but only enough to last 10 minutes.", "main hall", 1, true);
-    }
-    
     private void seeItem(Command command) {
-    	String location = player.getCurrentRoom().getName();
+    	Room location = player.getCurrentRoom();
     	
     	List<Item> items = Item.getItems(location);
     	if (items.isEmpty()) {
@@ -368,7 +394,7 @@ public class AshesOfAlexandriaGame {
         }
     	
     	String itemName = command.getSecondWord();
-    	String currentLoc = player.getCurrentRoom().getName();
+    	Room currentLoc = player.getCurrentRoom();
     	
     	List<Item> items = Item.getItems(currentLoc);
     	for (Item item : items) {
@@ -403,7 +429,7 @@ public class AshesOfAlexandriaGame {
             if (item.getName().equalsIgnoreCase(itemName)) {
                 iterator.remove(); // Remove from inventory using iterator
                 item.setVisible(true);
-                item.setLocation(player.getCurrentRoom().getName());
+                item.setLocation(player.getCurrentRoom());
                 System.out.println("You dropped " + item.getName());
                 return;
             }

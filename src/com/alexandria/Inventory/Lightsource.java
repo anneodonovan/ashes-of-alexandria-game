@@ -2,13 +2,14 @@ package com.alexandria.Inventory;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import com.alexandria.Traversal.Room;
 
 public class Lightsource extends Item {
     private boolean isLit;
     private Timer timer = new Timer();
     private boolean used;
 
-    public Lightsource(String name, String description, String Location, int id, boolean isVisible, boolean isLit, boolean used) {
+    public Lightsource(String name, String description, Room Location, int id, boolean isVisible, boolean isLit, boolean used) {
         super(name, description, Location, id, isVisible);
         this.isLit = isLit;
         this.used = used;
