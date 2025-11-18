@@ -19,7 +19,10 @@ public class Lightsource extends Item {
     }
     
     public void turnOn() {
-        if (used) {
+        if (isLit) {
+            System.out.println("The " + getName() + " is already lit!");
+            return;
+        } else if (isLit) {
             System.out.println(getName() + " has already been used and cannot be lit again.");
             return;
         } else {
@@ -32,9 +35,10 @@ public class Lightsource extends Item {
             @Override
             public void run() {
                 isLit = false;
-                System.out.println(getName() + " has turned off, plunging you into darkness.");
+                System.out.println("\n" + getName() + " has turned off, plunging you into darkness.");
+                System.out.print("> ");
             }
-        }, 100000); // 10 minutes
+        }, 10000); // 10 minutes
         }
     }
 }

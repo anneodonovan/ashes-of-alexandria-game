@@ -303,6 +303,9 @@ public class AshesOfAlexandriaGame {
                     System.out.println("Error reloading game: " + e.getMessage());
                 }
                 break;
+            case "light":
+                lightLamp(command);
+                break;
             default:
                 System.out.println("I don't know what you mean...");
                 break;
@@ -469,7 +472,7 @@ public class AshesOfAlexandriaGame {
         Iterator<Item> iterator = inventory.iterator();
         while (iterator.hasNext()) {
             Item item = iterator.next();
-            if (item.getName().equalsIgnoreCase(itemName)) {
+            if (item.getName().contains(itemName)) {
                 iterator.remove(); // Remove from inventory using iterator
                 item.setVisible(true);
                 item.setLocation(player.getCurrentRoom());
@@ -488,6 +491,29 @@ public class AshesOfAlexandriaGame {
             System.out.println("You are carrying:");
             for (Item item : items) {
                 System.out.println("\t" + item.getDescription());
+            }
+        }
+    }
+
+    private void lightLamp(Command command) {
+        //handle: if no second work
+        if (!command.hasSecondWord()) { 
+            System.out.println("Light what?");
+            return;
+        }
+
+        String lampName = command.getSecondWord();
+        List<Item> inventory = player.getInventory();
+
+        Iterator<Item> iterator = inventory.iterator();
+        while (iterator.hasNext()) {
+            Item item = iterator.next();
+            if (item.getName().contains(lampName)) {
+                if (item instanceof Lightsource) { //if the item is a lightsource
+                    ((Lightsource) item).turnOn(); //cast the item to lightsource to call the method
+                }   
+            } else {
+                System.out.println(lampName + " item can't be found or isn't a lightsource.");
             }
         }
     }
