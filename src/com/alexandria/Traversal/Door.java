@@ -1,6 +1,10 @@
 package com.alexandria.Traversal;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Door extends Exit {
+	private static List<Door> allDoors = new ArrayList<>(); //array list to keep track of all doors globally so they're accessible	   
     public boolean isLocked;
     public String requiredKeyID;
     public boolean canPass;
@@ -10,10 +14,19 @@ public class Door extends Exit {
         this.requiredKeyID = requiredKeyID;
         this.isLocked = isLocked;
         this.canPass = !isLocked;
+        allDoors.add(this); //add to list
     }
 
     public void setRequiredKeyID(String requiredKeyID) {
         this.requiredKeyID = requiredKeyID;
+    }
+
+    public String getRequiredKeyID() {
+        return requiredKeyID;
+    }
+
+    public static List<Door> getDoorsList() {
+        return allDoors;
     }
 
     public void setIsLocked(boolean isLocked) {

@@ -19,6 +19,7 @@ public class CommandWords {
         validCommands.put("save", "Save player data");
         validCommands.put("reload", "Reload player data");
         validCommands.put("light", "Light a lightsource item");
+        validCommands.put("unlock", "Unlock a door with a key");
     }
 
     public boolean isCommand(String commandWord) {
