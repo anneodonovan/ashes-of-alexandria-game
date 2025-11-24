@@ -110,7 +110,7 @@ public class AshesOfAlexandriaGame {
         reading_passage = new Exit(scribing_room, reading_room, Direction.EAST, Direction.WEST, "reading passage", true);
 
         //sphinx room exits
-        vault_door = new Door(sphinx_room, scroll_vault, Direction.NORTH, Direction.SOUTH, "vault door", true, "sphinx key", true, false);
+        vault_door = new Door(sphinx_room, scroll_vault, Direction.NORTH, Direction.SOUTH, "vault door", true, "sphinx's key", true, false);
 
         //add exits to rooms
         main_hall.addExit(inquiry_arch); //to lecture hall
@@ -327,6 +327,9 @@ public class AshesOfAlexandriaGame {
             case "unlock":
                 unlockDoor(command);
                 break;
+            case "read":
+                readScroll(command);
+                break;
             default:
                 System.out.println("I don't know what you mean...");
                 break;
@@ -449,7 +452,9 @@ public class AshesOfAlexandriaGame {
     	} else {
     		System.out.println("You see:");
     		for (Item item : items) {
-    			System.out.println("\t" + item.getDescription());
+                if (item.isVisible()) {
+                    System.out.println("\t" + item.getDescription());
+                }
     		}
     	}
     }
@@ -464,15 +469,19 @@ public class AshesOfAlexandriaGame {
     	Room currentLoc = player.getCurrentRoom();
     	
     	List<Item> items = Item.getItems(currentLoc);
-    	for (Item item : items) {
+        Iterator<Item> itemsIterator = items.iterator();
+        while (itemsIterator.hasNext()) {
+            Item item = itemsIterator.next();
             System.out.println(itemName);
     		if (item.getName().contains(itemName) && item.isVisible()) {
     			player.addItem(item);
+                itemsIterator.remove(); // remove from room's item list for future calls
     			item.setVisible(false);
     			System.out.println("You successfully took " + item.getName());
     			return;
     		}
-    	}
+        }
+    	
     	System.out.println("There is no " + itemName + " here.");
 
     }
@@ -512,7 +521,7 @@ public class AshesOfAlexandriaGame {
         } else {
             System.out.println("You are carrying:");
             for (Item item : items) {
-                System.out.println("\t" + item.getDescription());
+                System.out.println("\t -" + item.getName());
             }
         }
     }
@@ -580,6 +589,30 @@ public class AshesOfAlexandriaGame {
         if (!foundDoor) {
             System.out.println(doorName + " can't be found.");
         }
+    }
+
+    private void readScroll(Command command) {
+        if (!command.hasSecondWord()) { 
+            System.out.println("Read what?");
+            return;
+        }
+
+        String scrollName = command.getSecondWord();
+        List<Item> inventory = player.getInventory();
+
+        Iterator<Item> iterator = inventory.iterator();
+        while (iterator.hasNext()) {
+            Item item = iterator.next();
+            if (item.getName().contains(scrollName)) {
+                if (item instanceof Scroll) { //if the item is a scroll
+                    String contents = ((Scroll) item).getContents(); //cast the item to scroll to call the method
+                    System.out.println("You read the " + item.getName() + ":\n" + contents);
+                    return; 
+                }
+            } else {
+                System.out.println(scrollName + " item isn't in your inventory or isn't a scroll. Try again.");
+            }
+        }    
     }
 
     public static void main(String[] args) {
