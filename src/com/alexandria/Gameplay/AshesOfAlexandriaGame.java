@@ -25,7 +25,8 @@ import com.alexandria.Traversal.Room;
 import com.alexandria.Traversal.Door;
 import com.alexandria.Commands.Command;
 import com.alexandria.Commands.Parser;
-//import com.alexandria.NPC.NPC;
+//import com.alexandria.NPC.Assistants;
+//import com.alexandria.NPC.Guardians;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -218,7 +219,7 @@ public class AshesOfAlexandriaGame {
         dead_bird = new Item("dead bird", "a small, charred bird - it looks like it flew into a fire.", 7, true);
         ink = new Item("ink", "a small vial of black ink, still usable.", 8, true);
         shovel = new Item("shovel", "a sturdy shovel, useful for digging.", 10, true);
-        dead_bird.setLocation(courtyard);
+        dead_bird.setLocation(kitchen);
         ink.setLocation(scribing_room);
         shovel.setLocation(kitchen);
         
@@ -582,7 +583,7 @@ public class AshesOfAlexandriaGame {
                 if (!hasKey) {
                     System.out.println("You don't have the required key to unlock the " + door.getLabel() + ".");
                 }
-                break; // Exit the loop after finding the door
+                break; // exit the loop after finding the door
             }
         }
 

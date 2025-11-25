@@ -1,0 +1,55 @@
+{
+  "nodes": [
+    {
+      "id": "greeting",
+      "npcLine": "Hello, scholar. What would you like to know?",
+      "options": [
+        { "playerLine": "Ask who he is", "nextNode": "introduction" },
+        { "playerLine": "Say goodbye", "nextNode": "goodbye" }
+      ]
+    },
+    {
+      "id": "introduction",
+      "npcLine": "I am the library cook - I cook all the meals for the scholars here at the library. I also look after the kitchen garden and feed the cats.",
+      "options": [
+        { "playerLine": "Ask about the cats", "nextNode": "cat" },
+        { "playerLine": "Say goodbye", "nextNode": "goodbye" }
+      ]
+    },
+    {
+      "id": "cat",
+      "npcLine": "The cats are very important here. They keep the library free of mice and rats, which could damage the scrolls. Silly creatures, they only eat cooked fish! That's what I'm doing now, actually; preparing their dinner. Will you take this fish out to them for me?",
+      "options": [
+        { "playerLine": "Yes, of course.", "nextNode": "give" },
+        { "playerLine": "No, sorry.", "nextNode": "goodbye" }
+      ]
+    },
+    {
+      "id": "give",
+      "npcLine": "Thank you! Here you go.",
+      "options": [
+        { "playerLine": "Take the fish.", "nextNode": "info" }
+      ]
+    },
+    {
+      "id": "info",
+      "npcLine": "The cats usually sleep in the scribing room. Do you want directions?",
+      "options": [
+        { "playerLine": "Yes, please.", "nextNode": "directions" },
+        { "playerLine": "No, thank you.", "nextNode": "goodbye" }
+      ]
+    },
+    {
+      "id": "directions",
+      "npcLine": "Go to west to the courtyard, then north to the hallway, then north again through the marble entrance - you'll find the scribing room through there.",
+      "options": [
+        { "playerLine": "Thank you.", "nextNode": "goodbye" }
+      ]
+    },
+    {
+      "id": "goodbye",
+      "npcLine": "Well, farewell, and good luck!",
+      "options": []
+    }
+  ]
+}
