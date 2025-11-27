@@ -1,4 +1,5 @@
 package com.alexandria.NPC;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -14,9 +15,9 @@ public class Guardians extends AbstractNPC implements NPC {
         this.damage = damage;
     }
 
-    public static List<Guardians> getGuardians(Room room) {
+    public static List<NPC> getNPCs(Room curRoom) {
     // This should pull from room.getAssistants() if Room has it!
-        return room.getGuardians(); 
+        return curRoom.getNPCs(); 
     }
 
 

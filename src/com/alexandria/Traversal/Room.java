@@ -2,6 +2,7 @@ package com.alexandria.Traversal;
 
 import com.alexandria.NPC.Assistants;
 import com.alexandria.NPC.Guardians;
+import com.alexandria.NPC.NPC;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -12,15 +13,13 @@ public class Room implements Serializable {
 	private String name; //added this to make it easier to access seperate room objects
     private String description;
     private ArrayList<Exit> exits; // array list of exit objects for each room
-    private ArrayList<Assistants> assistants; //array list of assistant NPCs in the room
-    private ArrayList<Guardians> guardians; //array list of guardian NPCs in the room
+    transient ArrayList<NPC> npcs; //array list of NPCs in the room - must be transient to avoid serialization issues
 
     public Room(String name, String description) {
         this.name = name;
     	this.description = description;
         this.exits = new ArrayList<>();
-        this.assistants = new ArrayList<>();
-        this.guardians = new ArrayList<>();
+        this.npcs = new ArrayList<>();
     }
 
     public String getName() {
@@ -39,20 +38,12 @@ public class Room implements Serializable {
         return exits;
     }
 
-    public void addAssistantNPC(Assistants assistant) {
-        assistants.add(assistant); //adds assistant NPC to the room's assistants arraylist
+    public void addNPC(NPC npc) {
+        npcs.add(npc); //adds NPC to the room's npc arraylist
     }
 
-    public ArrayList<Assistants> getAssistants() {
-        return assistants;
-    }
-
-    public void addGuardianNPC(Guardians guardian) {
-        guardians.add(guardian); //adds guardian NPC to the room's guardians arraylist
-    }
-
-    public ArrayList<Guardians> getGuardians() {
-        return guardians;
+    public ArrayList<NPC> getNPCs() {
+        return npcs;
     }
 
     //add code to prevent printing multiples of the same direction + to provide a list of the options for each direction

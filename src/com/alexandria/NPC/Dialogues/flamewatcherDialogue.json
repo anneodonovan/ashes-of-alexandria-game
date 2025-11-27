@@ -1,0 +1,55 @@
+{
+  "nodes": [
+    {
+      "id": "greeting",
+      "npcLine": "Hello, scholar. What would you like to know?",
+      "options": [
+        { "playerLine": "Ask who he is", "nextNode": "introduction" },
+        { "playerLine": "Say goodbye", "nextNode": "goodbye" }
+      ]
+    },
+    {
+      "id": "introduction",
+      "npcLine": "I am the flamewatcher - I guard the everlasting flame that burns in the heart of the library.",
+      "options": [
+        { "playerLine": "Ask about the flame", "nextNode": "flame" },
+        { "playerLine": "Say goodbye", "nextNode": "goodbye" }
+      ]
+    },
+    {
+      "id": "flame",
+      "npcLine": "The flame is very important. It represents the eternal knowledge that the library protects. As long as the flame burns, the knowledge will never be lost.",
+      "options": [
+        { "playerLine": "Yes, of course.", "nextNode": "give" },
+        { "playerLine": "No, sorry.", "nextNode": "goodbye" }
+      ]
+    },
+    {
+      "id": "give",
+      "npcLine": "Thank you! Here you go.",
+      "options": [
+        { "playerLine": "Take the fish.", "nextNode": "info" }
+      ]
+    },
+    {
+      "id": "info",
+      "npcLine": "The cats usually sleep in the scribing room. Do you want directions?",
+      "options": [
+        { "playerLine": "Yes, please.", "nextNode": "directions" },
+        { "playerLine": "No, thank you.", "nextNode": "goodbye" }
+      ]
+    },
+    {
+      "id": "directions",
+      "npcLine": "Go to west to the courtyard, then north to the hallway, then north again through the marble entrance - you'll find the scribing room through there.",
+      "options": [
+        { "playerLine": "Thank you.", "nextNode": "goodbye" }
+      ]
+    },
+    {
+      "id": "goodbye",
+      "npcLine": "Well, farewell, and good luck!",
+      "options": []
+    }
+  ]
+}

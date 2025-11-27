@@ -26,7 +26,8 @@ import com.alexandria.Traversal.Door;
 import com.alexandria.Commands.Command;
 import com.alexandria.Commands.Parser;
 import com.alexandria.NPC.Assistants;
-//import com.alexandria.NPC.Guardians;
+import com.alexandria.NPC.Guardians;
+import com.alexandria.NPC.NPC;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -241,9 +242,14 @@ public class AshesOfAlexandriaGame {
 
         //create npcs
         Assistants cook;
-        cook = new Assistants("the cook", 100, kitchen, true, new ArrayList<>(), "cook_dialogue.json");
+        cook = new Assistants("the cook", 50, kitchen, true, new ArrayList<>(), "cook_dialogue.json");
         cook.addItem(dead_bird);
-        kitchen.addAssistantNPC(cook);
+        kitchen.addNPC(cook);
+
+        Guardians flamewatcher;
+        flamewatcher = new Guardians("the Flamewatcher", 150, sphinx_room, true, new ArrayList<>(), "flamewatcher_dialogue.json", 20);
+        flamewatcher.addItem(everlasting_flame);
+        reading_room.addNPC(flamewatcher);
 
         // create the player character and start in starting room
         Parser parser = new Parser();
@@ -638,22 +644,13 @@ public class AshesOfAlexandriaGame {
         Room currentLoc = player.getCurrentRoom();
 
         //check the list of NPCs in the current room for both types    	
-    	List<Assistants> assistants = Assistants.getAssistants(currentLoc);
-        /*List<Guardians> guardians = Guardians.getGuardians(currentLoc);
+    	List<NPC> npcs = currentLoc.getNPCs();
 
-        // search guardians
-        for (Guardians guardian : guardians) {
-            if (guardian.getName().toLowerCase().equals(npcName)) {
-                guardian.interact(scanner); // Pass Scanner as needed
-                return;
-            }
-        }*/
-    
-        // search assistants
-        for (Assistants assistant : assistants) {
-            if (assistant.getName().toLowerCase().equals(npcName)) {
-                assistant.interact(scanner); // Pass Scanner as needed
-                return;
+        // search npcs for matching name
+        for (NPC npc : npcs) {
+            if (npc.getName().equalsIgnoreCase(npcName)) {
+            npc.interact(scanner);
+            return;
             }
         }
 

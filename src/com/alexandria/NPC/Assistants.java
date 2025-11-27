@@ -14,11 +14,10 @@ public class Assistants extends AbstractNPC implements NPC {
         super(name, health, location, alive, items, dialogueFileName);
     }
 
-    public static List<Assistants> getAssistants(Room room) {
+    public static List<NPC> getNPCs(Room room) {
     // This should pull from room.getAssistants() if Room has it!
-        return room.getAssistants(); 
+        return room.getNPCs(); 
     }
-
 
     public void giveItem(Item item, Player player) {
         if (items.contains(item)) {
