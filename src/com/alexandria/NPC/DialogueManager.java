@@ -1,5 +1,7 @@
 package com.alexandria.NPC;
 
+import com.alexandria.NPC.DialogueLoader;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -45,6 +47,6 @@ public class DialogueManager {
             String nextNodeId = options.get(choice - 1).getNextNode();
             node = tree.getNode(nextNodeId);
         }
-        System.out.println("Conversation ended.\n");
+        System.out.println("Interaction ended\n");
     }
 }

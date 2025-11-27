@@ -13,12 +13,13 @@ public abstract class AbstractNPC {
     protected List<Item> items;
     protected String dialogueFileName;
 
-    public AbstractNPC(String name, int health, Room location, boolean alive, List<Item> items) {
+    public AbstractNPC(String name, int health, Room location, boolean alive, List<Item> items, String dialogueFileName) {
         this.name = name;
         this.health = health;
         this.location = location;
         this.alive = alive;
         this.items = new ArrayList<>();
+        this.dialogueFileName = dialogueFileName;
     }
 
     public void setDialogueFileName(String dialogueFileName) {

@@ -1,34 +1,24 @@
 package com.alexandria.NPC;
-
-import com.alexandria.Traversal.Room;
-
 import java.util.List;
 import java.util.Scanner;
 
 import com.alexandria.Inventory.Item;
 import com.alexandria.Player.Player;
+import com.alexandria.Traversal.Room;
 
-public class Assistants extends AbstractNPC implements NPC {
-    
-    public Assistants (String name, int health, Room location, boolean alive, List<Item> items, String dialogueFileName) {
+public class Guardians extends AbstractNPC implements NPC {
+    public int damage;
+
+    public Guardians(String name, int health, Room location, boolean alive, List<Item> items, String dialogueFileName, int damage) {
         super(name, health, location, alive, items, dialogueFileName);
+        this.damage = damage;
     }
 
-    public static List<Assistants> getAssistants(Room room) {
+    public static List<Guardians> getGuardians(Room room) {
     // This should pull from room.getAssistants() if Room has it!
-        return room.getAssistants(); 
+        return room.getGuardians(); 
     }
 
-
-    public void giveItem(Item item, Player player) {
-        if (items.contains(item)) {
-            items.remove(item);
-            player.addItem(item);
-            System.out.println(name + " gave you " + item.getName() + ".");
-        } else {
-            System.out.println(name + " doesn't have that item.");
-        }
-    }
 
     public void interact(Scanner sc) {
         DialogueTree tree = DialogueLoader.loadDialogue(this.dialogueFileName);
@@ -48,5 +38,15 @@ public class Assistants extends AbstractNPC implements NPC {
 
     public void move() {
         //logic
+    }
+
+    public void giveItem(Item item, Player player) {
+        if (items.contains(item)) {
+            items.remove(item);
+            player.addItem(item);
+            System.out.println(name + " gave you " + item.getName() + ".");
+        } else {
+            System.out.println(name + " doesn't have that item.");
+        }
     }
 }

@@ -25,12 +25,13 @@ import com.alexandria.Traversal.Room;
 import com.alexandria.Traversal.Door;
 import com.alexandria.Commands.Command;
 import com.alexandria.Commands.Parser;
-//import com.alexandria.NPC.Assistants;
+import com.alexandria.NPC.Assistants;
 //import com.alexandria.NPC.Guardians;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Scanner;
 
 public class AshesOfAlexandriaGame {
     private final Parser parser;
@@ -238,6 +239,12 @@ public class AshesOfAlexandriaGame {
         teleport_spell.setLocation(scroll_vault);
         map_spell.setLocation(library);*/
 
+        //create npcs
+        Assistants cook;
+        cook = new Assistants("the cook", 100, kitchen, true, new ArrayList<>(), "cook_dialogue.json");
+        cook.addItem(dead_bird);
+        kitchen.addAssistantNPC(cook);
+
         // create the player character and start in starting room
         Parser parser = new Parser();
         System.out.println("Creating player...");
@@ -330,6 +337,9 @@ public class AshesOfAlexandriaGame {
                 break;
             case "read":
                 readScroll(command);
+                break;
+            case "talk":
+                talkToNPC(command);
                 break;
             default:
                 System.out.println("I don't know what you mean...");
@@ -614,6 +624,41 @@ public class AshesOfAlexandriaGame {
                 System.out.println(scrollName + " item isn't in your inventory or isn't a scroll. Try again.");
             }
         }    
+    }
+
+    //NPC methods
+    private void talkToNPC(Command command) {
+        Scanner scanner = new Scanner(System.in); // Create a Scanner instance for user input
+        if (!command.hasThirdWord()) { 
+            System.out.println("Talk to whom?");
+            return;
+        }  
+
+        String npcName = command.getThirdWord().toLowerCase();
+        Room currentLoc = player.getCurrentRoom();
+
+        //check the list of NPCs in the current room for both types    	
+    	List<Assistants> assistants = Assistants.getAssistants(currentLoc);
+        /*List<Guardians> guardians = Guardians.getGuardians(currentLoc);
+
+        // search guardians
+        for (Guardians guardian : guardians) {
+            if (guardian.getName().toLowerCase().equals(npcName)) {
+                guardian.interact(scanner); // Pass Scanner as needed
+                return;
+            }
+        }*/
+    
+        // search assistants
+        for (Assistants assistant : assistants) {
+            if (assistant.getName().toLowerCase().equals(npcName)) {
+                assistant.interact(scanner); // Pass Scanner as needed
+                return;
+            }
+        }
+
+        // If not found
+        System.out.println("There is no " + npcName + " here to talk to.");
     }
 
     public static void main(String[] args) {

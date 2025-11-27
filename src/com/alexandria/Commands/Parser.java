@@ -12,25 +12,30 @@ public class Parser {
 
     public Command getCommand() {
         System.out.print("> ");
-        String inputLine = reader.nextLine();
+        String inputLine = reader.nextLine().trim();
 
         String word1 = null;
         String word2 = null;
+        String word3 = null;
 
         Scanner tokenizer = new Scanner(inputLine);
         if (tokenizer.hasNext()) {
-            word1 = tokenizer.next();
+            word1 = tokenizer.next().toLowerCase();
             if (tokenizer.hasNext()) {
-                word2 = tokenizer.next();
+                word2 = tokenizer.next().toLowerCase();
+                if (tokenizer.hasNext()) {
+                    word3 = tokenizer.next().toLowerCase();
+                }
             }
         }
+        tokenizer.close();
 
         if (commands.isCommand(word1)) {
-            return new Command(word1, word2);
-        } else {
-            return new Command(null, word2);
+            return new Command(word1, word2, word3);
+        } else{
+            return new Command(null, word2, word3);
         }
-    }
+    } 
 
     public void showCommands() {
         commands.showAll();
