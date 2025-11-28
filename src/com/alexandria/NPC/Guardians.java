@@ -21,7 +21,7 @@ public class Guardians extends AbstractNPC implements NPC {
     }
 
 
-    public void interact(Scanner sc) {
+    public void interact(Scanner sc, Player currPlayer) {
         DialogueTree tree = DialogueLoader.loadDialogue(this.dialogueFileName);
 
         if (tree == null) {
@@ -30,7 +30,7 @@ public class Guardians extends AbstractNPC implements NPC {
         }
 
         DialogueManager dialogueManager = new DialogueManager();
-        dialogueManager.startDialogue(tree, sc);
+        dialogueManager.startDialogue(tree, sc, currPlayer, this);
     }
 
     public void attack() {

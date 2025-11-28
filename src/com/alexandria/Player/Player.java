@@ -17,11 +17,13 @@ import java.util.List;
 public class Player implements Serializable{
     private String name;
     private Room currentRoom;
+    private int health;
     private List<Item> inventory;
 
-    public Player (String name, Room startingRoom) {
+    public Player (String name, Room startingRoom, int health) {
         this.name = name;
         this.currentRoom = startingRoom;
+        this.health = health;
         this.inventory = new ArrayList<>();
     }
 
@@ -70,6 +72,19 @@ public class Player implements Serializable{
 
     public List<Item> getInventory() {
         return inventory;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void adjustHealth(int amount) {
+        this.health += amount;
+        System.out.println("Your health is now: " + this.health);
     }
 
     //handles saving player state to a file

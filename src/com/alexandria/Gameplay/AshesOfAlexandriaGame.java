@@ -278,7 +278,7 @@ public class AshesOfAlexandriaGame {
         System.out.println("Creating player...");
         System.out.println("Enter the name of your player character: ");
         String playerName = parser.getInput();
-        player = new Player(playerName, main_hall);
+        player = new Player(playerName, main_hall, 100);
 
     }
 
@@ -676,7 +676,7 @@ public class AshesOfAlexandriaGame {
         // search npcs for matching name
         for (NPC npc : npcs) {
             if (npc.getName().toLowerCase().contains(npcName)) {
-            npc.interact(scanner);
+            npc.interact(scanner, player);
             return;
             }
         }
@@ -688,5 +688,17 @@ public class AshesOfAlexandriaGame {
     public static void main(String[] args) {
         AshesOfAlexandriaGame game = new AshesOfAlexandriaGame();
         game.play();
+
+        /*
+        if (player.getHealth() <= 0) {
+            System.out.println("You have perished in the library. Game over.");
+            return true;
+        } else if (player.hasItem("scroll of Eratosthenes")) {
+            System.out.println("Congratulations! You have secured the master scroll and escaped the burning library!");
+            return true;
+        } else {
+            System.out.println("The library burns around you, but you failed to secure the master scroll. Game over.");
+            return true;
+        }*/
     }
 }

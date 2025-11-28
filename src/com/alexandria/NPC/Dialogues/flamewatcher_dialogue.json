@@ -43,7 +43,7 @@
     },
     {
       "id": "fail1",
-      "npcLine": "You have named the wrong power; the flame recoils... You take 10 points of damage.",
+      "npcLine": "You have named the wrong power; the flame recoils...",
       "options": [
         { "playerLine": "Try again.", "nextNode": "step1" },
         { "playerLine": "Give up.", "nextNode": "goodbye" }
@@ -59,7 +59,7 @@
     },
     {
       "id": "fail2",
-      "npcLine": "The flame rejects your sacrifice; it demands something gentler... You take 15 points of damage.",
+      "npcLine": "The flame rejects your sacrifice; it demands something gentler...",
       "options": [
         { "playerLine": "Try again.", "nextNode": "step2" },
         { "playerLine": "Give up.", "nextNode": "goodbye" }
@@ -67,15 +67,15 @@
     },
     {
       "id": "step3",
-      "npcLine": "Last, give the flame its purpose. Do you pledge it to destruction or to knowledge?",
+      "npcLine": "Last, give the flame its purpose. Do you pledge it to preservation or to creation?",
       "options": [
-        { "playerLine": "correct.", "nextNode": "success" },
-        { "playerLine": "incorrect.", "nextNode": "fail3" }
+        { "playerLine": "Creation.", "nextNode": "success" },
+        { "playerLine": "Preservation.", "nextNode": "fail3" }
       ]
     },
     {
       "id": "fail3",
-      "npcLine": "You have chosen ruin; the Everlasting Flame dims before you... You take 20 points of damage.",
+      "npcLine": "You have chosen ruin; the Everlasting Flame dims before you...",
       "options": [
         { "playerLine": "Try again.", "nextNode": "step3" },
         { "playerLine": "Give up.", "nextNode": "goodbye" }
@@ -90,7 +90,7 @@
     },
     {
       "id": "attack",
-      "npcLine": "How dare you threaten me! The flame engulfs you in searing heat... You take 30 points of damage.",
+      "npcLine": "How dare you threaten me! The flame engulfs you in searing heat...",
       "options": [
         { "playerLine": "Apologise.", "nextNode": "puzzle" },
         { "playerLine": "Run.", "nextNode": "run" }
