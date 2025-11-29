@@ -22,6 +22,8 @@ public class Guardians extends AbstractNPC implements NPC {
 
     public void addItem(Item item) {
         items.add(item);
+        item.setLocation(null); // Remove item from room when given to NPC
+        item.setVisible(false); // Make item invisible in the world
     }
 
     public List<Item> getItems() {

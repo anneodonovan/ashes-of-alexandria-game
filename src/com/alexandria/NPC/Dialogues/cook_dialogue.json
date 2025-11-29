@@ -20,15 +20,15 @@
       "id": "cat",
       "npcLine": "The cats are very important here. They keep the library free of mice and rats, which could damage the scrolls. Silly creatures, they only eat cooked fish! That's what I'm doing now, actually; preparing their dinner. Will you take this fish out to them for me?",
       "options": [
-        { "playerLine": "Yes, of course.", "nextNode": "give" },
+        { "playerLine": "Yes, of course.", "nextNode": "give_item" },
         { "playerLine": "No, sorry.", "nextNode": "goodbye" }
       ]
     },
     {
-      "id": "give",
-      "npcLine": "Thank you! Here you go.",
+      "id": "give_item",
+      "npcLine": "Thank you! You're very kind.",
       "options": [
-        { "playerLine": "Take the fish.", "nextNode": "info" }
+        { "playerLine": "You're welcome!", "nextNode": "info" }
       ]
     },
     {

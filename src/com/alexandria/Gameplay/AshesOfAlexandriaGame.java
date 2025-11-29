@@ -217,11 +217,11 @@ public class AshesOfAlexandriaGame {
         eratosthenes_key.addUnlockableExit(secret_door);
         
         //items
-        Item dead_bird, ink, shovel;
-        dead_bird = new Item("dead bird", "a small, charred bird - it looks like it flew into a fire.", 7, true);
+        Item fish, ink, shovel;
+        fish = new Item("fish", "a small, charred fish - food for the library cats.", 7, true);
         ink = new Item("ink", "a small vial of black ink, still usable.", 8, true);
         shovel = new Item("shovel", "a sturdy shovel, useful for digging.", 10, true);
-        dead_bird.setLocation(kitchen);
+        fish.setLocation(kitchen);
         ink.setLocation(scribing_room);
         shovel.setLocation(kitchen);
         
@@ -243,7 +243,7 @@ public class AshesOfAlexandriaGame {
         //create npcs
         Assistants cook, apprentice, secret_keeper, cat;
         cook = new Assistants("The Cook", 50, kitchen, true, new ArrayList<>(), "src/com/alexandria/NPC/Dialogues/cook_dialogue.json");
-        cook.addItem(dead_bird);
+        cook.addItem(fish);
         kitchen.addNPC(cook);
 
         apprentice = new Assistants("The Apprentice", 50, scribing_room, true, new ArrayList<>(), "src/com/alexandria/NPC/Dialogues/apprentice_dialogue.json");

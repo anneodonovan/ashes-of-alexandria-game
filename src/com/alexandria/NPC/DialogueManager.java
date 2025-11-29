@@ -60,6 +60,7 @@ public class DialogueManager {
     private void applyNodeEffects(DialogueNode node, Player player, NPC npc) {
         String id = node.getId();
 
+        //this switch statement applies special effects based on the dialogue node id for all npcs (not specific ones)
         switch (id) {
             case "fail1":
                 player.adjustHealth(-10); // or setHealth(getHealth() - 10)
@@ -77,14 +78,14 @@ public class DialogueManager {
                 player.adjustHealth(-30);
                 System.out.println("The Flamewatcher’s wrath burns you. (-30 HP)");
                 break;
-            case "success":
+            case "give_item":
                 List<Item> items = npc.getItems();
                 if (items.isEmpty()) {
                     System.out.println(npc.getName() + " has no items to give.");
                     break;
                 } else {
                     String itemName = items.get(0).getName(); //this line needs to be there before we give the item, because otherwise it crashes the game (as it'd be looking for an item that no longer exists)
-                    npc.giveItem(items.get(0), player); // assuming the NPC has at least one item
+                    npc.giveItem(items.get(0), player); // assuming the NPC has at least one item (dealt with in the giveItem method if there's no items)
                     System.out.println("You succesfully recieved " + itemName + "! It's been added to your inventory.");
                 }
                 break;

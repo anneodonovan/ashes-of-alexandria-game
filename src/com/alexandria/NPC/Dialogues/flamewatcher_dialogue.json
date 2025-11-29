@@ -69,7 +69,7 @@
       "id": "step3",
       "npcLine": "Last, give the flame its purpose. Do you pledge it to preservation or to creation?",
       "options": [
-        { "playerLine": "Creation.", "nextNode": "success" },
+        { "playerLine": "Creation.", "nextNode": "give_item" },
         { "playerLine": "Preservation.", "nextNode": "fail3" }
       ]
     },
@@ -82,7 +82,7 @@
       ]
     },
     {
-      "id": "success",
+      "id": "give_item",
       "npcLine": "You have spoken truly. The Everlasting Flame is yours. Well done, scholar.",
       "options": [
         { "playerLine": "Take the flame.", "nextNode": "goodbye" }
