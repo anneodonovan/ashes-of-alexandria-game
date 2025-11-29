@@ -20,6 +20,13 @@ public class Guardians extends AbstractNPC implements NPC {
         return curRoom.getNPCs(); 
     }
 
+    public void addItem(Item item) {
+        items.add(item);
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
 
     public void interact(Scanner sc, Player currPlayer) {
         DialogueTree tree = DialogueLoader.loadDialogue(this.dialogueFileName);
@@ -51,3 +58,4 @@ public class Guardians extends AbstractNPC implements NPC {
         }
     }
 }
+

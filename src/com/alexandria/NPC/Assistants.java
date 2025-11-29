@@ -19,9 +19,16 @@ public class Assistants extends AbstractNPC implements NPC {
         return room.getNPCs(); 
     }
 
+    public void addItem(Item item) {
+        items.add(item);
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
     public void giveItem(Item item, Player player) {
-        if (items.contains(item)) {
-            items.remove(item);
+        if (items.remove(item)) { //remove returns true if item was present and removed
             player.addItem(item);
             System.out.println(name + " gave you " + item.getName() + ".");
         } else {

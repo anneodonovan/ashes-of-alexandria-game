@@ -3,6 +3,7 @@ package com.alexandria.NPC;
 import com.alexandria.NPC.DialogueLoader;
 import com.alexandria.Player.Player;
 import com.alexandria.Gameplay.AshesOfAlexandriaGame;
+import com.alexandria.Inventory.Item;
 
 import java.util.List;
 import java.util.Scanner;
@@ -77,9 +78,15 @@ public class DialogueManager {
                 System.out.println("The Flamewatcher’s wrath burns you. (-30 HP)");
                 break;
             case "success":
-                /*npc.dropItem(itemName);
-                player.addItem(itemName); not sure this will work yet
-                System.out.println("You succesfully recieved " + itemName + "! It's been added to your inventory.");*/
+                List<Item> items = npc.getItems();
+                if (items.isEmpty()) {
+                    System.out.println(npc.getName() + " has no items to give.");
+                    break;
+                } else {
+                    String itemName = items.get(0).getName(); //this line needs to be there before we give the item, because otherwise it crashes the game (as it'd be looking for an item that no longer exists)
+                    npc.giveItem(items.get(0), player); // assuming the NPC has at least one item
+                    System.out.println("You succesfully recieved " + itemName + "! It's been added to your inventory.");
+                }
                 break;
             default:
                 // no special effect

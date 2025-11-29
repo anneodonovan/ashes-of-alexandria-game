@@ -242,31 +242,31 @@ public class AshesOfAlexandriaGame {
 
         //create npcs
         Assistants cook, apprentice, secret_keeper, cat;
-        cook = new Assistants("the cook", 50, kitchen, true, new ArrayList<>(), "src/com/alexandria/NPC/Dialogues/cook_dialogue.json");
+        cook = new Assistants("The Cook", 50, kitchen, true, new ArrayList<>(), "src/com/alexandria/NPC/Dialogues/cook_dialogue.json");
         cook.addItem(dead_bird);
         kitchen.addNPC(cook);
 
-        apprentice = new Assistants("the apprentice", 50, scribing_room, true, new ArrayList<>(), "src/com/alexandria/NPC/Dialogues/apprentice_dialogue.json");
+        apprentice = new Assistants("The Apprentice", 50, scribing_room, true, new ArrayList<>(), "src/com/alexandria/NPC/Dialogues/apprentice_dialogue.json");
         apprentice.addItem(ink);
         scribing_room.addNPC(apprentice);
 
-        secret_keeper = new Assistants("the secret keeper", 50, hallway, true, new ArrayList<>(), "src/com/alexandria/NPC/Dialogues/secret_keeper_dialogue.json");
+        secret_keeper = new Assistants("The Secret Keeper", 50, hallway, true, new ArrayList<>(), "src/com/alexandria/NPC/Dialogues/secret_keeper_dialogue.json");
         secret_keeper.addItem(shovel);
         hallway.addNPC(secret_keeper);
 
-        cat = new Assistants("the library cat", 25, residential_quarter, true, new ArrayList<>(), "src/com/alexandria/NPC/Dialogues/cat_dialogue.json");
+        cat = new Assistants("The Library Cat", 25, residential_quarter, true, new ArrayList<>(), "src/com/alexandria/NPC/Dialogues/cat_dialogue.json");
         residential_quarter.addNPC(cat);
 
         Guardians sphinx, flamewatcher, librarian, hypatia;
-        sphinx = new Guardians("the Sphinx", 150, sphinx_room, true, new ArrayList<>(), "src/com/alexandria/NPC/Dialogues/sphinx_dialogue.json", 20);
+        sphinx = new Guardians("The Sphinx", 150, sphinx_room, true, new ArrayList<>(), "src/com/alexandria/NPC/Dialogues/sphinx_dialogue.json", 20);
         sphinx.addItem(sphinxs_key);
         sphinx_room.addNPC(sphinx);
 
-        flamewatcher = new Guardians("the Flamewatcher", 150, reading_room, true, new ArrayList<>(), "src/com/alexandria/NPC/Dialogues/flamewatcher_dialogue.json", 20);
+        flamewatcher = new Guardians("The Flamewatcher", 150, reading_room, true, new ArrayList<>(), "src/com/alexandria/NPC/Dialogues/flamewatcher_dialogue.json", 20);
         flamewatcher.addItem(everlasting_flame);
         reading_room.addNPC(flamewatcher);
 
-        librarian = new Guardians("the Librarian", 150, library, true, new ArrayList<>(), "src/com/alexandria/NPC/Dialogues/librarian_dialogue.json", 20);
+        librarian = new Guardians("The Librarian", 150, library, true, new ArrayList<>(), "src/com/alexandria/NPC/Dialogues/librarian_dialogue.json", 20);
         library.addNPC(librarian);
 
         hypatia = new Guardians("Hypatia", 150, eratosthenes_chamber, true, new ArrayList<>(), "src/com/alexandria/NPC/Dialogues/hypatia_dialogue.json", 20);

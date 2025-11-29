@@ -7,4 +7,5 @@ public interface NPC {
     public void attack();
     public void move();
     public void giveItem(com.alexandria.Inventory.Item item, com.alexandria.Player.Player player);
+    public java.util.List<com.alexandria.Inventory.Item> getItems();
 }
