@@ -9,14 +9,19 @@ public class GameFrame extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("Ashes of Alexandria");
+        AshesOfAlexandriaGame gameModel = new AshesOfAlexandriaGame();
+        Player player = gameModel.getPlayer();
+
+        LeftGamePanel left = new LeftGamePanel();
+        CenterGamePanel center = new CenterGamePanel();
+        RightGamePanel right = new RightGamePanel();
+
+        GameController controller = new GameController(left, center, right, gameModel, player);
 
         BorderPane root = new BorderPane();
-
-        // Panels
-        root.setLeft(new LeftGamePanel());
-        root.setCenter(new CenterGamePanel());
-        root.setRight(new RightGamePanel());
+        root.setLeft(left);
+        root.setCenter(center);
+        root.setRight(right);
 
         Scene scene = new Scene(root, 1200, 800);
         primaryStage.setScene(scene);
