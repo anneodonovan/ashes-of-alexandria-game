@@ -87,6 +87,28 @@ public class Player implements Serializable{
         System.out.println("Your health is now: " + this.health);
     }
 
+    public int getScore() {
+        return 20; // Placeholder score calculation
+    }
+
+    public double getHealthPercent() {
+        return Math.max(0.0, Math.min(1.0, this.health / 100.0));
+    }
+
+    public List<Item> getInventoryItems() {
+        return this.inventory;
+    }
+
+    public boolean hasItem(String itemName) {
+        if (itemName == null) return false;
+        for (Item item : inventory) {
+            if (item.getName().equalsIgnoreCase(itemName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     //handles saving player state to a file
     public void savePlayerState() throws IOException {
         FileOutputStream fos = new FileOutputStream(name + ".txt");

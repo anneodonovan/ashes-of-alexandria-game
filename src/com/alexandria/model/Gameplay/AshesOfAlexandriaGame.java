@@ -28,6 +28,7 @@ import com.alexandria.model.Commands.Parser;
 import com.alexandria.model.NPC.Assistants;
 import com.alexandria.model.NPC.Guardians;
 import com.alexandria.model.NPC.NPC;
+import com.alexandria.controller.GameController;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -43,7 +44,7 @@ public class AshesOfAlexandriaGame {
         parser = new Parser();
     }
 
-    private void createGameObjects() {
+    public void createGameObjects() {
         Room main_hall, scribing_room, reading_room, lecture_hall, residential_quarter, muse_garden, dining_hall, social_hall, kitchen, courtyard, library, scroll_vault, serapeum, eratosthenes_chamber, sphinx_room, hallway, tower;
 
         // create rooms
@@ -273,13 +274,15 @@ public class AshesOfAlexandriaGame {
         hypatia.addItem(eratosthenes_key);
         serapeum.addNPC(hypatia);
 
-        // create the player character and start in starting room
+        //create the player character and start in starting room
         Parser parser = new Parser();
-        System.out.println("Creating player...");
-        System.out.println("Enter the name of your player character: ");
-        String playerName = parser.getInput();
+        String playerName = GameController.askPlayerName();
         player = new Player(playerName, main_hall, 100);
+    }
 
+    //pass the player back to the gameframe
+    public Player getPlayer() {
+        return player;
     }
 
     public void play() {
@@ -306,7 +309,7 @@ public class AshesOfAlexandriaGame {
         System.out.println(player.getCurrentRoom().getLongDescription());
     }
 
-    private boolean processCommand(Command command) {
+    public boolean processCommand(Command command) {
         String commandWord = command.getCommandWord();
 
         if (commandWord == null) {
@@ -376,13 +379,13 @@ public class AshesOfAlexandriaGame {
         return false;
     }
 
-    private void printHelp() {
+    public void printHelp() {
         System.out.println("You are lost. You are alone. You wander around the library and it's grounds, in search of the master scroll.");
         System.out.print("Your command words are: ");
         parser.showCommands();
     }
 
-    private void goRoom(Command command) {
+    public void goRoom(Command command) {
         //handle: if no second work
         if (!command.hasSecondWord()) { 
             System.out.println("Go where?");
@@ -482,7 +485,7 @@ public class AshesOfAlexandriaGame {
     }
     
     //item methods
-    private void seeItem(Command command) {
+    public void seeItem(Command command) {
     	Room location = player.getCurrentRoom();
     	
     	List<Item> items = Item.getItems(location);
@@ -498,7 +501,7 @@ public class AshesOfAlexandriaGame {
     	}
     }
     
-    private void takeItem(Command command) {
+    public void takeItem(Command command) {
     	if (!command.hasSecondWord()) {
             System.out.println("Take what?");
             return;
@@ -525,7 +528,7 @@ public class AshesOfAlexandriaGame {
 
     }
 
-    private void dropItem(Command command) {
+    public void dropItem(Command command) {
         if (!command.hasSecondWord()) {
             System.out.println("Drop what?");
             return;
@@ -553,7 +556,7 @@ public class AshesOfAlexandriaGame {
         System.out.println("You don't have a " + itemName + " to drop.");
     }
     
-    private void showInventory() {
+    public void showInventory() {
     	List<Item> items = player.getInventory();
         if (items.isEmpty()) {
             System.out.println("Your inventory is empty.");
@@ -565,7 +568,7 @@ public class AshesOfAlexandriaGame {
         }
     }
 
-    private void lightLamp(Command command) {
+    public void lightLamp(Command command) {
         //handle: if no second work
         if (!command.hasSecondWord()) { 
             System.out.println("Light what?");
@@ -588,7 +591,7 @@ public class AshesOfAlexandriaGame {
         }
     }
 
-    private void unlockDoor(Command command) {
+    public void unlockDoor(Command command) {
         if (!command.hasSecondWord()) { 
             System.out.println("Unlock what?");
             return;
@@ -630,7 +633,7 @@ public class AshesOfAlexandriaGame {
         }
     }
 
-    private void readScroll(Command command) {
+    public void readScroll(Command command) {
         if (!command.hasSecondWord()) { 
             System.out.println("Read what?");
             return;
@@ -655,7 +658,7 @@ public class AshesOfAlexandriaGame {
     }
 
     //NPC methods
-    private void talkToNPC(Command command) {
+    public void talkToNPC(Command command) {
         Scanner scanner = new Scanner(System.in); // Create a Scanner instance for user input
         if (!command.hasThirdWord()) { 
             System.out.println("Talk to whom?");
@@ -685,11 +688,12 @@ public class AshesOfAlexandriaGame {
         System.out.println("There is no " + npcName + " here to talk to.");
     }
 
+    //main method has been moved to GameFrame but I'll leave this here for reference
+    /* 
     public static void main(String[] args) {
         AshesOfAlexandriaGame game = new AshesOfAlexandriaGame();
         game.play();
-
-        /*
+        
         if (player.getHealth() <= 0) {
             System.out.println("You have perished in the library. Game over.");
             return true;
@@ -699,6 +703,6 @@ public class AshesOfAlexandriaGame {
         } else {
             System.out.println("The library burns around you, but you failed to secure the master scroll. Game over.");
             return true;
-        }*/
-    }
+        }
+    }*/
 }

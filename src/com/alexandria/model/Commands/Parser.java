@@ -1,4 +1,5 @@
 package com.alexandria.model.Commands;
+
 import java.util.Scanner;
 
 public class Parser {
@@ -11,12 +12,21 @@ public class Parser {
     }
 
     public Command getCommand() {
-        System.out.print("> ");
-        String inputLine = reader.nextLine().trim();
+        String inputLine = getInput();
+        if (inputLine != null) {
+            inputLine = inputLine.trim();
+        }
+        return parse(inputLine);
+    }
 
+    public Command parse(String inputLine) {
         String word1 = null;
         String word2 = null;
         String word3 = null;
+
+        if (inputLine == null) {
+            return new Command(null, null, null);
+        }
 
         Scanner tokenizer = new Scanner(inputLine);
         if (tokenizer.hasNext()) {
@@ -35,10 +45,25 @@ public class Parser {
         } else{
             return new Command(null, word2, word3);
         }
-    } 
+    }
 
-    public void showCommands() {
-        commands.showAll();
+    public String showCommands() {
+        String commands =
+            "go - Move to another room\n" +
+            "quit - End the game\n" +
+            "help - Show help\n" +
+            "look - Look around\n" +
+            "eat - Eat something\n" +
+            "take - Take something and add to inventory\n" +
+            "drop - Drop something from inventory\n" +
+            "show - Show inventory\n" +
+            "save - Save player data\n" +
+            "reload - Reload player data\n" +
+            "light - Light a lightsource item\n" +
+            "unlock - Unlock a door with a key\n" +
+            "read - Read the contents of a scroll\n" +
+            "talk - Talk to an NPC";
+        return commands;
     }
 
     public String getInput() {
