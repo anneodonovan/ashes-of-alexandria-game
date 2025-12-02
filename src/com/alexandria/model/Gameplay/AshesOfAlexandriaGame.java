@@ -285,51 +285,40 @@ public class AshesOfAlexandriaGame {
         return player;
     }
 
-    public void play() {
-        printWelcome();
-
-        boolean finished = false;
-        while (!finished) {
-            Command command = parser.getCommand();
-            finished = processCommand(command);
-        }
-        System.out.println("Thank you for playing. Goodbye.");
+    public String printWelcome() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\n");
+        sb.append("Welcome to the Ashes of Alexandria game!\n");
+        sb.append("The library of Alexandria, Egypt, 48 BCE: on the eve of Julius Caesar's siege of Alexandria, you are trapped in the library as war rages outside.\n");
+        sb.append("The library will soon burn, and so you must save the master scroll...\n");
+        sb.append("What is that, you might ask?\n");
+        sb.append("This scroll contains the origin story of the library itself and a prophecy about its fall and rebirth. You must retrieve it to ensure the knowledge can be passed on to future generations, before it falls into the hands of Julius Caesar and is destroyed!\n");
+        sb.append("\n");
+        sb.append("Click the 'help' button if you need help with gameplay.\n");
+        sb.append("\n");
+        sb.append(player.getCurrentRoom().getLongDescription()).append("\n");
+        return sb.toString();
     }
 
-    private void printWelcome() {
-        System.out.println();
-        System.out.println("Welcome to the Ashes of Alexandria game!");
-        System.out.println("The library of Alexandria, Egypt, 48 BCE: on the eve of Julius Caesar's siege of Alexandria, you are trapped in the library as war rages outside.");
-        System.out.println("The library will soon burn, and so you must save the master scroll...");
-        System.out.println("What is that, you might ask?");
-        System.err.println("This scroll contains the origin story of the library itself and a prophecy about its fall and rebirth. You must retrieve it to ensure the knowledge can be passed on to future generations, before it falls into the hands of Julius Caesar and is destroyed!");
-        System.out.println();
-        System.out.println("Type 'help' if you need help.");
-        System.out.println();
-        System.out.println(player.getCurrentRoom().getLongDescription());
-    }
-
-    public boolean processCommand(Command command) {
+    public String processCommand(Command command) {
         String commandWord = command.getCommandWord();
+        StringBuilder out = new StringBuilder();        
 
         if (commandWord == null) {
-            System.out.println("I don't understand your command...");
-            return false;
+            out.append("I don't understand your command...\n");
+            return out.toString();
         }
 
         switch (commandWord) {
-            case "help":
-                printHelp();
-                break;
             case "go":
-                goRoom(command);
+                out.append(goRoom(command));
                 break;
             case "quit":
                 if (command.hasSecondWord()) {
                     System.out.println("Quit what?");
-                    return false;
+                    return out.toString();
                 } else {
-                    return true; // signal to quit
+                    return out.toString(); 
                 }
             case "look":
             	seeItem(command);
@@ -350,7 +339,7 @@ public class AshesOfAlexandriaGame {
                 } catch (Exception e) {
                     System.out.println("Error saving game: " + e.getMessage());
                 }
-                return true;
+                return out.toString();
             case "reload":
                 try {
                     player = Player.reloadPlayerState(player.getName());
@@ -376,34 +365,29 @@ public class AshesOfAlexandriaGame {
                 System.out.println("I don't know what you mean...");
                 break;
         }
-        return false;
+        return out.toString();
     }
 
-    public void printHelp() {
-        System.out.println("You are lost. You are alone. You wander around the library and it's grounds, in search of the master scroll.");
-        System.out.print("Your command words are: ");
-        parser.showCommands();
-    }
+    public String goRoom(Command command) {
+        StringBuilder output = new StringBuilder();
 
-    public void goRoom(Command command) {
-        //handle: if no second work
-        if (!command.hasSecondWord()) { 
-            System.out.println("Go where?");
-            return;
+        // handle: if no second word
+        if (!command.hasSecondWord()) {
+            output.append("Go where?\n");
+            return output.toString();
         }
 
         String directionStr = command.getSecondWord().toUpperCase();
-        Direction direction; // Convert string to Direction enum
+        Direction direction;
 
-        //handle: invalid direction
+        // handle: invalid direction
         try {
-            direction = Direction.valueOf(directionStr); // assign direction based on user input and convert to enum
+            direction = Direction.valueOf(directionStr);
         } catch (Exception e) {
-            System.out.println("That's not a valid direction!");
-            return;
+            output.append("That's not a valid direction!\n");
+            return output.toString();
         }
 
-        //handle: getting all matching exits
         Room currentRoom = player.getCurrentRoom();
         List<Exit> matchingExits = new ArrayList<>();
 
@@ -413,56 +397,21 @@ public class AshesOfAlexandriaGame {
             }
         }
 
-        //print available exits regardless of room entered
-        System.out.println("Exits: " + currentRoom.getExitString());
-
-        //handle: no exits in that direction
+        // handle: no exits in that direction
         if (matchingExits.isEmpty()) {
-            System.out.println("You can't go that way!");
-            return;
-        } 
+            output.append("You can't go that way!\n");
+            return output.toString();
+        }
 
-        //handle: multiple exits in that direction
+        // handle: multiple exits in that direction
         if (matchingExits.size() > 1) {
-            System.out.println("Choose an exit going " + directionStr.toLowerCase() + ":");
-            for (int i = 0; i < matchingExits.size(); i++) {
-                Exit exit = matchingExits.get(i);
-                String label;
-                if (exit instanceof Door) {
-                    Door doorExit = (Door) exit;
-                    label = doorExit.getLabel();
-                } else {
-                    label = exit.getLabel();
-                }
-            System.out.println((i + 1) + ". " + label);    
-            }
-
-            //handle: choosing exit
-            System.err.println("Select the name of the exit you wish to take: ");
-            String inputExit = parser.getCommand().getSecondWord();
-
-            boolean found = false;
+            output.append("Multiple exits going ").append(directionStr.toLowerCase()).append(".\n");
             for (Exit exit : matchingExits) {
-                if (exit.getLabel().toLowerCase().contains(inputExit.toLowerCase())) {
-                    found = true;
-                    if (!(exit instanceof Door) || ((Door) exit).canPass) {
-                        Room nextRoom = exit.getOtherSide(currentRoom);
-                        player.setCurrentRoom(nextRoom);
-                        System.out.println(player.getCurrentRoom().getLongDescription());
-                    } else {
-                        Door doorThru = (Door) exit;
-                        System.out.println("You attempt to go through the " + doorThru.getLabel() + ", however it is locked.");
-                        if (doorThru.requiredKeyID != null) {
-                            System.out.println("You need the " + doorThru.requiredKeyID + " to unlock this door...");
-                        }
-                    }
-                    return;
-                }
+                output.append("- ").append(exit.getLabel()).append("\n");
             }
-            if (!found) {
-                System.out.println("That's not an exit choice; please try again.");
-            }
-        return;
+            output.append("[CHOOSE_EXIT]\n");
+            // Let the controller decide how to resolve this
+            return output.toString();
         }
 
         // One exit: just pass normally
@@ -470,35 +419,58 @@ public class AshesOfAlexandriaGame {
         if (chosenExit instanceof Door) {
             Door doorThru = (Door) chosenExit;
             if (!doorThru.canPass) {
-                System.out.println("You attempt to go through the " + doorThru.getLabel() + ", however it is locked.");
+                output.append("You attempt to go through the ").append(doorThru.getLabel()).append(", however it is locked.\n");
                 if (doorThru.requiredKeyID != null) {
-                    System.out.println("You need the " + doorThru.requiredKeyID + " to unlock this door...");
+                    output.append("You need the ").append(doorThru.requiredKeyID).append(" to unlock this door...\n");
                 }
-                return;
+                return output.toString();
             } else {
-                System.out.println("You pass through the " + doorThru.getLabel() + ".");
+                output.append("You pass through the ").append(doorThru.getLabel()).append(".\n");
             }
         }
         Room nextRoom = chosenExit.getOtherSide(currentRoom);
         player.setCurrentRoom(nextRoom);
-        System.out.println(player.getCurrentRoom().getLongDescription());
+        output.append(player.getCurrentRoom().getLongDescription()).append("\n");
+        return output.toString();
     }
-    
+
+    //method to move through a specific exit (used when multiple exits in same direction)
+    public String moveThroughExit(Exit chosenExit) {
+        StringBuilder output = new StringBuilder();
+        Room currentRoom = player.getCurrentRoom();
+
+        if (chosenExit instanceof Door doorThru && !doorThru.canPass) {
+            output.append("You attempt to go through the ").append(doorThru.getLabel()).append(", however it is locked.\n");
+        
+            if (doorThru.requiredKeyID != null) {
+                output.append("You need the ").append(doorThru.requiredKeyID).append(" to unlock this door...\n");
+            }
+            return output.toString();
+        }
+
+        Room nextRoom = chosenExit.getOtherSide(currentRoom);
+        player.setCurrentRoom(nextRoom);
+        output.append(player.getCurrentRoom().getLongDescription()).append("\n");
+        return output.toString();
+
+    }
+
+        
     //item methods
     public void seeItem(Command command) {
-    	Room location = player.getCurrentRoom();
-    	
-    	List<Item> items = Item.getItems(location);
-    	if (items.isEmpty()) {
-    		System.out.println("You see nothing.");
-    	} else {
-    		System.out.println("You see:");
-    		for (Item item : items) {
+        Room location = player.getCurrentRoom();
+        
+        List<Item> items = Item.getItems(location);
+        if (items.isEmpty()) {
+            System.out.println("You see nothing.");
+        } else {
+            System.out.println("You see:");
+            for (Item item : items) {
                 if (item.isVisible()) {
                     System.out.println("\t" + item.getDescription());
                 }
-    		}
-    	}
+            }
+        }
     }
     
     public void takeItem(Command command) {

@@ -33,6 +33,8 @@ public class GameFrame extends Application {
         GameController controller = new GameController(left, centerPanel, right, gameModel, player);
         controller.initUI();
 
+        centerPanel.getOutputArea().appendText(gameModel.printWelcome());
+
         BorderPane root = new BorderPane();
         root.setLeft(left);
         root.setCenter(centerPanel);
