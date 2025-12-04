@@ -18,6 +18,7 @@ import com.alexandria.model.NPC.DialogueManager;
 import com.alexandria.model.NPC.DialogueTree;
 import com.alexandria.model.NPC.DialogueNode;
 import com.alexandria.model.NPC.DialogueOption;
+import com.alexandria.view.ConfettiEffect;
 
 import java.util.stream.Collectors;
 import javafx.scene.control.Alert;
@@ -25,7 +26,7 @@ import javafx.scene.control.TextInputDialog;
 import java.util.Optional;
 import java.util.List;
 import java.io.IOException;
-
+import javafx.scene.layout.Pane;
 
 public class GameController {
     //handles input from the view and updates the model accordingly
@@ -34,6 +35,7 @@ public class GameController {
     private LeftGamePanel leftPanel;
     private CenterGamePanel centerPanel;
     private RightGamePanel rightPanel;
+    private final Pane confettiPane;
     private AshesOfAlexandriaGame gameModel;
     private Player player;
     private Parser parser;
@@ -43,13 +45,14 @@ public class GameController {
     private NPC currentNpc;
     private boolean inConversation = false;
 
-    public GameController(LeftGamePanel leftPanel, CenterGamePanel centerPanel, RightGamePanel rightPanel, AshesOfAlexandriaGame gameModel, Player player) {
+    public GameController(LeftGamePanel leftPanel, CenterGamePanel centerPanel, RightGamePanel rightPanel, AshesOfAlexandriaGame gameModel, Player player, Pane confettiPane) {
         this.leftPanel = leftPanel;
         this.centerPanel = centerPanel;
         this.rightPanel = rightPanel;
         this.gameModel = gameModel;
         this.player = player;
         this.parser = new Parser();
+        this.confettiPane = confettiPane;
         
         initializeListeners();
     }
@@ -113,6 +116,7 @@ public class GameController {
                 centerPanel.getOutputArea().appendText("There is no " + npcName + " here to talk to.\n");
             }
         }
+        checkGameOver();
         updateUI();
     }
 
@@ -235,5 +239,31 @@ public class GameController {
 
     private void endGame() {
         System.exit(0);
+    }
+
+    public void triggerWin() {
+        ConfettiEffect effect = new ConfettiEffect(confettiPane);
+        effect.playConfetti();
+    }
+
+    public void checkGameOver() {
+        if (player.getHealth() <= 0) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Failure");
+            alert.setHeaderText("Game Over!");
+            String message = "You have perished in the library. Game over.\n The game window will close when you click ok";
+            alert.setContentText(message);
+            alert.showAndWait();
+            endGame();
+        } else if (player.hasItem("scroll of Eratosthenes")) {
+            triggerWin();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Success");
+            alert.setHeaderText("Game Completed!");
+            String message = "Congratulations! You escaped with the master scroll!\n The game window will close when you click ok";
+            alert.setContentText(message);
+            alert.showAndWait();
+            endGame();
+        }
     }
 }
