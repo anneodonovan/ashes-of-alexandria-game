@@ -90,7 +90,7 @@ public class AshesOfAlexandriaGame {
         stone_arch = new Exit(social_hall, hallway, Direction.WEST, Direction.EAST, "stone arch", true);
 
         // kitchen exits
-        pantry_door = new Door(kitchen, dining_hall, Direction.WEST, Direction.EAST, "pantry door", true, "kitchen key", true, false);
+        pantry_door = new Door(kitchen, dining_hall, Direction.EAST, Direction.WEST, "pantry door", true, "kitchen key", true, false);
         garden_door = new Door(kitchen, courtyard, Direction.WEST, Direction.EAST, "garden door", true, "kitchen key", true, false);
         
         // tower exits
@@ -243,34 +243,34 @@ public class AshesOfAlexandriaGame {
 
         //create npcs
         Assistants cook, apprentice, secret_keeper, cat;
-        cook = new Assistants("The Cook", 50, kitchen, true, new ArrayList<>(), "src/com/alexandria/model/NPC/Dialogues/cook_dialogue.json");
+        cook = new Assistants("The Cook", 50, kitchen, true, new ArrayList<>(), "cook");
         cook.addItem(fish);
         kitchen.addNPC(cook);
 
-        apprentice = new Assistants("The Apprentice", 50, scribing_room, true, new ArrayList<>(), "src/com/alexandria/model/NPC/Dialogues/apprentice_dialogue.json");
+        apprentice = new Assistants("The Apprentice", 50, scribing_room, true, new ArrayList<>(), "apprentice");
         apprentice.addItem(ink);
         scribing_room.addNPC(apprentice);
 
-        secret_keeper = new Assistants("The Secret Keeper", 50, hallway, true, new ArrayList<>(), "src/com/alexandria/model/NPC/Dialogues/secret_keeper_dialogue.json");
+        secret_keeper = new Assistants("The Secret Keeper", 50, hallway, true, new ArrayList<>(), "secret_keeper");
         secret_keeper.addItem(shovel);
         hallway.addNPC(secret_keeper);
 
-        cat = new Assistants("The Library Cat", 25, residential_quarter, true, new ArrayList<>(), "src/com/alexandria/model/NPC/Dialogues/cat_dialogue.json");
+        cat = new Assistants("The Library Cat", 25, residential_quarter, true, new ArrayList<>(), "cat");
         residential_quarter.addNPC(cat);
 
         Guardians sphinx, flamewatcher, librarian, hypatia;
-        sphinx = new Guardians("The Sphinx", 150, sphinx_room, true, new ArrayList<>(), "src/com/alexandria/model/NPC/Dialogues/sphinx_dialogue.json", 20);
+        sphinx = new Guardians("The Sphinx", 150, sphinx_room, true, new ArrayList<>(), "sphinx", 20);
         sphinx.addItem(sphinxs_key);
         sphinx_room.addNPC(sphinx);
 
-        flamewatcher = new Guardians("The Flamewatcher", 150, reading_room, true, new ArrayList<>(), "src/com/alexandria/model/NPC/Dialogues/flamewatcher_dialogue.json", 20);
+        flamewatcher = new Guardians("The Flamewatcher", 150, reading_room, true, new ArrayList<>(), "flamewatcher", 20);
         flamewatcher.addItem(everlasting_flame);
         reading_room.addNPC(flamewatcher);
 
-        librarian = new Guardians("The Librarian", 150, library, true, new ArrayList<>(), "src/com/alexandria/model/NPC/Dialogues/librarian_dialogue.json", 20);
+        librarian = new Guardians("The Librarian", 150, library, true, new ArrayList<>(), "librarian", 20);
         library.addNPC(librarian);
 
-        hypatia = new Guardians("Hypatia", 150, eratosthenes_chamber, true, new ArrayList<>(), "src/com/alexandria/model/NPC/Dialogues/hypatia_dialogue.json", 20);
+        hypatia = new Guardians("Hypatia", 150, eratosthenes_chamber, true, new ArrayList<>(), "hypatia", 20);
         hypatia.addItem(eratosthenes_key);
         serapeum.addNPC(hypatia);
 
@@ -321,16 +321,16 @@ public class AshesOfAlexandriaGame {
                     return out.toString(); 
                 }
             case "look":
-            	seeItem(command);
+            	out.append(seeItem(command));
             	break;
             case "take":
-            	takeItem(command);
+            	out.append(takeItem(command));
             	break;
             case "show":
             	showInventory();
             	break;
             case "drop":
-            	dropItem(command);
+            	out.append(dropItem(command));
             	break;
             case "save":
                 try {
@@ -350,19 +350,19 @@ public class AshesOfAlexandriaGame {
                 }
                 break;
             case "light":
-                lightLamp(command);
+                out.append(lightLamp(command));
                 break;
             case "unlock":
-                unlockDoor(command);
+                out.append(unlockDoor(command));
                 break;
             case "read":
-                readScroll(command);
+                out.append(readScroll(command));
                 break;
             case "talk":
-                talkToNPC(command);
+                out.append(talkToNPC(command.toString()));
                 break;
             default:
-                System.out.println("I don't know what you mean...");
+                out.append("I don't know what you mean...\n");
                 break;
         }
         return out.toString();
@@ -457,26 +457,30 @@ public class AshesOfAlexandriaGame {
 
         
     //item methods
-    public void seeItem(Command command) {
+    public String seeItem(Command command) {
+        StringBuilder output = new StringBuilder();
         Room location = player.getCurrentRoom();
         
         List<Item> items = Item.getItems(location);
         if (items.isEmpty()) {
-            System.out.println("You see nothing.");
+            output.append("You see nothing.\n");
         } else {
-            System.out.println("You see:");
+            output.append("You see:\n");
             for (Item item : items) {
                 if (item.isVisible()) {
-                    System.out.println("\t" + item.getDescription());
+                    output.append("\t" + item.getDescription());
                 }
             }
         }
+        return output.toString();
     }
     
-    public void takeItem(Command command) {
+    public String takeItem(Command command) {
+        StringBuilder output = new StringBuilder();
+
     	if (!command.hasSecondWord()) {
-            System.out.println("Take what?");
-            return;
+            output.append("Take what?\n");
+            return output.toString();
         }
     	
     	String itemName = command.getSecondWord();
@@ -486,32 +490,33 @@ public class AshesOfAlexandriaGame {
         Iterator<Item> itemsIterator = items.iterator();
         while (itemsIterator.hasNext()) {
             Item item = itemsIterator.next();
-            System.out.println(itemName);
     		if (item.getName().contains(itemName) && item.isVisible()) {
     			player.addItem(item);
                 itemsIterator.remove(); // remove from room's item list for future calls
     			item.setVisible(false);
-    			System.out.println("You successfully took " + item.getName());
-    			return;
+    			output.append("You successfully took " + item.getName() + "!\n");
+    			return output.toString();
     		}
-        }
-    	
-    	System.out.println("There is no " + itemName + " here.");
+        }	
+    	output.append("There is no " + itemName + " here.\n");
 
+        return output.toString();
     }
 
-    public void dropItem(Command command) {
+    public String dropItem(Command command) {
+        StringBuilder output = new StringBuilder();
+
         if (!command.hasSecondWord()) {
-            System.out.println("Drop what?");
-            return;
+            output.append("Drop what?\n");
+            return output.toString();
         }
 
         String itemName = command.getSecondWord();
         List<Item> inventory = player.getInventory();
 
         if (inventory.isEmpty()) {
-            System.out.println("You have nothing to drop.");
-            return;
+            output.append("You have nothing to drop.\n");
+            return output.toString();
         }
 
         Iterator<Item> iterator = inventory.iterator();
@@ -521,11 +526,12 @@ public class AshesOfAlexandriaGame {
                 iterator.remove(); // Remove from inventory using iterator
                 item.setVisible(true);
                 item.setLocation(player.getCurrentRoom());
-                System.out.println("You dropped " + item.getName());
-                return;
+                output.append("You dropped " + item.getName() + ".\n");
+                return output.toString();
             }
         }
-        System.out.println("You don't have a " + itemName + " to drop.");
+        output.append("You don't have a " + itemName + " to drop.\n");
+        return output.toString();
     }
     
     public void showInventory() {
@@ -540,11 +546,12 @@ public class AshesOfAlexandriaGame {
         }
     }
 
-    public void lightLamp(Command command) {
-        //handle: if no second work
+    public String lightLamp(Command command) {
+        StringBuilder output = new StringBuilder();
+
         if (!command.hasSecondWord()) { 
-            System.out.println("Light what?");
-            return;
+            output.append("Light what?\n");
+            return output.toString();
         }
 
         String lampName = command.getSecondWord();
@@ -555,18 +562,22 @@ public class AshesOfAlexandriaGame {
             Item item = iterator.next();
             if (item.getName().contains(lampName)) {
                 if (item instanceof Lightsource) { //if the item is a lightsource
-                    ((Lightsource) item).turnOn(); //cast the item to lightsource to call the method
+                    String results = (((Lightsource) item).turnOn()); //cast the item to lightsource to call the method
+                    output.append(results);
                 }   
             } else {
-                System.out.println(lampName + " item can't be found or isn't a lightsource.");
+                output.append(lampName + " item can't be found or isn't a lightsource.\n");
             }
         }
+        return output.toString();
     }
 
-    public void unlockDoor(Command command) {
+    public String unlockDoor(Command command) {
+        StringBuilder output = new StringBuilder();
+
         if (!command.hasSecondWord()) { 
-            System.out.println("Unlock what?");
-            return;
+            output.append("Unlock what?\n");
+            return output.toString();
         }
 
         String doorName = command.getSecondWord().toLowerCase();
@@ -587,28 +598,30 @@ public class AshesOfAlexandriaGame {
                         hasKey = true;
                         boolean success = door.unlock(item.getName());
                         if (success) {
-                            System.out.println("You unlocked the " + door.getLabel() + " with the " + item.getName() + ".");
+                            output.append("You unlocked the " + door.getLabel() + " with the " + item.getName() + ".\n");
                         } else {
-                            System.out.println("You don't have the correct key to unlock the " + door.getLabel() + ".");
-                        }
+                            output.append("You don't have the correct key to unlock the " + door.getLabel() + ".\n");
+                        } 
                     }
                 }
                 if (!hasKey) {
-                    System.out.println("You don't have the required key to unlock the " + door.getLabel() + ".");
+                    output.append("You don't have the required key to unlock the " + door.getLabel() + ".\n");
                 }
                 break; // exit the loop after finding the door
-            }
+            }         
         }
-
         if (!foundDoor) {
-            System.out.println(doorName + " can't be found.");
+            output.append(doorName + " can't be found.\n");
         }
+        return output.toString();
     }
 
-    public void readScroll(Command command) {
+    public String readScroll(Command command) {
+        StringBuilder output = new StringBuilder();
+
         if (!command.hasSecondWord()) { 
-            System.out.println("Read what?");
-            return;
+            output.append("Read what?\n");
+            return output.toString();
         }
 
         String scrollName = command.getSecondWord();
@@ -620,44 +633,39 @@ public class AshesOfAlexandriaGame {
             if (item.getName().contains(scrollName)) {
                 if (item instanceof Scroll) { //if the item is a scroll
                     String contents = ((Scroll) item).getContents(); //cast the item to scroll to call the method
-                    System.out.println("You read the " + item.getName() + ":\n" + contents);
-                    return; 
+                    output.append("You read the " + item.getName() + ":\n" + contents);
+                    return output.toString(); 
                 }
             } else {
-                System.out.println(scrollName + " item isn't in your inventory or isn't a scroll. Try again.");
+                output.append(scrollName + " item isn't in your inventory or isn't a scroll. Try again.\n");
             }
-        }    
+        } 
+        return output.toString();   
     }
 
     //NPC methods
-    public void talkToNPC(Command command) {
-        Scanner scanner = new Scanner(System.in); // Create a Scanner instance for user input
-        if (!command.hasThirdWord()) { 
-            System.out.println("Talk to whom?");
-            return;
-        }  
+    public NPC talkToNPC(String npcName) {
+        StringBuilder output = new StringBuilder();
 
-        String npcName = command.getThirdWord().toLowerCase();
+        npcName = npcName.toLowerCase();
         Room currentLoc = player.getCurrentRoom();
 
         //check the list of NPCs in the current room for both types    	
     	List<NPC> npcs = currentLoc.getNPCs();
 
         if (npcs == null || npcs.isEmpty()) {
-            System.out.println("There is no " + npcName + " here to talk to.");
-            return;
+            return null;
         }
 
         // search npcs for matching name
         for (NPC npc : npcs) {
             if (npc.getName().toLowerCase().contains(npcName)) {
-            npc.interact(scanner, player);
-            return;
+            return npc; // return the NPC object for further interaction if needed
             }
         }
 
         // If not found
-        System.out.println("There is no " + npcName + " here to talk to.");
+        return null;
     }
 
     //main method has been moved to GameFrame but I'll leave this here for reference

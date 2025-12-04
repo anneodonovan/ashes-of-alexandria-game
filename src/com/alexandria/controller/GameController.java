@@ -12,6 +12,12 @@ import com.alexandria.model.Inventory.Item;
 import com.alexandria.model.Traversal.Direction;
 import com.alexandria.model.Traversal.Exit;
 import com.alexandria.model.Traversal.Room;
+import com.alexandria.model.NPC.NPC;
+import com.alexandria.model.NPC.DialogueLoader;
+import com.alexandria.model.NPC.DialogueManager;
+import com.alexandria.model.NPC.DialogueTree;
+import com.alexandria.model.NPC.DialogueNode;
+import com.alexandria.model.NPC.DialogueOption;
 
 import java.util.stream.Collectors;
 import javafx.scene.control.Alert;
@@ -29,6 +35,11 @@ public class GameController {
     private AshesOfAlexandriaGame gameModel;
     private Player player;
     private Parser parser;
+    private DialogueManager dialogueManager;
+    private DialogueTree currentDialogueTree;
+    private DialogueNode currentDialogueNode;
+    private NPC currentNpc;
+    private boolean inConversation = false;
 
     public GameController(LeftGamePanel leftPanel, CenterGamePanel centerPanel, RightGamePanel rightPanel, AshesOfAlexandriaGame gameModel, Player player) {
         this.leftPanel = leftPanel;
@@ -74,9 +85,31 @@ public class GameController {
 
         centerPanel.getOutputArea().appendText("> " + inputText + "\n");
         centerPanel.getOutputArea().appendText(output);
+        
         //code to deal with multiple exits
         if (needsChoice && "go".equals(command.getCommandWord()) && command.hasSecondWord()) {
             handleExitChoice(command.getSecondWord());
+        }
+
+        //code to deal with NPC dialogue
+        if ("talk".equals(command.getCommandWord()) && command.hasSecondWord()) {
+            String npcName = command.getThirdWord();
+            NPC npc = gameModel.talkToNPC(npcName);
+
+            DialogueTree tree = DialogueLoader.loadDialogue(npcName);
+
+            if (npc != null && tree != null) {
+                dialogueManager = new DialogueManager();
+                currentDialogueTree = tree;
+                StringBuilder out = new StringBuilder();
+                currentDialogueNode = dialogueManager.startDialogue(tree, player, npc, out);
+                inConversation = true;
+
+                centerPanel.getOutputArea().appendText(out.toString());
+                showDialogueOptions(currentDialogueNode, npc); // show buttons
+            } else {
+                centerPanel.getOutputArea().appendText("There is no " + npcName + " here to talk to.\n");
+            }
         }
         updateUI();
     }
@@ -129,6 +162,27 @@ public class GameController {
             }
         });
     }
+
+    private void showDialogueOptions(DialogueNode node, NPC npc) {
+        List<DialogueOption> options = node.getOptions();
+        if (options == null || options.isEmpty()) return;
+
+        centerPanel.renderDialogueOptions(options, choiceIndex -> {
+            StringBuilder out = new StringBuilder();
+            currentDialogueNode = dialogueManager.chooseOption(currentDialogueTree, currentDialogueNode, choiceIndex, player, npc, out);
+            centerPanel.getOutputArea().appendText(out.toString());
+
+            if (currentDialogueNode != null) {
+                showDialogueOptions(currentDialogueNode, npc);
+            } else {
+                inConversation = false;
+                centerPanel.getDialogueOptionsBox().getChildren().clear();
+                centerPanel.getDialogueOptionsBox().setVisible(false);
+            }
+            updateUI();
+        });
+    }
+
 
     private void saveGame() {
         runCommand("save");

@@ -14,9 +14,9 @@ public class DialogueTree {
         }
     }
 
-    // Return the starting node; usually "greeting"
+    // Return the starting node
     public DialogueNode getStartNode() {
-        return nodeMap.get("greeting"); // or define another root id if needed
+        return nodeMap.get("greeting"); 
     }
 
     public DialogueNode getNode(String id) {

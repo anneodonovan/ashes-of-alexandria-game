@@ -6,92 +6,113 @@ import com.alexandria.model.Gameplay.AshesOfAlexandriaGame;
 import com.alexandria.model.Inventory.Item;
 
 import java.util.List;
-import java.util.Scanner;
 
 public class DialogueManager {
     /**
      * Starts a conversation using the provided DialogueTree.
      * @param tree The DialogueTree loaded from JSON.
-     * @param input Scanner for user input.
      */
-    public void startDialogue(DialogueTree tree, Scanner input, Player player, NPC npc) {
+
+    // Start a dialogue: return the first node and print its text
+    public DialogueNode startDialogue(DialogueTree tree, Player player, NPC npc, StringBuilder out) {
         if (tree == null) {
-            System.out.println("Dialogue could not be loaded or found.");
-            return;
+            out.append("Dialogue could not be loaded or found.\n");
+            return null;
         }
-
         DialogueNode node = tree.getStartNode();
-        while (node != null) {
-            // Print NPC's line
-            System.out.println("\n" + npc.getName() + ": " + node.getNpcLine());
-
-            List<DialogueOption> options = node.getOptions();
-            if (options == null || options.isEmpty()) {
-                break; // End of conversation
-            }
-
-            // Print player options
-            for (int i = 0; i < options.size(); i++) {
-                System.out.println((i + 1) + ". " + options.get(i).getPlayerLine());
-            }
-
-            int choice = -1;
-            // Input loop for a valid choice
-            while (choice < 1 || choice > options.size()) {
-                System.out.print("> ");
-                try {
-                    choice = Integer.parseInt(input.nextLine());
-                } catch (NumberFormatException ex) {
-                    choice = -1;
-                }
-            }
-
-            // Go to the next node by nextNode id
-            String nextNodeId = options.get(choice - 1).getNextNode();
-            node = tree.getNode(nextNodeId);
-
-            if (node != null) {
-                applyNodeEffects(node, player, npc);
-            }            
-        }
-        System.out.println("Interaction ended\n");
+        printNode(node, npc, out);
+        return node; // controller keeps track of this node
     }
 
-    private void applyNodeEffects(DialogueNode node, Player player, NPC npc) {
+    // Helper to print a node's NPC line and options
+    public void printNode(DialogueNode node, NPC npc, StringBuilder out) {
+        out.append("\n")
+           .append(npc.getName())
+           .append(": ")
+           .append(node.getNpcLine())
+           .append("\n");
+
+        List<DialogueOption> options = node.getOptions();
+        if (options != null) {
+            for (int i = 0; i < options.size(); i++) {
+                out.append((i + 1))
+                   .append(". ")
+                   .append(options.get(i).getPlayerLine())
+                   .append("\n");
+            }
+        }
+    }
+
+    // Advance dialogue when the player picks an option
+    public DialogueNode chooseOption(DialogueTree tree, DialogueNode current, int choiceIndex, Player player, NPC npc, StringBuilder out) {
+        
+        List<DialogueOption> options = current.getOptions();
+        if (options == null || options.isEmpty()) {
+            out.append("No options available.\n");
+            return null; // end conversation
+        }
+
+        if (choiceIndex < 1 || choiceIndex > options.size()) {
+            out.append("Invalid choice.\n");
+            return current; // stay on same node
+        }
+
+        String nextNodeId = options.get(choiceIndex - 1).getNextNode();
+        DialogueNode next = tree.getNode(nextNodeId);
+
+        if (next != null) {
+            out.append(applyNodeEffects(next, player, npc));
+            printNode(next, npc, out);
+
+            // If next node has no options, treat as end of conversation
+            if (next.getOptions() == null || next.getOptions().isEmpty()) {
+                return null; // signal end
+            }
+            return next;
+        } else {
+            out.append("Interaction ended\n");
+            return null;
+        }
+    }
+
+
+    private String applyNodeEffects(DialogueNode node, Player player, NPC npc) {
+        StringBuilder output = new StringBuilder();
         String id = node.getId();
 
         //this switch statement applies special effects based on the dialogue node id for all npcs (not specific ones)
         switch (id) {
             case "fail1":
                 player.adjustHealth(-10); // or setHealth(getHealth() - 10)
-                System.out.println("You feel seared by the flame. (-10 HP)");
+                output.append("You feel seared by the flame. (-10 HP)");
                 break;
             case "fail2":
                 player.adjustHealth(-15);
-                System.out.println("The flame lashes out at you. (-15 HP)");
+                output.append("The flame lashes out at you. (-15 HP)");
                 break;
             case "fail3":
                 player.adjustHealth(-20);
-                System.out.println("Your spirit is scorched. (-20 HP)");
+                output.append("Your spirit is scorched. (-20 HP)");
                 break;
             case "attack":
                 player.adjustHealth(-30);
-                System.out.println("The Flamewatcher’s wrath burns you. (-30 HP)");
+                output.append("The Flamewatcher’s wrath burns you. (-30 HP)");
                 break;
             case "give_item":
                 List<Item> items = npc.getItems();
                 if (items.isEmpty()) {
-                    System.out.println(npc.getName() + " has no items to give.");
+                    output.append(npc.getName() + " has no items to give.");
                     break;
                 } else {
                     String itemName = items.get(0).getName(); //this line needs to be there before we give the item, because otherwise it crashes the game (as it'd be looking for an item that no longer exists)
                     npc.giveItem(items.get(0), player); // assuming the NPC has at least one item (dealt with in the giveItem method if there's no items)
-                    System.out.println("You succesfully recieved " + itemName + "! It's been added to your inventory.");
+                    output.append("You succesfully recieved " + itemName + "! It's been added to your inventory.");
                 }
                 break;
             default:
                 // no special effect
                 break;
             }
+        return output.toString();
     }
 }

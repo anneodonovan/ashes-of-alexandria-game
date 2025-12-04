@@ -30,17 +30,10 @@ public class Guardians extends AbstractNPC implements NPC {
         return items;
     }
 
-    public void interact(Scanner sc, Player currPlayer) {
-        DialogueTree tree = DialogueLoader.loadDialogue(this.dialogueFileName);
-
-        if (tree == null) {
-            System.out.println("Dialogue could not be loaded for " + this.name);
-            return;
-        }
-
-        DialogueManager dialogueManager = new DialogueManager();
-        dialogueManager.startDialogue(tree, sc, currPlayer, this);
+    public String interact(Player currPlayer) {
+        return this.name + " is ready to talk.";
     }
+
 
     public void attack() {
         //logic

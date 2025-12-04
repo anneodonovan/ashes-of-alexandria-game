@@ -18,27 +18,29 @@ public class Lightsource extends Item {
         return isLit;
     }
     
-    public void turnOn() {
+    public String turnOn() {
+        StringBuilder out = new StringBuilder();
+
         if (isLit) {
-            System.out.println("The " + getName() + " is already lit!");
-            return;
-        } else if (isLit) {
-            System.out.println(getName() + " has already been used and cannot be lit again.");
-            return;
+            out.append("The " + getName() + " is already lit!\n");
+            return out.toString();
+        } else if (used) {
+            out.append(getName() + " has already been used and cannot be lit again.\n");
+            return out.toString();
         } else {
             isLit = true;
             used = true;
-            System.out.println(getName() + " is now lit.");
+            out.append(getName() + " is now lit.\n");
 
             // schedule a task to turn off the light after the specified duration
             timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                isLit = false;
-                System.out.println("\n" + getName() + " has turned off, plunging you into darkness.");
-                System.out.print("> ");
-            }
-        }, 10000); // 10 minutes
+                @Override
+                public void run() {
+                    isLit = false;
+                    out.append("\n" + getName() + " has turned off, plunging you into darkness.\n");
+                }
+            }, 10000); // 10 minutes
         }
+        return out.toString();
     }
 }
