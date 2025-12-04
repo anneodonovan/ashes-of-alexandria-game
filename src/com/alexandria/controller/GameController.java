@@ -24,6 +24,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TextInputDialog;
 import java.util.Optional;
 import java.util.List;
+import java.io.IOException;
 
 public class GameController {
     //handles input from the view and updates the model accordingly
@@ -192,10 +193,22 @@ public class GameController {
     }
     
     private void reloadGame() {
-        runCommand("reload");
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Game Reloaded!");
-        alert.showAndWait();
+        try {
+            Player loaded = Player.reloadPlayerState(player.getName());
+            this.player = loaded;  
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Game Reloaded!");
+            alert.showAndWait();
+
+            updateUI();  // now uses the new player object
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Reload Failed");
+            alert.setContentText("Could not reload player state.");
+            alert.showAndWait();
+        }
     }
 
     private void help() {

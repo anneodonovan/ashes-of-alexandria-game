@@ -108,6 +108,7 @@ public class DialogueManager {
                     npc.giveItem(items.get(0), player); // assuming the NPC has at least one item (dealt with in the giveItem method if there's no items)
                     output.append("You succesfully recieved " + itemName + "! It's been added to your inventory.");
                 }
+                player.setScore(player.getScore() + 20); //reward player with points for getting an item
                 break;
             default:
                 // no special effect

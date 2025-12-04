@@ -19,12 +19,14 @@ public class Player implements Serializable{
     private Room currentRoom;
     private int health;
     private List<Item> inventory;
+    private int score;
 
-    public Player (String name, Room startingRoom, int health) {
+    public Player (String name, Room startingRoom, int health, int score) {
         this.name = name;
         this.currentRoom = startingRoom;
         this.health = health;
         this.inventory = new ArrayList<>();
+        this.score = score;
     }
 
     public String getName() {
@@ -53,7 +55,6 @@ public class Player implements Serializable{
         Room nextRoom = null;
         for (Exit exit : currentRoom.getExits()) {
             if (exit.getDirectionFrom(currentRoom) == direction) {
-                System.out.println("We're here"); //if direction mathches an exit from current room
                 nextRoom = exit.getOtherSide(currentRoom); //get the room on the other side of the exit
                 break;
             }
@@ -87,8 +88,12 @@ public class Player implements Serializable{
         System.out.println("Your health is now: " + this.health);
     }
 
+    public void setScore(int score) {
+        this.score = score;
+    }
+
     public int getScore() {
-        return 20; // Placeholder score calculation
+        return score;
     }
 
     public double getHealthPercent() {

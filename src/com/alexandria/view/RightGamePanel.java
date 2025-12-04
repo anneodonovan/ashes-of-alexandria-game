@@ -40,7 +40,7 @@ public class RightGamePanel extends VBox {
         Label inventoryTitle = new Label("Inventory:");
         inventoryTitle.setStyle("-fx-font-size: 15px; -fx-font-weight: bold;");
         inventoryList = new ListView<>();
-        inventoryList.getItems().addAll("Sword", "Potion");
+        inventoryList.getItems().addAll();
         inventoryList.setPrefHeight(200);
         VBox inventoryBox = new VBox(5, inventoryTitle, inventoryList);
 

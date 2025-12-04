@@ -277,7 +277,7 @@ public class AshesOfAlexandriaGame {
         //create the player character and start in starting room
         Parser parser = new Parser();
         String playerName = GameController.askPlayerName();
-        player = new Player(playerName, main_hall, 100);
+        player = new Player(playerName, main_hall, 100, 0);
     }
 
     //pass the player back to the gameframe
@@ -335,18 +335,18 @@ public class AshesOfAlexandriaGame {
             case "save":
                 try {
                     player.savePlayerState();
-                    System.out.println("Game saved successfully.");
+                    out.append("Game saved successfully.\n");
                 } catch (Exception e) {
-                    System.out.println("Error saving game: " + e.getMessage());
+                    out.append("Error saving game: " + e.getMessage());
                 }
                 return out.toString();
             case "reload":
                 try {
                     player = Player.reloadPlayerState(player.getName());
-                    System.out.println("Game reloaded successfully.");
-                    System.out.println(player.getCurrentRoom().getLongDescription());
+                    out.append("Game reloaded successfully.\n");
+                    out.append(player.getCurrentRoom().getLongDescription()).append("\n");
                 } catch (Exception e) {
-                    System.out.println("Error reloading game: " + e.getMessage());
+                    out.append("Error reloading game: " + e.getMessage());
                 }
                 break;
             case "light":
@@ -495,6 +495,17 @@ public class AshesOfAlexandriaGame {
                 itemsIterator.remove(); // remove from room's item list for future calls
     			item.setVisible(false);
     			output.append("You successfully took " + item.getName() + "!\n");
+
+                if (item instanceof Lightsource) {
+                    output.append("You can try to 'light' it if you want to use it.\n");
+                }
+                if (item instanceof Scroll) {
+                    output.append("You can try to 'read' it to see its contents.\n");
+                }
+                if (item instanceof Key) {
+                    output.append("You can try to 'unlock' doors with it.\n");
+                    player.setScore(player.getScore() + 5); //reward player with points for getting a key
+                }
     			return output.toString();
     		}
         }	
