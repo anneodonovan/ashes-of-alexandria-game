@@ -22,6 +22,7 @@ public class CommandWords {
         validCommands.put("unlock", "Unlock a door with a key");
         validCommands.put("read", "Read the contents of a scroll");
         validCommands.put("talk", "Talk to an NPC");
+        validCommands.put("cast", "Cast a spell from a spellbook");
     }
 
     public boolean isCommand(String commandWord) {

@@ -17,7 +17,7 @@ import com.alexandria.model.Inventory.Item;
 import com.alexandria.model.Inventory.Lightsource;
 import com.alexandria.model.Inventory.Scroll;
 import com.alexandria.model.Inventory.Key;
-//import com.alexandria.model.Inventory.Spell;
+import com.alexandria.model.Inventory.Spell;
 import com.alexandria.model.Player.Player;
 import com.alexandria.model.Traversal.Direction;
 import com.alexandria.model.Traversal.Exit;
@@ -227,14 +227,13 @@ public class AshesOfAlexandriaGame {
         shovel.setLocation(kitchen);
         
         //spells
-        /*Spell<E> light_spell, attack_spell, stun_spell, unlock_spell, teleport_spell, map_spell;
-        light_spell = new Spell<>("light spell", "a spell that creates a small orb of light to illuminate dark areas.", 11, true, "This spell conjures a small orb of light that hovers around the caster for 2 minutes, illuminating dark areas.");
-        attack_spell = new Spell<>("attack spell", "a spell that conjures a burst of energy to strike an enemy.", 12, true, "This spell conjures a burst of energy that can be directed at an enemy, causing damage upon impact and damaging health points.");
-        stun_spell = new Spell<>("stun spell", "a spell that temporarily incapacitates an enemy.", 13, true, "This spell emits a wave of energy that temporarily stuns an enemy, rendering them immobile for a short duration.");
-        unlock_spell = new Spell<>("unlock spell", "a spell that unlocks doors and chests.", 14, true, "This spell magically unlocks doors and chests, allowing access without the need for a physical key.");
-        teleport_spell = new Spell<>("teleport spell", "a spell that teleports the caster to a known location.", 15, true, "This spell allows the caster to instantly teleport to a previously visited location.");
-        map_spell = new Spell<>("map spell", "a spell that reveals a map of the surrounding area.", 16, true, "This spell conjures a magical map that reveals the layout of the surrounding area, including hidden paths and locations.");
+        Spell<Spell.LightEffect> light_spell = new Spell<>("light spell", "Creates a glowing orb", 11, true, new Spell.LightEffect());
         light_spell.setLocation(sphinx_room);
+        /*Spell<AttackEffect> attack_spell = new Spell<>("Attack Spell", "Shoots energy at an enemy", 12, true, new AttackEffect(10));
+        Spell<StunEffect> stun_spell = new Spell<>("Stun Spell", "Temporarily incapacitates an enemy", 13, true, new StunEffect(5));
+        Spell<UnlockEffect> unlock_spell = new Spell<>("Unlock Spell", "Unlocks doors and chests", 14, true, new UnlockEffect());
+        Spell<TeleportEffect> teleport_spell = new Spell<>("Teleport Spell", "Teleports the caster", 15, true, new TeleportEffect(scroll_vault));
+        Spell<MapEffect> map_spell = new Spell<>("Map Spell", "Reveals a magical map", 16, true, new MapEffect());
         attack_spell.setLocation(lecture_hall);
         stun_spell.setLocation(reading_room);
         unlock_spell.setLocation(residential_quarter);
@@ -361,6 +360,9 @@ public class AshesOfAlexandriaGame {
             case "talk":
                 out.append(talkToNPC(command.toString()));
                 break;
+            case "cast":
+                out.append(castSpell(command));
+                break;
             default:
                 out.append("I don't know what you mean...\n");
                 break;
@@ -468,7 +470,7 @@ public class AshesOfAlexandriaGame {
             output.append("You see:\n");
             for (Item item : items) {
                 if (item.isVisible()) {
-                    output.append("\t" + item.getDescription());
+                    output.append("\t" + item.getName());
                 }
             }
         }
@@ -505,6 +507,9 @@ public class AshesOfAlexandriaGame {
                 if (item instanceof Key) {
                     output.append("You can try to 'unlock' doors with it.\n");
                     player.setScore(player.getScore() + 5); //reward player with points for getting a key
+                }
+                if (item instanceof Spell) {
+                    output.append("You can try to 'cast' the spell.\n");
                 }
     			return output.toString();
     		}
@@ -651,6 +656,33 @@ public class AshesOfAlexandriaGame {
                 output.append(scrollName + " item isn't in your inventory or isn't a scroll. Try again.\n");
             }
         } 
+        return output.toString();   
+    }
+
+    public String castSpell(Command command) {
+        StringBuilder output = new StringBuilder();
+
+        if (!command.hasSecondWord()) { 
+            output.append("Cast what spell?\n");
+            return output.toString();
+        }
+
+        String spellName = command.getSecondWord();
+        List<Item> inventory = player.getInventory();
+
+        Iterator<Item> iterator = inventory.iterator();
+        while (iterator.hasNext()) {
+            Item item = iterator.next();
+            if (item.getName().contains(spellName)) {
+                if (item instanceof Spell) { //if the item is a spell
+                    Spell<?> spell = (Spell<?>) item; //cast the item to spell to call the method
+                    String result = spell.cast(player, this);
+                    output.append(result);
+                    return output.toString(); 
+                }
+            } 
+        } 
+        output.append(spellName + " spell isn't in your inventory or isn't a spell. Try again.\n");
         return output.toString();   
     }
 
