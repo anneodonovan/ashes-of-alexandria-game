@@ -64,7 +64,7 @@ public class Room implements Serializable {
     }
 
     public String getNPCString() {
-        if (npcs.isEmpty()) {
+        if (npcs == null || npcs.isEmpty()) {
             return "None";
         }
         StringBuilder sb = new StringBuilder();
