@@ -9,7 +9,6 @@ import javafx.geometry.Insets;
 public class RightGamePanel extends VBox {
 
     private Label scoreLabel;
-    private Label timerLabel;
     private ProgressBar healthBar;
     private ListView<String> inventoryList;
 
@@ -23,12 +22,6 @@ public class RightGamePanel extends VBox {
         scoreTitle.setStyle("-fx-font-size: 15px; -fx-font-weight: bold;");
         scoreLabel = new Label("0");
         VBox scoreBox = new VBox(5, scoreTitle, scoreLabel);
-
-        // Timer
-        Label timerTitle = new Label("Timer:");
-        timerTitle.setStyle("-fx-font-size: 15px; -fx-font-weight: bold;");
-        timerLabel = new Label("00:00:00");
-        VBox timerBox = new VBox(5, timerTitle, timerLabel);
 
         // Health
         Label healthTitle = new Label("Health:");
@@ -44,12 +37,11 @@ public class RightGamePanel extends VBox {
         inventoryList.setPrefHeight(200);
         VBox inventoryBox = new VBox(5, inventoryTitle, inventoryList);
 
-        getChildren().addAll(scoreBox, timerBox, healthBox, inventoryBox);
+        getChildren().addAll(scoreBox, healthBox, inventoryBox);
     }
 
     // Accessors for dynamic updates
     public Label getScoreLabel() { return scoreLabel; }
-    public Label getTimerLabel() { return timerLabel; }
     public ProgressBar getHealthBar() { return healthBar; }
     public ListView<String> getInventoryList() { return inventoryList; }
 }

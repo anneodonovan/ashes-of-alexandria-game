@@ -4,7 +4,6 @@ import com.alexandria.model.Gameplay.AshesOfAlexandriaGame;
 import com.alexandria.model.Traversal.Room;
 import com.alexandria.model.Player.Player;
 import com.alexandria.controller.GameController;
-import com.alexandria.model.Player.GameTimer;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -44,12 +43,6 @@ public class GameFrame extends Application {
         Scene scene = new Scene(root, 1200, 800);
         primaryStage.setScene(scene);
         primaryStage.show();
-
-        GameTimer timer = new GameTimer();
-        timer.start(
-            () -> endGame(), // what happens when time runs out
-            countdown -> right.getTimerLabel().setText(countdown) // update the label each tick
-        );
     }
 
     private void checkGameOver() {

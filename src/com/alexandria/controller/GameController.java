@@ -191,7 +191,7 @@ public class GameController {
         alert.setTitle("Game Saved!");
         alert.showAndWait();
     }
-    
+
     private void reloadGame() {
         try {
             Player loaded = Player.reloadPlayerState(player.getName());
