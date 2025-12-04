@@ -229,16 +229,18 @@ public class AshesOfAlexandriaGame {
         //spells
         Spell<Spell.LightEffect> light_spell = new Spell<>("light spell", "Creates a glowing orb", 11, true, new Spell.LightEffect());
         light_spell.setLocation(sphinx_room);
+        
         Spell<Spell.AttackEffect> attack_spell = new Spell<>("attack spell", "Shoots energy at an enemy", 12, true, new Spell.AttackEffect(10));
         attack_spell.setLocation(lecture_hall);
+        
+        Spell<Spell.TeleportEffect> teleport_spell = new Spell<>("teleport spell", "Teleports the caster", 15, true, new Spell.TeleportEffect());
+        teleport_spell.setLocation(main_hall);
         /*Spell<StunEffect> stun_spell = new Spell<>("Stun Spell", "Temporarily incapacitates an enemy", 13, true, new StunEffect(5));
         Spell<UnlockEffect> unlock_spell = new Spell<>("Unlock Spell", "Unlocks doors and chests", 14, true, new UnlockEffect());
-        Spell<TeleportEffect> teleport_spell = new Spell<>("Teleport Spell", "Teleports the caster", 15, true, new TeleportEffect(scroll_vault));
         Spell<MapEffect> map_spell = new Spell<>("Map Spell", "Reveals a magical map", 16, true, new MapEffect());
 
         stun_spell.setLocation(reading_room);
         unlock_spell.setLocation(residential_quarter);
-        teleport_spell.setLocation(scroll_vault);
         map_spell.setLocation(library);*/
 
         //create npcs
@@ -674,6 +676,18 @@ public class AshesOfAlexandriaGame {
                         return "There is no " + targetName + " here to attack.\n";
                     }
                     return spell.cast(player, target);
+                }
+
+                if (spell.getEffect() instanceof Spell.TeleportEffect) {
+                    if (!command.hasThirdWord()) {
+                        return "Teleport where? You must specify a room.\n";
+                    }
+                    String targetName = command.getThirdWord();
+                    Room destination = Room.findRoom(targetName);
+                    if (destination == null) {
+                        return "There is no room called " + targetName + ".\n";
+                    }
+                    return spell.cast(player, destination);
                 }
 
                 // All other spells: no target required

@@ -54,7 +54,19 @@ public class Spell<E extends Spell.SpellEffect> extends Item implements Serializ
             return out.toString();
         }
     }
-/*
+
+    public static class TeleportEffect implements SpellEffect {
+        @Override
+        public String apply(Player caster, Object target) {
+            if (!(target instanceof Room room)) {
+                return "Teleport failed: no valid room target.";
+            }
+            caster.setCurrentRoom(room);
+            return "You teleport to " + room.getName() + "\n" + room.getLongDescription() + "\n";
+        }
+    }
+
+    /*
     class StunEffect implements SpellEffect {
         private int duration;
         public StunEffect(int duration) { this.duration = duration; }
@@ -77,18 +89,7 @@ public class Spell<E extends Spell.SpellEffect> extends Item implements Serializ
             }
         }
     }
-
-    class TeleportEffect implements SpellEffect {
-        private Room destination;
-        public TeleportEffect(Room destination) { this.destination = destination; }
-
-        @Override
-        public String apply(Player caster, Object target) {
-            caster.setLocation(destination);
-            System.out.println("You teleport to " + destination.getName());
-        }
-    }
-
+    
     class MapEffect implements SpellEffect {
         @Override
         public String apply(Player caster, Object target) {

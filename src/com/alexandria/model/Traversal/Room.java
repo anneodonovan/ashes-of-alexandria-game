@@ -8,18 +8,21 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import java.io.Serializable;
+import java.util.List;
 
 public class Room implements Serializable {
 	private String name; //added this to make it easier to access seperate room objects
     private String description;
     private ArrayList<Exit> exits; // array list of exit objects for each room
     transient ArrayList<NPC> npcs; //array list of NPCs in the room - must be transient to avoid serialization issues
+    private static final List<Room> allRooms = new ArrayList<>();
 
     public Room(String name, String description) {
         this.name = name;
     	this.description = description;
         this.exits = new ArrayList<>();
         this.npcs = new ArrayList<>();
+        allRooms.add(this);
     }
 
     public String getName() {
@@ -63,6 +66,15 @@ public class Room implements Serializable {
 
     public String getLongDescription() {
         return "You are " + description + ".\nExits: " + getExitString();
+    }
+
+    public static Room findRoom(String name) {
+        for (Room room : allRooms) {
+            if (room.getName().contains(name)) {
+                return room;
+            }
+        }
+        return null; // not found
     }
 
 }
