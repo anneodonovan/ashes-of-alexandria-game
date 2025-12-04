@@ -20,6 +20,7 @@ public class Player implements Serializable{
     private int health;
     private List<Item> inventory;
     private int score;
+    private GameTimer gameTimer;
 
     public Player (String name, Room startingRoom, int health, int score) {
         this.name = name;
@@ -27,6 +28,7 @@ public class Player implements Serializable{
         this.health = health;
         this.inventory = new ArrayList<>();
         this.score = score;
+        this.gameTimer = new GameTimer();
     }
 
     public String getName() {
@@ -104,6 +106,10 @@ public class Player implements Serializable{
         return this.inventory;
     }
 
+    public GameTimer getGameTimer() {
+        return this.gameTimer;
+    }
+
     public boolean hasItem(String itemName) {
         if (itemName == null) return false;
         for (Item item : inventory) {
@@ -116,6 +122,7 @@ public class Player implements Serializable{
 
     //handles saving player state to a file
     public void savePlayerState() throws IOException {
+        gameTimer.saveProgress();
         FileOutputStream fos = new FileOutputStream(name + ".txt");
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         oos.writeObject(this);

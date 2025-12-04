@@ -27,7 +27,7 @@ public class RightGamePanel extends VBox {
         // Timer
         Label timerTitle = new Label("Timer:");
         timerTitle.setStyle("-fx-font-size: 15px; -fx-font-weight: bold;");
-        timerLabel = new Label("00:00");
+        timerLabel = new Label("00:00:00");
         VBox timerBox = new VBox(5, timerTitle, timerLabel);
 
         // Health
