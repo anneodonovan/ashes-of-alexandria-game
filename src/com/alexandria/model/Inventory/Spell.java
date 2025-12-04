@@ -39,20 +39,22 @@ public class Spell<E extends Spell.SpellEffect> extends Item implements Serializ
             return result;
         }
     }
-    /*
-    class AttackEffect implements SpellEffect {
+    
+    public static class AttackEffect implements SpellEffect {
         private int damage;
         public AttackEffect(int damage) { this.damage = damage; }
 
         @Override
         public String apply(Player caster, Object target) {
+            StringBuilder out = new StringBuilder();
             if (target instanceof NPC npc) {
                 npc.takeDamage(damage);
-                System.out.println("The NPC takes " + damage + " damage!");
+                out.append(npc.getName() + " takes " + damage + " damage!\n");
             }
+            return out.toString();
         }
     }
-
+/*
     class StunEffect implements SpellEffect {
         private int duration;
         public StunEffect(int duration) { this.duration = duration; }

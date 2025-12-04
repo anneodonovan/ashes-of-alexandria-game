@@ -34,15 +34,6 @@ public class Guardians extends AbstractNPC implements NPC {
         return this.name + " is ready to talk.";
     }
 
-
-    public void attack() {
-        //logic
-    }
-
-    public void move() {
-        //logic
-    }
-
     public void giveItem(Item item, Player player) {
         if (items.contains(item)) {
             items.remove(item);
@@ -51,6 +42,18 @@ public class Guardians extends AbstractNPC implements NPC {
         } else {
             System.out.println(name + " doesn't have that item.");
         }
+    }
+
+    public String takeDamage(int damage) {
+        StringBuilder out = new StringBuilder();
+        this.health -= damage;
+        if (this.health <= 0) {
+            this.alive = false;
+            out.append(this.name + " has been defeated!\n");
+        } else {
+            out.append(this.name + " has " + this.health + " health remaining.\n");
+        }
+        return out.toString();
     }
 }
 

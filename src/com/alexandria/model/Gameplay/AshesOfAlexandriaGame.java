@@ -229,12 +229,13 @@ public class AshesOfAlexandriaGame {
         //spells
         Spell<Spell.LightEffect> light_spell = new Spell<>("light spell", "Creates a glowing orb", 11, true, new Spell.LightEffect());
         light_spell.setLocation(sphinx_room);
-        /*Spell<AttackEffect> attack_spell = new Spell<>("Attack Spell", "Shoots energy at an enemy", 12, true, new AttackEffect(10));
-        Spell<StunEffect> stun_spell = new Spell<>("Stun Spell", "Temporarily incapacitates an enemy", 13, true, new StunEffect(5));
+        Spell<Spell.AttackEffect> attack_spell = new Spell<>("attack spell", "Shoots energy at an enemy", 12, true, new Spell.AttackEffect(10));
+        attack_spell.setLocation(lecture_hall);
+        /*Spell<StunEffect> stun_spell = new Spell<>("Stun Spell", "Temporarily incapacitates an enemy", 13, true, new StunEffect(5));
         Spell<UnlockEffect> unlock_spell = new Spell<>("Unlock Spell", "Unlocks doors and chests", 14, true, new UnlockEffect());
         Spell<TeleportEffect> teleport_spell = new Spell<>("Teleport Spell", "Teleports the caster", 15, true, new TeleportEffect(scroll_vault));
         Spell<MapEffect> map_spell = new Spell<>("Map Spell", "Reveals a magical map", 16, true, new MapEffect());
-        attack_spell.setLocation(lecture_hall);
+
         stun_spell.setLocation(reading_room);
         unlock_spell.setLocation(residential_quarter);
         teleport_spell.setLocation(scroll_vault);
@@ -660,31 +661,36 @@ public class AshesOfAlexandriaGame {
     }
 
     public String castSpell(Command command) {
-        StringBuilder output = new StringBuilder();
-
-        if (!command.hasSecondWord()) { 
-            output.append("Cast what spell?\n");
-            return output.toString();
+        if (!command.hasSecondWord()) {
+            return "Cast what spell?\n";
         }
 
         String spellName = command.getSecondWord();
         List<Item> inventory = player.getInventory();
 
-        Iterator<Item> iterator = inventory.iterator();
-        while (iterator.hasNext()) {
-            Item item = iterator.next();
-            if (item.getName().contains(spellName)) {
-                if (item instanceof Spell) { //if the item is a spell
-                    Spell<?> spell = (Spell<?>) item; //cast the item to spell to call the method
-                    String result = spell.cast(player, this);
-                    output.append(result);
-                    return output.toString(); 
+        for (Item item : inventory) {
+            if (item instanceof Spell<?> spell && item.getName().contains(spellName)) {
+
+                // Special case: Attack spell needs a target
+                if (spell.getEffect() instanceof Spell.AttackEffect) {
+                    if (!command.hasThirdWord()) {
+                        return "Attack what? You must specify a target.\n";
+                    }
+                    String targetName = command.getThirdWord();
+                    Object target = talkToNPC(targetName);
+                    if (target == null) {
+                        return "There is no " + targetName + " here to attack.\n";
+                    }
+                    return spell.cast(player, target);
                 }
-            } 
-        } 
-        output.append(spellName + " spell isn't in your inventory or isn't a spell. Try again.\n");
-        return output.toString();   
+
+                // All other spells: no target required
+                return spell.cast(player, player.getCurrentRoom());
+            }
+        }
+        return spellName + " spell isn't in your inventory or isn't a spell. Try again.\n";
     }
+
 
     //NPC methods
     public NPC talkToNPC(String npcName) {
