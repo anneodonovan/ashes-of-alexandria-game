@@ -285,6 +285,10 @@ public class AshesOfAlexandriaGame {
         return player;
     }
 
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
     public String printWelcome() {
         StringBuilder sb = new StringBuilder();
         sb.append("\n");
@@ -333,22 +337,12 @@ public class AshesOfAlexandriaGame {
             	out.append(dropItem(command));
             	break;
             case "save":
-                try {
-                    player.savePlayerState();
-                    out.append("Game saved successfully.\n");
-                } catch (Exception e) {
-                    out.append("Error saving game: " + e.getMessage());
-                }
+                out.append("Game saved successfully!\n");
                 return out.toString();
             case "reload":
-                try {
-                    player = Player.reloadPlayerState(player.getName());
-                    out.append("Game reloaded successfully.\n");
-                    out.append(player.getCurrentRoom().getLongDescription()).append("\n");
-                } catch (Exception e) {
-                    out.append("Error reloading game: " + e.getMessage());
-                }
-                break;
+                out.append("Game reloaded successfully.\n");
+                out.append(player.getCurrentRoom().getLongDescription()).append("\n");
+                return out.toString();
             case "light":
                 out.append(lightLamp(command));
                 break;
@@ -455,9 +449,7 @@ public class AshesOfAlexandriaGame {
         player.setCurrentRoom(nextRoom);
         output.append(player.getCurrentRoom().getLongDescription()).append("\n");
         return output.toString();
-
     }
-
         
     //item methods
     public String seeItem(Command command) {
@@ -471,7 +463,7 @@ public class AshesOfAlexandriaGame {
             output.append("You see:\n");
             for (Item item : items) {
                 if (item.isVisible()) {
-                    output.append("\t" + item.getName());
+                    output.append("\t" + item.getName() + "\n");
                 }
             }
         }

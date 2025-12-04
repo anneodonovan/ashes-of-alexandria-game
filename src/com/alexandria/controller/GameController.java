@@ -26,6 +26,7 @@ import java.util.Optional;
 import java.util.List;
 import java.io.IOException;
 
+
 public class GameController {
     //handles input from the view and updates the model accordingly
     //listens to swing events from GamePanel and updates the AshesOfAlexandriaGame instance
@@ -186,24 +187,36 @@ public class GameController {
 
 
     private void saveGame() {
-        runCommand("save");
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Game Saved!");
-        alert.showAndWait();
+        try {
+            player.savePlayerState();
+            runCommand("save"); // executes the case "save" block
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Game Saved!");
+            alert.showAndWait();
+
+            updateUI(); // refresh GUI if needed
+        } catch (IOException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Save Failed");
+            alert.setContentText("Could not save player state: " + e.getMessage());
+            alert.showAndWait();
+        }
     }
 
     private void reloadGame() {
         try {
             Player loaded = Player.reloadPlayerState(player.getName());
-            this.player = loaded;  
+            this.player = loaded;
+            gameModel.setPlayer(loaded);
 
+            runCommand("reload"); 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Game Reloaded!");
             alert.showAndWait();
 
-            updateUI();  // now uses the new player object
+            updateUI();  // refreshes GUI with new player state
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Reload Failed");
             alert.setContentText("Could not reload player state.");
