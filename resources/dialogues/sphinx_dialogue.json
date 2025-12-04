@@ -1,0 +1,96 @@
+{
+  "nodes": [
+    {
+      "id": "greeting",
+      "npcLine": "A colossal Sphinx blocks the vault entrance. Its eyes gleam. 'Only the wise may pass. Answer my riddles, or perish.'",
+      "options": [
+        { "playerLine": "Accept the challenge.", "nextNode": "riddle1" },
+        { "playerLine": "Refuse and leave.", "nextNode": "goodbye" }
+      ]
+    },
+
+    {
+      "id": "riddle1",
+      "npcLine": "Riddle the First: 'I speak without a mouth and hear without ears. I have no body, but I come alive with wind. What am I?'",
+      "options": [
+        { "playerLine": "An echo.", "nextNode": "riddle2" },
+        { "playerLine": "A shadow.", "nextNode": "fail1" },
+        { "playerLine": "A ghost.", "nextNode": "fail1" }
+      ]
+    },
+
+    {
+      "id": "fail1",
+      "npcLine": "The Sphinx snarls. 'Wrong. You have failed once. Two chances remain.'",
+      "options": [
+        { "playerLine": "Try again.", "nextNode": "riddle1" },
+        { "playerLine": "Flee.", "nextNode": "run" }
+      ]
+    },
+
+    {
+      "id": "riddle2",
+      "npcLine": "Riddle the Second: 'I am always hungry, I must always be fed. The finger I touch will soon turn red. What am I?'",
+      "options": [
+        { "playerLine": "Fire.", "nextNode": "riddle3" },
+        { "playerLine": "Time.", "nextNode": "fail2" },
+        { "playerLine": "Blood.", "nextNode": "fail2" }
+      ]
+    },
+
+    {
+      "id": "fail2",
+      "npcLine": "The Sphinx growls. 'Wrong again. Only one chance remains.'",
+      "options": [
+        { "playerLine": "Try again.", "nextNode": "riddle2" },
+        { "playerLine": "Flee.", "nextNode": "run" }
+      ]
+    },
+
+    {
+      "id": "riddle3",
+      "npcLine": "Riddle the Third: 'I am not alive, but I grow. I have no lungs, yet I need air. I have no mouth, yet water kills me. What am I?'",
+      "options": [
+        { "playerLine": "Fire.", "nextNode": "victory" },
+        { "playerLine": "A plant.", "nextNode": "fail3" },
+        { "playerLine": "A shadow.", "nextNode": "fail3" }
+      ]
+    },
+
+    {
+      "id": "fail3",
+      "npcLine": "The Sphinx roars. 'Three failures! Your ignorance is your doom!'",
+      "options": [
+        { "playerLine": "Leave.", "nextNode": "goodbye"}
+      ]
+    },
+
+    {
+      "id": "victory",
+      "npcLine": "The Sphinx bows its head. 'You have answered wisely. The scroll vaults are open to you.'",
+      "options": [
+        { "playerLine": "Enter the vaults.", "nextNode": "give_item" }
+      ]
+    },
+
+    {
+      "id": "give_item",
+      "npcLine": "The Sphinx gives you the vault key, and steps aside. 'Take what knowledge you dare. Few have passed this trial.'",
+      "options": [
+        { "playerLine": "Say goodbye.", "nextNode": "goodbye" }
+      ]
+    },
+
+    {
+      "id": "run",
+      "npcLine": "You flee from the Sphinx, its laughter echoing behind you. The vault remains sealed.",
+      "options": []
+    },
+
+    {
+      "id": "goodbye",
+      "npcLine": "The Sphinx watches silently as you depart. 'Return only if you seek wisdom.'",
+      "options": []
+    }
+  ]
+}

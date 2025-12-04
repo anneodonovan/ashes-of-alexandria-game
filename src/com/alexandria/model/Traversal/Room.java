@@ -49,23 +49,34 @@ public class Room implements Serializable {
         return npcs;
     }
 
-    //add code to prevent printing multiples of the same direction + to provide a list of the options for each direction
     public String getExitString() {
         StringBuilder sb = new StringBuilder();
         Set<Direction> added = new HashSet<>();
 
-        for (Exit exit : exits) { //iterate through list of exits and get direction names to display to player
-            Direction direction = exit.getDirectionFrom(this); //get direction based on current room
+        for (Exit exit : exits) { 
+            Direction direction = exit.getDirectionFrom(this); 
             if (direction != null && !added.contains(direction)) {    
-                sb.append(direction.name().toLowerCase()).append(" ");//make sure the exits described are based on the current room
+                sb.append(direction.name().toLowerCase()).append(" ");
                 added.add(direction); 
                 }
             }
         return sb.toString().trim();
     }
 
+    public String getNPCString() {
+        if (npcs.isEmpty()) {
+            return "None";
+        }
+        StringBuilder sb = new StringBuilder();
+        for (NPC npc : npcs) {
+            sb.append(npc.getName()).append(", ");
+        }
+        // remove trailing comma and space
+        return sb.substring(0, sb.length() - 2);
+    }
+
     public String getLongDescription() {
-        return "You are " + description + ".\nExits: " + getExitString();
+        return "You are " + description + "\nNPC: " + getNPCString() + ".\nExits: " + getExitString();
     }
 
     public static Room findRoom(String name) {

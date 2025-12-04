@@ -84,21 +84,23 @@ public class DialogueManager {
         switch (id) {
             case "fail1":
                 player.adjustHealth(-10); // or setHealth(getHealth() - 10)
-                output.append("You feel seared by the flame. (-10 HP)");
+                output.append("Incorrect (-10 HP)");
                 break;
             case "fail2":
                 player.adjustHealth(-15);
-                output.append("The flame lashes out at you. (-15 HP)");
+                output.append("Incorrect again (-15 HP)");
                 break;
             case "fail3":
                 player.adjustHealth(-20);
-                output.append("Your spirit is scorched. (-20 HP)");
+                output.append("Incorrect, yet again (-20 HP)");
                 break;
             case "attack":
                 player.adjustHealth(-30);
-                output.append("The Flamewatcher’s wrath burns you. (-30 HP)");
+                output.append(npc.getName() + "'s wrath rains upon you. (-30 HP)");
                 break;
             case "give_item":
+            case "give_item_scholar":
+            case "give_item_archive":
                 List<Item> items = npc.getItems();
                 if (items.isEmpty()) {
                     output.append(npc.getName() + " has no items to give.");

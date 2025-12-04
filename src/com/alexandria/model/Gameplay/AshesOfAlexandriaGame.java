@@ -245,31 +245,31 @@ public class AshesOfAlexandriaGame {
 
         //create npcs
         Assistants cook, apprentice, secret_keeper, cat;
-        cook = new Assistants("The Cook", 50, kitchen, true, new ArrayList<>(), "cook");
+        cook = new Assistants("Cook", 50, kitchen, true, new ArrayList<>(), "cook");
         cook.addItem(fish);
         kitchen.addNPC(cook);
 
-        apprentice = new Assistants("The Apprentice", 50, scribing_room, true, new ArrayList<>(), "apprentice");
+        apprentice = new Assistants("Apprentice", 50, scribing_room, true, new ArrayList<>(), "apprentice");
         apprentice.addItem(ink);
         scribing_room.addNPC(apprentice);
 
-        secret_keeper = new Assistants("The Secret Keeper", 50, hallway, true, new ArrayList<>(), "secret_keeper");
+        secret_keeper = new Assistants("Secret Keeper", 50, hallway, true, new ArrayList<>(), "secret_keeper");
         secret_keeper.addItem(shovel);
         hallway.addNPC(secret_keeper);
 
-        cat = new Assistants("The Library Cat", 25, residential_quarter, true, new ArrayList<>(), "cat");
+        cat = new Assistants("Library Cat", 25, residential_quarter, true, new ArrayList<>(), "cat");
         residential_quarter.addNPC(cat);
 
         Guardians sphinx, flamewatcher, librarian, hypatia;
-        sphinx = new Guardians("The Sphinx", 150, sphinx_room, true, new ArrayList<>(), "sphinx", 20);
+        sphinx = new Guardians("Sphinx", 150, sphinx_room, true, new ArrayList<>(), "sphinx", 20);
         sphinx.addItem(sphinxs_key);
         sphinx_room.addNPC(sphinx);
 
-        flamewatcher = new Guardians("The Flamewatcher", 150, reading_room, true, new ArrayList<>(), "flamewatcher", 20);
+        flamewatcher = new Guardians("Flamewatcher", 150, reading_room, true, new ArrayList<>(), "flamewatcher", 20);
         flamewatcher.addItem(everlasting_flame);
         reading_room.addNPC(flamewatcher);
 
-        librarian = new Guardians("The Librarian", 150, library, true, new ArrayList<>(), "librarian", 20);
+        librarian = new Guardians("Librarian", 150, library, true, new ArrayList<>(), "librarian", 20);
         library.addNPC(librarian);
 
         hypatia = new Guardians("Hypatia", 150, eratosthenes_chamber, true, new ArrayList<>(), "hypatia", 20);

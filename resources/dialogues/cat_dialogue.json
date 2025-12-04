@@ -1,0 +1,24 @@
+{
+  "nodes": [
+    {
+      "id": "greeting",
+      "npcLine": "A small cat stretches lazily on a pile of scrolls. It blinks at you slowly.",
+      "options": [
+        { "playerLine": "Pet the cat.", "nextNode": "pet" },
+        { "playerLine": "Leave the cat alone.", "nextNode": "goodbye" }
+      ]
+    },
+    {
+      "id": "pet",
+      "npcLine": "The cat purrs faintly, then curls back up. It doesn’t seem very interested.",
+      "options": [
+        { "playerLine": "Leave it be.", "nextNode": "goodbye" }
+      ]
+    },
+    {
+      "id": "goodbye",
+      "npcLine": "The cat flicks its tail and closes its eyes. Clearly, it has better things to do.",
+      "options": []
+    }
+  ]
+}

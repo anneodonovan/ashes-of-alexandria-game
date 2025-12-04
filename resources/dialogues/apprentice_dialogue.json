@@ -1,0 +1,72 @@
+{
+  "nodes": [
+    {
+      "id": "greeting",
+      "npcLine": "A young scholar looks up from his desk, ink‑stained fingers trembling. 'Oh… hello. I didn’t expect anyone to come.'",
+      "options": [
+        { "playerLine": "Ask who he is.", "nextNode": "introduction" },
+        { "playerLine": "Say goodbye.", "nextNode": "goodbye" }
+      ]
+    },
+    {
+      "id": "introduction",
+      "npcLine": "He sighs. 'I am but an apprentice, left behind when my master fled the chaos. I try to keep the scribing room in order, though it’s difficult alone.'",
+      "options": [
+        { "playerLine": "Ask about his master.", "nextNode": "master" },
+        { "playerLine": "Ask about the scribing room.", "nextNode": "scribing" },
+        { "playerLine": "Say goodbye.", "nextNode": "goodbye" }
+      ]
+    },
+    {
+      "id": "master",
+      "npcLine": "His eyes darken. 'My master was a great scribe, keeper of many secrets. When the library began to collapse, he told me to stay and guard the ink. He never returned.'",
+      "options": [
+        { "playerLine": "Ask about the ink.", "nextNode": "ink" },
+        { "playerLine": "Offer sympathy.", "nextNode": "comfort" }
+      ]
+    },
+    {
+      "id": "scribing",
+      "npcLine": "He gestures to the scattered scrolls. 'This room holds the drafts and copies of many works. It is not the grand archive, but here knowledge is made legible. Without ink, none of it survives.'",
+      "options": [
+        { "playerLine": "Ask about the ink.", "nextNode": "ink" },
+        { "playerLine": "Say goodbye.", "nextNode": "goodbye" }
+      ]
+    },
+    {
+      "id": "ink",
+      "npcLine": "He holds up a small vial. 'This ink is precious. My master said it was mixed with rare minerals. I cannot use it all myself… perhaps you should take it.'",
+      "options": [
+        { "playerLine": "Accept the ink.", "nextNode": "give_item" },
+        { "playerLine": "Refuse politely.", "nextNode": "goodbye" }
+      ]
+    },
+    {
+      "id": "give_item",
+      "npcLine": "He presses the vial into your hand. 'May it serve you better than it has served me.'",
+      "options": [
+        { "playerLine": "Thank him.", "nextNode": "hint" }
+      ]
+    },
+    {
+      "id": "hint",
+      "npcLine": "He leans closer. 'If you seek wisdom, remember: the guardians test not only strength, but intent. Words can be as sharp as blades.'",
+      "options": [
+        { "playerLine": "Nod thoughtfully.", "nextNode": "goodbye" }
+      ]
+    },
+    {
+      "id": "comfort",
+      "npcLine": "He smiles faintly. 'Thank you. It is hard to be left behind, but perhaps my master trusted me more than I realised.'",
+      "options": [
+        { "playerLine": "Ask about the ink.", "nextNode": "ink" },
+        { "playerLine": "Say goodbye.", "nextNode": "goodbye" }
+      ]
+    },
+    {
+      "id": "goodbye",
+      "npcLine": "The apprentice returns to his work, quill scratching faintly. 'Farewell, traveler. May your path be clearer than mine.'",
+      "options": []
+    }
+  ]
+}

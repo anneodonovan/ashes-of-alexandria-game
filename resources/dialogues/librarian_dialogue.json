@@ -1,0 +1,178 @@
+{
+  "nodes": [
+    {
+      "id": "greeting",
+      "npcLine": "A ghostly librarian drifts between towering shelves. 'Lost already? The maze is endless… unless you know the key.'",
+      "options": [
+        { "playerLine": "Ask about the maze.", "nextNode": "introduction" },
+        { "playerLine": "Say goodbye.", "nextNode": "goodbye" }
+      ]
+    },
+    {
+      "id": "introduction",
+      "npcLine": "The shelves are marked with letters A to Z. The clue whispers: 'Knowledge is the key.' Choose wisely, or wander forever.",
+      "options": [
+        { "playerLine": "Step toward shelf K.", "nextNode": "stepN" },
+        { "playerLine": "Step toward shelf A.", "nextNode": "failA" }
+      ]
+    },
+
+    {
+      "id": "failA",
+      "npcLine": "The librarian chuckles. 'A is for aimless. You circle back to the entrance.'",
+      "options": [
+        { "playerLine": "Try again.", "nextNode": "introduction" }
+      ]
+    },
+
+    {
+      "id": "stepN",
+      "npcLine": "You stand before shelf K. The librarian whispers: 'Perhaps N is next… or maybe M?'",
+      "options": [
+        { "playerLine": "Choose shelf N.", "nextNode": "stepO" },
+        { "playerLine": "Choose shelf M.", "nextNode": "failM" }
+      ]
+    },
+
+    {
+      "id": "failM",
+      "npcLine": "The shelves twist. A riddle blocks your path: 'What burns but is not consumed?' You falter and lose time.",
+      "options": [
+        { "playerLine": "Return to shelf K.", "nextNode": "stepN" }
+      ]
+    },
+
+    {
+      "id": "stepO",
+      "npcLine": "Shelf N leads deeper. The librarian sighs: 'O or P? Choose quickly.'",
+      "options": [
+        { "playerLine": "Choose shelf O.", "nextNode": "stepW" },
+        { "playerLine": "Choose shelf P.", "nextNode": "failP" }
+      ]
+    },
+
+    {
+      "id": "failP",
+      "npcLine": "A wall of books collapses, blocking your way. You must turn back.",
+      "options": [
+        { "playerLine": "Return to shelf N.", "nextNode": "stepO" }
+      ]
+    },
+
+    {
+      "id": "stepW",
+      "npcLine": "You reach shelf O. The librarian smirks: 'W or V? One leads forward, one leads astray.'",
+      "options": [
+        { "playerLine": "Choose shelf W.", "nextNode": "stepL" },
+        { "playerLine": "Choose shelf V.", "nextNode": "failV" }
+      ]
+    },
+
+    {
+      "id": "failV",
+      "npcLine": "The shelves loop endlessly. You wander until you stumble back to O.",
+      "options": [
+        { "playerLine": "Return to shelf O.", "nextNode": "stepW" }
+      ]
+    },
+
+    {
+      "id": "stepL",
+      "npcLine": "Shelf W glows faintly. The librarian mutters: 'L or R? Which wisdom do you seek?'",
+      "options": [
+        { "playerLine": "Choose shelf L.", "nextNode": "stepE" },
+        { "playerLine": "Choose shelf R.", "nextNode": "failR" }
+      ]
+    },
+
+    {
+      "id": "failR",
+      "npcLine": "A locked gate bars your way. The librarian laughs: 'Not all paths are open.'",
+      "options": [
+        { "playerLine": "Return to shelf W.", "nextNode": "stepL" }
+      ]
+    },
+
+    {
+      "id": "stepE",
+      "npcLine": "Shelf L hums with energy. The librarian warns: 'E or F? Choose carefully.'",
+      "options": [
+        { "playerLine": "Choose shelf E.", "nextNode": "stepD" },
+        { "playerLine": "Choose shelf F.", "nextNode": "failF" }
+      ]
+    },
+
+    {
+      "id": "failF",
+      "npcLine": "A false corridor leads you in circles. You return exhausted.",
+      "options": [
+        { "playerLine": "Return to shelf L.", "nextNode": "stepE" }
+      ]
+    },
+
+    {
+      "id": "stepD",
+      "npcLine": "Shelf E opens into a narrow hall. The librarian whispers: 'D or C? One step closer…'",
+      "options": [
+        { "playerLine": "Choose shelf D.", "nextNode": "stepG" },
+        { "playerLine": "Choose shelf C.", "nextNode": "failC" }
+      ]
+    },
+
+    {
+      "id": "failC",
+      "npcLine": "A dead end. Dust and silence. You retrace your steps.",
+      "options": [
+        { "playerLine": "Return to shelf E.", "nextNode": "stepD" }
+      ]
+    },
+
+    {
+      "id": "stepG",
+      "npcLine": "Shelf D leads onward. The librarian hisses: 'G or H? Which path do you trust?'",
+      "options": [
+        { "playerLine": "Choose shelf G.", "nextNode": "stepE2" },
+        { "playerLine": "Choose shelf H.", "nextNode": "failH" }
+      ]
+    },
+
+    {
+      "id": "failH",
+      "npcLine": "A spectral hand pushes you back. 'Not yet,' the librarian sneers.",
+      "options": [
+        { "playerLine": "Return to shelf D.", "nextNode": "stepG" }
+      ]
+    },
+
+    {
+      "id": "stepE2",
+      "npcLine": "Shelf G glows. The librarian whispers: 'E or Z? The end is near.'",
+      "options": [
+        { "playerLine": "Choose shelf E.", "nextNode": "give_item" },
+        { "playerLine": "Choose shelf Z.", "nextNode": "failZ" }
+      ]
+    },
+
+    {
+      "id": "failZ",
+      "npcLine": "You stumble into darkness. The maze resets, dragging you back to the start.",
+      "options": [
+        { "playerLine": "Return to the entrance.", "nextNode": "introduction" }
+      ]
+    },
+
+    {
+      "id": "give_item",
+      "npcLine": "The shelves align, spelling KNOWLEDGE. The maze dissolves. The librarian bows: 'You have found the key. The Serapeum Key is yours.'",
+      "options": [
+        { "playerLine": "Take the key.", "nextNode": "goodbye" }
+      ]
+    },
+
+    {
+      "id": "goodbye",
+      "npcLine": "The ghost fades, whispering: 'Remember, seeker: knowledge guides those who trust it.'",
+      "options": []
+    }
+  ]
+}
