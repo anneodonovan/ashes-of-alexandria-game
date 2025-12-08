@@ -7,14 +7,14 @@ import java.util.Map;
 public class DialogueTree {
     private Map<String, DialogueNode> nodeMap = new HashMap<>();
 
-    // Build the map from a list of nodes
+    // build the map from a list of nodes
     public DialogueTree(List<DialogueNode> nodes) {
         for (DialogueNode node : nodes) {
             nodeMap.put(node.getId(), node);
         }
     }
 
-    // Return the starting node
+    // return the starting node
     public DialogueNode getStartNode() {
         return nodeMap.get("greeting"); 
     }

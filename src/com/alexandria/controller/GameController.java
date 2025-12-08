@@ -30,7 +30,7 @@ import javafx.scene.layout.Pane;
 
 public class GameController {
     //handles input from the view and updates the model accordingly
-    //listens to swing events from GamePanel and updates the AshesOfAlexandriaGame instance
+    //listens to events from GamePanel and updates the AshesOfAlexandriaGame instance
 
     private LeftGamePanel leftPanel;
     private CenterGamePanel centerPanel;
@@ -63,20 +63,20 @@ public class GameController {
 
     private void initializeListeners() {
         // Add action listeners to buttons in leftPanel
-        leftPanel.getSaveButton().setOnAction(e -> saveGame());
+        leftPanel.getSaveButton().setOnAction(e -> saveGame()); // e = event
         leftPanel.getReloadButton().setOnAction(e -> reloadGame());
         leftPanel.getHelpButton().setOnAction(e -> help());
         leftPanel.getQuitButton().setOnAction(e -> endGame());
 
         centerPanel.getInputField().setOnKeyPressed(e -> {
             switch (e.getCode()) {
-                case ENTER -> {
+                case ENTER -> { // -> = lambda operator
                 String inputText = centerPanel.getInputField().getText().trim();
                 if (!inputText.isEmpty()) {
                     runCommand(inputText); // pass the STRING, not a Command
                 }
                 centerPanel.getInputField().clear();
-                e.consume(); // prevent adding a new line
+                e.consume(); // prevent adding a new line - consume marks e as handled so listeners can ignore it
                 }
             }
         });
@@ -123,9 +123,7 @@ public class GameController {
     private void updateUI() {
         rightPanel.getScoreLabel().setText(String.valueOf(player.getScore()));
         rightPanel.getHealthBar().setProgress(player.getHealthPercent());
-        rightPanel.getInventoryList().getItems().setAll(
-            player.getInventoryItems().stream().map(Item::getName).collect(Collectors.toList()) //look at this line
-        );
+        rightPanel.getInventoryList().getItems().setAll(player.getInventoryItems().stream().map(Item::getName).collect(Collectors.toList()));
     }
 
     public static String askPlayerName() {
@@ -151,16 +149,11 @@ public class GameController {
         List<Exit> exits = current.getExits().stream().filter(e -> e.getDirectionFrom(current) == direction).toList();
 
         if (exits.size() <= 1) return;
-
         List<String> labels = exits.stream().map(Exit::getLabel).toList();
 
         Optional<String> result = centerPanel.showExitChoiceDialog(dirWord, labels);
         result.ifPresent(label -> {
-            Exit chosen = exits.stream()
-            .filter(e -> e.getLabel().equalsIgnoreCase(label))
-            .findFirst()
-            .orElse(null);
-
+            Exit chosen = exits.stream().filter(e -> e.getLabel().equalsIgnoreCase(label)).findFirst().orElse(null);
             if (chosen != null) {
                 String text = gameModel.moveThroughExit(chosen); // or inline the “one exit” logic
                 centerPanel.getOutputArea().appendText(text);
@@ -193,7 +186,7 @@ public class GameController {
     private void saveGame() {
         try {
             player.savePlayerState();
-            runCommand("save"); // executes the case "save" block
+            runCommand("save"); // just for output text
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Game Saved!");
@@ -214,7 +207,7 @@ public class GameController {
             this.player = loaded;
             gameModel.setPlayer(loaded);
 
-            runCommand("reload"); 
+            runCommand("reload"); //just for output text
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Game Reloaded!");
             alert.showAndWait();

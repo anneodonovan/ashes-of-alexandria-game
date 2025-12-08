@@ -14,7 +14,6 @@ public class Assistants extends AbstractNPC implements NPC {
     }
 
     public static List<NPC> getNPCs(Room room) {
-    // This should pull from room.getAssistants() if Room has it!
         return room.getNPCs(); 
     }
 

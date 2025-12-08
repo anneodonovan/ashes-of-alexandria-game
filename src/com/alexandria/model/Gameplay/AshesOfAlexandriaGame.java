@@ -1,18 +1,5 @@
-/* This game is a classic text-based adventure set in a university environment.
-   The player starts outside the main entrance and can navigate through different rooms like a 
-   lecture theatre, campus pub, computing lab, and admin office using simple text commands (e.g., "go east", "go west").
-    The game provides descriptions of each location and lists possible exits.
-
-Key features include:
-Room navigation: Moving among interconnected rooms with named exits.
-Simple command parser: Recognizes a limited set of commands like "go", "help", and "quit".
-Player character: Tracks current location and handles moving between rooms.
-Text descriptions: Provides immersive text output describing the player's surroundings and available options.
-Help system: Lists valid commands to guide the player.
-Overall, it recreates the classic Zork interactive fiction experience with a university-themed setting, 
-emphasizing exploration and simple command-driven gameplay
-*/
 package com.alexandria.model.Gameplay;
+
 import com.alexandria.model.Inventory.Item;
 import com.alexandria.model.Inventory.Lightsource;
 import com.alexandria.model.Inventory.Scroll;
@@ -409,7 +396,7 @@ public class AshesOfAlexandriaGame {
                 output.append("- ").append(exit.getLabel()).append("\n");
             }
             output.append("[CHOOSE_EXIT]\n");
-            // Let the controller decide how to resolve this
+            // controller decides how to resolve this
             return output.toString();
         }
 
@@ -618,7 +605,7 @@ public class AshesOfAlexandriaGame {
                 if (!hasKey) {
                     output.append("You don't have the required key to unlock the " + door.getLabel() + ".\n");
                 }
-                break; // exit the loop after finding the door
+                break; 
             }         
         }
         if (!foundDoor) {
@@ -671,7 +658,7 @@ public class AshesOfAlexandriaGame {
                         return "Attack what? You must specify a target.\n";
                     }
                     String targetName = command.getThirdWord();
-                    Object target = talkToNPC(targetName);
+                    Object target = talkToNPC(targetName); //checks for NPC object (doesn't acc talk to npc)
                     if (target == null) {
                         return "There is no " + targetName + " here to attack.\n";
                     }
@@ -712,32 +699,12 @@ public class AshesOfAlexandriaGame {
             return null;
         }
 
-        // search npcs for matching name
         for (NPC npc : npcs) {
             if (npc.getName().toLowerCase().contains(npcName)) {
             return npc; // return the NPC object for further interaction if needed
             }
         }
-
         // If not found
         return null;
     }
-
-    //main method has been moved to GameFrame but I'll leave this here for reference
-    /* 
-    public static void main(String[] args) {
-        AshesOfAlexandriaGame game = new AshesOfAlexandriaGame();
-        game.play();
-        
-        if (player.getHealth() <= 0) {
-            System.out.println("You have perished in the library. Game over.");
-            return true;
-        } else if (player.hasItem("scroll of Eratosthenes")) {
-            System.out.println("Congratulations! You have secured the master scroll and escaped the burning library!");
-            return true;
-        } else {
-            System.out.println("The library burns around you, but you failed to secure the master scroll. Game over.");
-            return true;
-        }
-    }*/
 }

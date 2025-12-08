@@ -68,7 +68,6 @@ public class Parser {
     }
 
     public String getInput() {
-        System.out.print("> ");
         String inputLine = reader.nextLine();
         return inputLine;
     }

@@ -11,8 +11,8 @@ import com.google.gson.reflect.TypeToken;
 
 public class DialogueLoader {
     /**
-     * Loads a dialogue JSON file from the classpath and returns a DialogueTree.
-     * @param fileName The base name of the JSON file (e.g. "cook" or "guardian_library")
+     * Loads a dialogue JSON file from the classpath and returns a DialogueTree
+     * @param fileName The base name of the JSON file 
      * @return DialogueTree object, or null if something went wrong
      */
     public static DialogueTree loadDialogue(String fileName) {

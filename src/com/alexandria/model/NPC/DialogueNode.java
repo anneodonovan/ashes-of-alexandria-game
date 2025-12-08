@@ -7,7 +7,7 @@ public class DialogueNode {
     private String npcLine;
     private List<DialogueOption> options;
 
-    // Required no-args constructor for Gson
+    // required no-args constructor for Gson
     public DialogueNode() {}
 
     public String getId() {
