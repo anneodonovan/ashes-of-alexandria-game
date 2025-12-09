@@ -8,10 +8,6 @@ import com.alexandria.model.Inventory.Item;
 import java.util.List;
 
 public class DialogueManager {
-    /**
-     * Starts a conversation using the provided DialogueTree
-     * @param tree The DialogueTree loaded from JSON
-     */
 
     // start a dialogue: return the first node and print its text
     public DialogueNode startDialogue(DialogueTree tree, Player player, NPC npc, StringBuilder out) {
