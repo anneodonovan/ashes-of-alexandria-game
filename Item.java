@@ -56,6 +56,10 @@ public class Item {
         isVisible = visible;
     }
     
+    public static void clearAll() {
+        allItems.clear();
+    }
+
     public static List<Item> getItems(String location) {
         List<Item> found = new ArrayList<>(); //new array list for items that have been found
     	for (Item item : allItems) {

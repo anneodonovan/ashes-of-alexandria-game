@@ -149,7 +149,9 @@ public class ZorkULGame {
     
     public void createItems() {
     	Item chair, desk, couch, muffin;
-    	
+
+    	Item.clearAll(); //avoid duplicate items if a game is ever re-created in the same run
+
     	//create items
     	chair = new Item("chair", "a soft chair");
     	desk = new Item("desk", "a wooden desk");
