@@ -113,6 +113,9 @@ public class ZorkULGame {
             case "show":
             	showInventory();
             	break;
+            case "eat":
+            	eatItem(command);
+            	break;
             default:
                 System.out.println("I don't know what you mean...");
                 break;
@@ -202,6 +205,23 @@ public class ZorkULGame {
 
     }
     
+    private void eatItem(Command command) {
+    	if (!command.hasSecondWord()) {
+            System.out.println("Eat what?");
+            return;
+        }
+
+    	String itemName = command.getSecondWord();
+    	for (Item item : player.getInventory()) {
+    		if (item.getName().equalsIgnoreCase(itemName)) {
+    			player.removeItem(item);
+    			System.out.println("You ate the " + item.getName() + ". Delicious!");
+    			return;
+    		}
+    	}
+    	System.out.println("You don't have a " + itemName + " to eat.");
+    }
+
     private void showInventory() {
     	List<Item> items = player.getInventory();
         if (items.isEmpty()) {
