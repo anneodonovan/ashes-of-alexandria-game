@@ -1,0 +1,94 @@
+{
+  "nodes": [
+    {
+      "id": "greeting",
+      "npcLine": "A spectral figure materialises in the collapsing wing. 'I am Hypatia, guardian of wisdom. Tell me, seeker: is knowledge more sacred in the mind or on the page?'",
+      "options": [
+        { "playerLine": "Ask about the trial.", "nextNode": "introduction" },
+        { "playerLine": "Say goodbye.", "nextNode": "goodbye" }
+      ]
+    },
+    {
+      "id": "introduction",
+      "npcLine": "The walls tremble. A young scholar lies trapped beneath debris, injured but alive. Nearby, rare manuscripts smoulder, moments from destruction. You can save only one. But before you choose, you must answer my questions.",
+      "options": [
+        { "playerLine": "Agree to face the trial.", "nextNode": "question1" },
+        { "playerLine": "Refuse and walk away.", "nextNode": "goodbye" }
+      ]
+    },
+    {
+      "id": "question1",
+      "npcLine": "'Can one life outweigh the wisdom of generations?'",
+      "options": [
+        { "playerLine": "A single life can surpass centuries.", "nextNode": "question2a" },
+        { "playerLine": "Generations of wisdom outweigh one life.", "nextNode": "question2b" }
+      ]
+    },
+    {
+      "id": "question2a",
+      "npcLine": "Hypatia nods. 'Then you value potential over preservation. But what if the scholar fails, and the wisdom is lost forever?'",
+      "options": [
+        { "playerLine": "Risk is part of progress.", "nextNode": "question3" },
+        { "playerLine": "Perhaps preservation is safer.", "nextNode": "question2b" }
+      ]
+    },
+    {
+      "id": "question2b",
+      "npcLine": "Hypatia frowns. 'Then you value preservation over potential. But what if the texts are meaningless without a mind to interpret them?'",
+      "options": [
+        { "playerLine": "Knowledge must be preserved regardless.", "nextNode": "question3" },
+        { "playerLine": "Interpretation gives knowledge life.", "nextNode": "question2a" }
+      ]
+    },
+    {
+      "id": "question3",
+      "npcLine": "'What kind of legacy do you wish to protect: the fragile spark of a living mind, or the enduring flame of written wisdom?'",
+      "options": [
+        { "playerLine": "Protect the scholar.", "nextNode": "save_scholar" },
+        { "playerLine": "Protect the archive.", "nextNode": "save_archive" },
+        { "playerLine": "Hesitate and ask Hypatia for guidance.", "nextNode": "guidance" }
+      ]
+    },
+    {
+      "id": "guidance",
+      "npcLine": "Hypatia’s eyes glow. 'There is no right answer. Every choice is a sacrifice. But indecision is the greatest failure.'",
+      "options": [
+        { "playerLine": "Choose the scholar.", "nextNode": "save_scholar" },
+        { "playerLine": "Choose the archive.", "nextNode": "save_archive" }
+      ]
+    },
+    {
+      "id": "save_scholar",
+      "npcLine": "You lift the debris, freeing the scholar. The manuscripts burn to ash, but a living mind survives. Hypatia whispers: 'You have chosen life. Perhaps this mind will one day rekindle the wisdom lost.'",
+      "options": [
+        { "playerLine": "Accept the Serapeum Key.", "nextNode": "give_item_scholar" }
+      ]
+    },
+    {
+      "id": "save_archive",
+      "npcLine": "You rescue the manuscripts from the fire. The scholar cries out, then falls silent. Hypatia intones: 'You have chosen knowledge. The wisdom of centuries endures, though the voice that might have carried it forward is gone.'",
+      "options": [
+        { "playerLine": "Accept the Serapeum Key.", "nextNode": "give_item_archive" }
+      ]
+    },
+    {
+      "id": "give_item_scholar",
+      "npcLine": "Hypatia hands you the Serapeum Key. 'May your compassion guide you. The scholar may yet aid you in your journey.'",
+      "options": [
+        { "playerLine": "Say goodbye.", "nextNode": "goodbye" }
+      ]
+    },
+    {
+      "id": "give_item_archive",
+      "npcLine": "Hypatia hands you the Serapeum Key. 'May your devotion to knowledge strengthen you. The manuscripts may reveal secrets others cannot.'",
+      "options": [
+        { "playerLine": "Say goodbye.", "nextNode": "goodbye" }
+      ]
+    },
+    {
+      "id": "goodbye",
+      "npcLine": "Hypatia fades into the ether. 'Farewell, seeker of truth. Your choice will echo through history.'",
+      "options": []
+    }
+  ]
+}
