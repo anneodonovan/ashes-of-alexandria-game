@@ -325,6 +325,9 @@ public class AshesOfAlexandriaGame {
             case "drop":
             	out.append(dropItem(command));
             	break;
+            case "eat":
+            	out.append(eatItem(command));
+            	break;
             case "save":
                 out.append("Game saved successfully!\n");
                 return out.toString();
@@ -532,6 +535,30 @@ public class AshesOfAlexandriaGame {
         return output.toString();
     }
     
+    public String eatItem(Command command) {
+        StringBuilder output = new StringBuilder();
+
+        if (!command.hasSecondWord()) {
+            output.append("Eat what?\n");
+            return output.toString();
+        }
+
+        String itemName = command.getSecondWord();
+        List<Item> inventory = player.getInventory();
+
+        Iterator<Item> iterator = inventory.iterator();
+        while (iterator.hasNext()) {
+            Item item = iterator.next();
+            if (item.getName().contains(itemName)) {
+                iterator.remove();
+                output.append("You ate the " + item.getName() + ". Delicious!\n");
+                return output.toString();
+            }
+        }
+        output.append("You don't have a " + itemName + " to eat.\n");
+        return output.toString();
+    }
+
     public void showInventory() {
     	List<Item> items = player.getInventory();
         if (items.isEmpty()) {
