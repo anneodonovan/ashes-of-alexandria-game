@@ -32,6 +32,8 @@ public class AshesOfAlexandriaGame {
     }
 
     public void createGameObjects() {
+        Item.clearAll(); //avoid duplicate items if a game is ever re-created in the same run
+
         Room main_hall, scribing_room, reading_room, lecture_hall, residential_quarter, muse_garden, dining_hall, social_hall, kitchen, courtyard, library, scroll_vault, serapeum, eratosthenes_chamber, sphinx_room, hallway, tower;
 
         // create rooms

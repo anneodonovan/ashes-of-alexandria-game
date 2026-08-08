@@ -61,6 +61,10 @@ public class Item implements Serializable {
         isVisible = visible;
     }
     
+    public static void clearAll() {
+        allItems.clear();
+    }
+
     public static List<Item> getItems(Room location) {
         List<Item> found = new ArrayList<>(); //new array list for items that have been found
     	for (Item item : allItems) {
