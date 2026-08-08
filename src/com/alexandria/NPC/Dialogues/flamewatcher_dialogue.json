@@ -1,0 +1,110 @@
+{
+  "nodes": [
+    {
+      "id": "greeting",
+      "npcLine": "Hello, scholar. What would you like to know?",
+      "options": [
+        { "playerLine": "Ask who he is", "nextNode": "introduction" },
+        { "playerLine": "Say goodbye", "nextNode": "goodbye" }
+      ]
+    },
+    {
+      "id": "introduction",
+      "npcLine": "I am the flamewatcher - I guard the everlasting flame that burns in the heart of the library.",
+      "options": [
+        { "playerLine": "Ask about the flame", "nextNode": "flame" },
+        { "playerLine": "Say goodbye", "nextNode": "goodbye" }
+      ]
+    },
+    {
+      "id": "flame",
+      "npcLine": "The flame is very important. It represents the eternal knowledge that the library protects. As long as the flame burns, the knowledge will never be lost. But what of you? Why are you interested in the flame?",
+      "options": [
+        { "playerLine": "Ask to borrow it.", "nextNode": "puzzle" },
+        { "playerLine": "Demand he give it to you.", "nextNode": "attack" }
+      ]
+    },
+    {
+      "id": "puzzle",
+      "npcLine": "Hmm... Well, to earn the Everlasting Flame, you must perform the three steps of the Rite of Flame: name the flame, offer it breath, and give it purpose. But beware: for each incorrect step, you will take points of damage, and may perish. Do you accept the challenge?",
+      "options": [
+        { "playerLine": "Accept, and begin the ritual.", "nextNode": "step1" },
+        { "playerLine": "Refuse, and threaten the Flamewatcher.", "nextNode": "attack" }
+
+      ]
+    },
+    {
+      "id": "step1",
+      "npcLine": "First, you must name the flame. What will you call it?",
+      "options": [
+        { "playerLine": "火焰", "nextNode": "step2" },
+        { "playerLine": "水滴", "nextNode": "fail1" }
+      ]
+    },
+    {
+      "id": "fail1",
+      "npcLine": "You have named the wrong power; the flame recoils...",
+      "options": [
+        { "playerLine": "Try again.", "nextNode": "step1" },
+        { "playerLine": "Give up.", "nextNode": "goodbye" }
+      ]
+    },
+    {
+      "id": "step2",
+      "npcLine": "Well done. Now, offer what sustains the flame. Do you give it breath or blood?",
+      "options": [
+        { "playerLine": "Breath.", "nextNode": "step3" },
+        { "playerLine": "Blood.", "nextNode": "fail2" }
+      ]
+    },
+    {
+      "id": "fail2",
+      "npcLine": "The flame rejects your sacrifice; it demands something gentler...",
+      "options": [
+        { "playerLine": "Try again.", "nextNode": "step2" },
+        { "playerLine": "Give up.", "nextNode": "goodbye" }
+      ]
+    },
+    {
+      "id": "step3",
+      "npcLine": "Last, give the flame its purpose. Do you pledge it to preservation or to creation?",
+      "options": [
+        { "playerLine": "Creation.", "nextNode": "give_item" },
+        { "playerLine": "Preservation.", "nextNode": "fail3" }
+      ]
+    },
+    {
+      "id": "fail3",
+      "npcLine": "You have chosen ruin; the Everlasting Flame dims before you...",
+      "options": [
+        { "playerLine": "Try again.", "nextNode": "step3" },
+        { "playerLine": "Give up.", "nextNode": "goodbye" }
+      ]
+    },
+    {
+      "id": "give_item",
+      "npcLine": "You have spoken truly. The Everlasting Flame is yours. Well done, scholar.",
+      "options": [
+        { "playerLine": "Take the flame.", "nextNode": "goodbye" }
+      ]
+    },
+    {
+      "id": "attack",
+      "npcLine": "How dare you threaten me! The flame engulfs you in searing heat...",
+      "options": [
+        { "playerLine": "Apologise.", "nextNode": "puzzle" },
+        { "playerLine": "Run.", "nextNode": "run" }
+      ]
+    },
+    {
+      "id": "run",
+      "npcLine": "You're a coward - the flame shall never be yours! (You flee, empty-handed.)",
+      "options": []
+    },
+    {
+      "id": "goodbye",
+      "npcLine": "Well, farewell, and good luck on your quest!",
+      "options": []
+    }
+  ]
+}

@@ -14,6 +14,10 @@ emphasizing exploration and simple command-driven gameplay
 */
 package com.alexandria.Gameplay;
 import com.alexandria.Inventory.Item;
+import com.alexandria.Inventory.Lightsource;
+import com.alexandria.Inventory.Scroll;
+import com.alexandria.Inventory.Key;
+//import com.alexandria.Inventory.Spell;
 import com.alexandria.Player.Player;
 import com.alexandria.Traversal.Direction;
 import com.alexandria.Traversal.Exit;
@@ -21,23 +25,25 @@ import com.alexandria.Traversal.Room;
 import com.alexandria.Traversal.Door;
 import com.alexandria.Commands.Command;
 import com.alexandria.Commands.Parser;
-//import com.alexandria.NPC.NPC;
+import com.alexandria.NPC.Assistants;
+import com.alexandria.NPC.Guardians;
+import com.alexandria.NPC.NPC;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Scanner;
 
 public class AshesOfAlexandriaGame {
     private final Parser parser;
     private Player player;
 
     public AshesOfAlexandriaGame() {
-        createRooms();
-        createItems();
+        createGameObjects();
         parser = new Parser();
     }
 
-    private void createRooms() {
+    private void createGameObjects() {
         Room main_hall, scribing_room, reading_room, lecture_hall, residential_quarter, muse_garden, dining_hall, social_hall, kitchen, courtyard, library, scroll_vault, serapeum, eratosthenes_chamber, sphinx_room, hallway, tower;
 
         // create rooms
@@ -64,50 +70,50 @@ public class AshesOfAlexandriaGame {
         
         // main hall exits
         inquiry_arch = new Exit(main_hall, lecture_hall, Direction.SOUTH, Direction.NORTH, "inquiry arch", true);
-        whispering_door = new Door(main_hall, library, Direction.WEST, Direction.EAST, "whispering door", true, null, false, true);
+        whispering_door = new Door(main_hall, library, Direction.WEST, Direction.EAST, "whispering door", true, "master key", true, false);
         marble_threshold = new Exit(main_hall, social_hall, Direction.NORTH, Direction.SOUTH, "marble threshold", true);
 
         // lecture hall exits
-        scholars_door = new Door(lecture_hall, library, Direction.WEST, Direction.EAST, "scholars' door", true, null,false, true);
+        scholars_door = new Door(lecture_hall, library, Direction.WEST, Direction.EAST, "scholars' door", true, "master key",true, false);
         
         // library exits
         ink_stained_arch = new Exit(library, scribing_room, Direction.WEST, Direction.EAST, "ink-stained arch", true);
         echoing_hall = new Exit(library, reading_room, Direction.WEST, Direction.EAST, "echoing hall", true);
-        bronze_gateway = new Door(library, tower, Direction.SOUTH, Direction.NORTH, "bronze gateway", true, "towerkey", true, false);
-        oak_door = new Door(library, hallway, Direction.NORTH, Direction.SOUTH, "oak door", true, null, false, true);
+        bronze_gateway = new Door(library, tower, Direction.SOUTH, Direction.NORTH, "bronze gateway", true, "tower key", true, false);
+        oak_door = new Door(library, hallway, Direction.NORTH, Direction.SOUTH, "oak door", true, "master key", true, false);
 
         // social hall exits
-        heavy_wooden_door = new Door(social_hall, dining_hall, Direction.NORTH, Direction.SOUTH, "heavy wooden door", true, null, false, true);
-        half_door = new Door(social_hall, kitchen, Direction.NORTH, Direction.SOUTH, "half door", true, null, false, true);
-        courtyard_door = new Door(social_hall, courtyard, Direction.WEST, Direction.EAST, "courtyard door", true, null, false, true);
+        heavy_wooden_door = new Door(social_hall, dining_hall, Direction.NORTH, Direction.SOUTH, "heavy wooden door", true, "master key", true, false);
+        half_door = new Door(social_hall, kitchen, Direction.NORTH, Direction.SOUTH, "half door", true, "kitchen key", true, false);
+        courtyard_door = new Door(social_hall, courtyard, Direction.WEST, Direction.EAST, "courtyard door", true, "master key", true, false);
         stone_arch = new Exit(social_hall, hallway, Direction.WEST, Direction.EAST, "stone arch", true);
 
         // kitchen exits
-        pantry_door = new Door(kitchen, dining_hall, Direction.WEST, Direction.EAST, "pantry door", true, null, false, true);
-        garden_door = new Door(kitchen, courtyard, Direction.WEST, Direction.EAST, "garden door", true, null, false, true);
+        pantry_door = new Door(kitchen, dining_hall, Direction.WEST, Direction.EAST, "pantry door", true, "kitchen key", true, false);
+        garden_door = new Door(kitchen, courtyard, Direction.WEST, Direction.EAST, "garden door", true, "kitchen key", true, false);
         
         // tower exits
-        gilded_door = new Door(tower, serapeum, Direction.SOUTH, Direction.NORTH, "gilded door", true, null, false, true);
+        gilded_door = new Door(tower, serapeum, Direction.SOUTH, Direction.NORTH, "gilded door", true, "master key", true, false);
 
         // serapeum exits
-        secret_door = new Door(serapeum, eratosthenes_chamber, Direction.EAST, Direction.WEST, "secret door", false, "eratostheneskey", true, false);
+        secret_door = new Door(serapeum, eratosthenes_chamber, Direction.EAST, Direction.WEST, "secret door", false, "eratosthenes key", true, false);
 
         //courtyard/garden exits
-        vine_covered_gate = new Door(courtyard, muse_garden, Direction.NORTH, Direction.SOUTH, "vine-covered gate", true, "gardenkey", true, false);
+        vine_covered_gate = new Door(courtyard, muse_garden, Direction.NORTH, Direction.SOUTH, "vine-covered gate", true, "garden key", true, false);
         winning_portal = new Exit(muse_garden, eratosthenes_chamber, Direction.NORTH, Direction.SOUTH, "winning portal", false);
-        steel_door = new Door(courtyard, residential_quarter, Direction.WEST, Direction.EAST, "steel door", true, null, false, true);
+        steel_door = new Door(courtyard, residential_quarter, Direction.WEST, Direction.EAST, "steel door", true, "master key", true, false);
 
         //hallway exits
         wreathed_arch = new Exit(hallway, courtyard, Direction.NORTH, Direction.SOUTH, "wreathed arch", true);
-        iron_door = new Door(hallway, residential_quarter, Direction.NORTH, Direction.SOUTH, "iron door", true, null, false, true);
+        iron_door = new Door(hallway, residential_quarter, Direction.NORTH, Direction.SOUTH, "iron door", true, "master key", true, false);
         marble_entrance = new Exit(hallway, scribing_room, Direction.SOUTH, Direction.NORTH, "marble entrance", true);
         
         //scribing room exits
-        stairway_door = new Door(scribing_room, sphinx_room, Direction.NORTH, Direction.SOUTH, "stairway door", true, null, false, true);
+        stairway_door = new Door(scribing_room, sphinx_room, Direction.NORTH, Direction.SOUTH, "stairway door", true, "master key", true, false);
         reading_passage = new Exit(scribing_room, reading_room, Direction.EAST, Direction.WEST, "reading passage", true);
 
         //sphinx room exits
-        vault_door = new Door(sphinx_room, scroll_vault, Direction.NORTH, Direction.SOUTH, "vault door", true, "sphinxkey", true, false);
+        vault_door = new Door(sphinx_room, scroll_vault, Direction.NORTH, Direction.SOUTH, "vault door", true, "sphinx's key", true, false);
 
         //add exits to rooms
         main_hall.addExit(inquiry_arch); //to lecture hall
@@ -160,13 +166,120 @@ public class AshesOfAlexandriaGame {
         sphinx_room.addExit(vault_door); //to scroll vault
         sphinx_room.addExit(stairway_door); //to scribing room
         scroll_vault.addExit(vault_door); //to sphinx room
+    	
+    	//create items: lightsources
+        Lightsource lamp1, lamp2, everlasting_flame;
+    	lamp1 = new Lightsource("oil lamp", "an oil lamp, still filled with oil - but only enough to last 10 minutes.", 1, true, false, false);
+        lamp2 = new Lightsource("bronze lamp", "an oil lamp, still filled with oil - but only enough to last 10 minutes.", 2, true, false, false);
+        everlasting_flame = new Lightsource("everlasting flame", "a strange piece of wood that burns blue at the tip, it never goes out and cannot burn - the everlasting flame!", 5, false, true, true);
+        lamp1.setLocation(main_hall);
+        lamp2.setLocation(hallway);
+        everlasting_flame.setLocation(reading_room);
+
+        //scrolls
+        Scroll rosetta_stone, scroll_of_eratosthenes, blank_scroll;
+        rosetta_stone = new Scroll("rosetta stone", "the Rosetta Stone - a granodiorite stele inscribed with a decree issued in Memphis, Egypt in 196 BC.",3, true, "The Rosetta Stone is a granodiorite stele inscribed with a decree issued in Memphis, Egypt in 196 BC on behalf of King Ptolemy V. The decree appears in three scripts: the upper text is Ancient Egyptian hieroglyphs, the middle portion Demotic script, and the lowest Ancient Greek. Because it presents essentially the same text in all three scripts, it provided the key to the modern understanding of Egyptian hieroglyphs.");
+        scroll_of_eratosthenes = new Scroll("scroll of Eratosthenes", "the scroll of Eratosthenes - a scroll containing the works of Eratosthenes, including his method for calculating the Earth's circumference.", 4, true, "Eratosthenes of Cyrene was a Greek mathematician, geographer, poet, astronomer, and musician");
+        blank_scroll = new Scroll("blank scroll", "a blank scroll made of papyrus.", 9, true, "This is a blank scroll made of papyrus, ready to be written on.");
+        rosetta_stone.setLocation(scroll_vault);
+        scroll_of_eratosthenes.setLocation(eratosthenes_chamber);
+        blank_scroll.setLocation(scroll_vault);
+
+        //keys
+        Key master_key, tower_key, kitchen_key, garden_key, sphinxs_key, eratosthenes_key;
+        master_key = new Key("master key", "a large iron key that looks like it could open many doors; the master key.", 7, true);
+        tower_key = new Key("tower key", "a small iron key with a tower engraved on the bow; the tower key.", 8, true);
+        kitchen_key = new Key("kitchen key", "a small iron key with a cooking pot engraved on the bow; the kitchen key.", 9, true);
+        garden_key = new Key("garden key", "a small iron key with a flower engraved on the bow; the garden key.", 10, true);
+        sphinxs_key = new Key("sphinx's key", "a small golden key with a sphinx engraved on the bow; the sphinx's key.", 11, true);
+        eratosthenes_key = new Key("eratosthenes' key", "a small golden key with a star engraved on the bow; Eratosthenes' key.", 12, true);
+        master_key.setLocation(lecture_hall);
+        master_key.addUnlockableExit(whispering_door);
+        master_key.addUnlockableExit(scholars_door);
+        master_key.addUnlockableExit(oak_door);
+        master_key.addUnlockableExit(courtyard_door);
+        master_key.addUnlockableExit(heavy_wooden_door);
+        master_key.addUnlockableExit(gilded_door);
+        master_key.addUnlockableExit(steel_door);
+        master_key.addUnlockableExit(iron_door);
+        master_key.addUnlockableExit(stairway_door);
+        tower_key.setLocation(residential_quarter);
+        tower_key.addUnlockableExit(bronze_gateway);
+        kitchen_key.setLocation(social_hall);
+        kitchen_key.addUnlockableExit(pantry_door);
+        kitchen_key.addUnlockableExit(garden_door);
+        kitchen_key.addUnlockableExit(half_door);
+        garden_key.setLocation(courtyard);
+        garden_key.addUnlockableExit(vine_covered_gate);
+        sphinxs_key.setLocation(sphinx_room);
+        sphinxs_key.addUnlockableExit(vault_door);
+        eratosthenes_key.setLocation(serapeum);
+        eratosthenes_key.addUnlockableExit(secret_door);
+        
+        //items
+        Item fish, ink, shovel;
+        fish = new Item("fish", "a small, charred fish - food for the library cats.", 7, true);
+        ink = new Item("ink", "a small vial of black ink, still usable.", 8, true);
+        shovel = new Item("shovel", "a sturdy shovel, useful for digging.", 10, true);
+        fish.setLocation(kitchen);
+        ink.setLocation(scribing_room);
+        shovel.setLocation(kitchen);
+        
+        //spells
+        /*Spell<E> light_spell, attack_spell, stun_spell, unlock_spell, teleport_spell, map_spell;
+        light_spell = new Spell<>("light spell", "a spell that creates a small orb of light to illuminate dark areas.", 11, true, "This spell conjures a small orb of light that hovers around the caster for 2 minutes, illuminating dark areas.");
+        attack_spell = new Spell<>("attack spell", "a spell that conjures a burst of energy to strike an enemy.", 12, true, "This spell conjures a burst of energy that can be directed at an enemy, causing damage upon impact and damaging health points.");
+        stun_spell = new Spell<>("stun spell", "a spell that temporarily incapacitates an enemy.", 13, true, "This spell emits a wave of energy that temporarily stuns an enemy, rendering them immobile for a short duration.");
+        unlock_spell = new Spell<>("unlock spell", "a spell that unlocks doors and chests.", 14, true, "This spell magically unlocks doors and chests, allowing access without the need for a physical key.");
+        teleport_spell = new Spell<>("teleport spell", "a spell that teleports the caster to a known location.", 15, true, "This spell allows the caster to instantly teleport to a previously visited location.");
+        map_spell = new Spell<>("map spell", "a spell that reveals a map of the surrounding area.", 16, true, "This spell conjures a magical map that reveals the layout of the surrounding area, including hidden paths and locations.");
+        light_spell.setLocation(sphinx_room);
+        attack_spell.setLocation(lecture_hall);
+        stun_spell.setLocation(reading_room);
+        unlock_spell.setLocation(residential_quarter);
+        teleport_spell.setLocation(scroll_vault);
+        map_spell.setLocation(library);*/
+
+        //create npcs
+        Assistants cook, apprentice, secret_keeper, cat;
+        cook = new Assistants("The Cook", 50, kitchen, true, new ArrayList<>(), "src/com/alexandria/NPC/Dialogues/cook_dialogue.json");
+        cook.addItem(fish);
+        kitchen.addNPC(cook);
+
+        apprentice = new Assistants("The Apprentice", 50, scribing_room, true, new ArrayList<>(), "src/com/alexandria/NPC/Dialogues/apprentice_dialogue.json");
+        apprentice.addItem(ink);
+        scribing_room.addNPC(apprentice);
+
+        secret_keeper = new Assistants("The Secret Keeper", 50, hallway, true, new ArrayList<>(), "src/com/alexandria/NPC/Dialogues/secret_keeper_dialogue.json");
+        secret_keeper.addItem(shovel);
+        hallway.addNPC(secret_keeper);
+
+        cat = new Assistants("The Library Cat", 25, residential_quarter, true, new ArrayList<>(), "src/com/alexandria/NPC/Dialogues/cat_dialogue.json");
+        residential_quarter.addNPC(cat);
+
+        Guardians sphinx, flamewatcher, librarian, hypatia;
+        sphinx = new Guardians("The Sphinx", 150, sphinx_room, true, new ArrayList<>(), "src/com/alexandria/NPC/Dialogues/sphinx_dialogue.json", 20);
+        sphinx.addItem(sphinxs_key);
+        sphinx_room.addNPC(sphinx);
+
+        flamewatcher = new Guardians("The Flamewatcher", 150, reading_room, true, new ArrayList<>(), "src/com/alexandria/NPC/Dialogues/flamewatcher_dialogue.json", 20);
+        flamewatcher.addItem(everlasting_flame);
+        reading_room.addNPC(flamewatcher);
+
+        librarian = new Guardians("The Librarian", 150, library, true, new ArrayList<>(), "src/com/alexandria/NPC/Dialogues/librarian_dialogue.json", 20);
+        library.addNPC(librarian);
+
+        hypatia = new Guardians("Hypatia", 150, eratosthenes_chamber, true, new ArrayList<>(), "src/com/alexandria/NPC/Dialogues/hypatia_dialogue.json", 20);
+        hypatia.addItem(eratosthenes_key);
+        serapeum.addNPC(hypatia);
 
         // create the player character and start in starting room
         Parser parser = new Parser();
         System.out.println("Creating player...");
         System.out.println("Enter the name of your player character: ");
         String playerName = parser.getInput();
-        player = new Player(playerName, main_hall);
+        player = new Player(playerName, main_hall, 100);
+
     }
 
     public void play() {
@@ -243,6 +356,18 @@ public class AshesOfAlexandriaGame {
                 } catch (Exception e) {
                     System.out.println("Error reloading game: " + e.getMessage());
                 }
+                break;
+            case "light":
+                lightLamp(command);
+                break;
+            case "unlock":
+                unlockDoor(command);
+                break;
+            case "read":
+                readScroll(command);
+                break;
+            case "talk":
+                talkToNPC(command);
                 break;
             default:
                 System.out.println("I don't know what you mean...");
@@ -323,9 +448,9 @@ public class AshesOfAlexandriaGame {
                         System.out.println(player.getCurrentRoom().getLongDescription());
                     } else {
                         Door doorThru = (Door) exit;
-                        System.out.println("The door is locked.");
+                        System.out.println("You attempt to go through the " + doorThru.getLabel() + ", however it is locked.");
                         if (doorThru.requiredKeyID != null) {
-                            System.out.println("You need the " + doorThru.requiredKeyID + " to unlock this door.");
+                            System.out.println("You need the " + doorThru.requiredKeyID + " to unlock this door...");
                         }
                     }
                     return;
@@ -342,9 +467,9 @@ public class AshesOfAlexandriaGame {
         if (chosenExit instanceof Door) {
             Door doorThru = (Door) chosenExit;
             if (!doorThru.canPass) {
-                System.out.println("The door is locked.");
+                System.out.println("You attempt to go through the " + doorThru.getLabel() + ", however it is locked.");
                 if (doorThru.requiredKeyID != null) {
-                    System.out.println("You need the " + doorThru.requiredKeyID + " to unlock this door.");
+                    System.out.println("You need the " + doorThru.requiredKeyID + " to unlock this door...");
                 }
                 return;
             } else {
@@ -356,22 +481,9 @@ public class AshesOfAlexandriaGame {
         System.out.println(player.getCurrentRoom().getLongDescription());
     }
     
-    
-    public void createItems() {
-    	Item chair;
-    	
-    	//create items
-    	chair = new Item("chair", "a wooden chair");
-    	
-    	//set object locations
-    	chair.setLocation("dining_hall");
-    	
-    	//set visibility
-    	chair.setVisible(true);
-    }
-    
+    //item methods
     private void seeItem(Command command) {
-    	String location = player.getCurrentRoom().getName();
+    	Room location = player.getCurrentRoom();
     	
     	List<Item> items = Item.getItems(location);
     	if (items.isEmpty()) {
@@ -379,7 +491,9 @@ public class AshesOfAlexandriaGame {
     	} else {
     		System.out.println("You see:");
     		for (Item item : items) {
-    			System.out.println("\t" + item.getDescription());
+                if (item.isVisible()) {
+                    System.out.println("\t" + item.getDescription());
+                }
     		}
     	}
     }
@@ -391,17 +505,22 @@ public class AshesOfAlexandriaGame {
         }
     	
     	String itemName = command.getSecondWord();
-    	String currentLoc = player.getCurrentRoom().getName();
+    	Room currentLoc = player.getCurrentRoom();
     	
     	List<Item> items = Item.getItems(currentLoc);
-    	for (Item item : items) {
-    		if (item.getName().equalsIgnoreCase(itemName) && item.isVisible()) {
+        Iterator<Item> itemsIterator = items.iterator();
+        while (itemsIterator.hasNext()) {
+            Item item = itemsIterator.next();
+            System.out.println(itemName);
+    		if (item.getName().contains(itemName) && item.isVisible()) {
     			player.addItem(item);
+                itemsIterator.remove(); // remove from room's item list for future calls
     			item.setVisible(false);
     			System.out.println("You successfully took " + item.getName());
     			return;
     		}
-    	}
+        }
+    	
     	System.out.println("There is no " + itemName + " here.");
 
     }
@@ -423,10 +542,10 @@ public class AshesOfAlexandriaGame {
         Iterator<Item> iterator = inventory.iterator();
         while (iterator.hasNext()) {
             Item item = iterator.next();
-            if (item.getName().equalsIgnoreCase(itemName)) {
+            if (item.getName().contains(itemName)) {
                 iterator.remove(); // Remove from inventory using iterator
                 item.setVisible(true);
-                item.setLocation(player.getCurrentRoom().getName());
+                item.setLocation(player.getCurrentRoom());
                 System.out.println("You dropped " + item.getName());
                 return;
             }
@@ -441,13 +560,145 @@ public class AshesOfAlexandriaGame {
         } else {
             System.out.println("You are carrying:");
             for (Item item : items) {
-                System.out.println("\t" + item.getDescription());
+                System.out.println("\t -" + item.getName());
             }
         }
+    }
+
+    private void lightLamp(Command command) {
+        //handle: if no second work
+        if (!command.hasSecondWord()) { 
+            System.out.println("Light what?");
+            return;
+        }
+
+        String lampName = command.getSecondWord();
+        List<Item> inventory = player.getInventory();
+
+        Iterator<Item> iterator = inventory.iterator();
+        while (iterator.hasNext()) {
+            Item item = iterator.next();
+            if (item.getName().contains(lampName)) {
+                if (item instanceof Lightsource) { //if the item is a lightsource
+                    ((Lightsource) item).turnOn(); //cast the item to lightsource to call the method
+                }   
+            } else {
+                System.out.println(lampName + " item can't be found or isn't a lightsource.");
+            }
+        }
+    }
+
+    private void unlockDoor(Command command) {
+        if (!command.hasSecondWord()) { 
+            System.out.println("Unlock what?");
+            return;
+        }
+
+        String doorName = command.getSecondWord().toLowerCase();
+        List<Door> doorList = Door.getDoorsList();
+        List<Item> inventory = player.getInventory();
+
+        boolean foundDoor = false;
+
+        for (Door door : doorList) {
+            // Normalize both sides to lowercase for comparison
+            if (door.getLabel().toLowerCase().contains(doorName)) { 
+                foundDoor = true;
+                String keyNeeded = door.getRequiredKeyID();
+
+                boolean hasKey = false;
+                for (Item item : inventory) {
+                    if (item instanceof Key && item.getName().equalsIgnoreCase(keyNeeded)) {
+                        hasKey = true;
+                        boolean success = door.unlock(item.getName());
+                        if (success) {
+                            System.out.println("You unlocked the " + door.getLabel() + " with the " + item.getName() + ".");
+                        } else {
+                            System.out.println("You don't have the correct key to unlock the " + door.getLabel() + ".");
+                        }
+                    }
+                }
+                if (!hasKey) {
+                    System.out.println("You don't have the required key to unlock the " + door.getLabel() + ".");
+                }
+                break; // exit the loop after finding the door
+            }
+        }
+
+        if (!foundDoor) {
+            System.out.println(doorName + " can't be found.");
+        }
+    }
+
+    private void readScroll(Command command) {
+        if (!command.hasSecondWord()) { 
+            System.out.println("Read what?");
+            return;
+        }
+
+        String scrollName = command.getSecondWord();
+        List<Item> inventory = player.getInventory();
+
+        Iterator<Item> iterator = inventory.iterator();
+        while (iterator.hasNext()) {
+            Item item = iterator.next();
+            if (item.getName().contains(scrollName)) {
+                if (item instanceof Scroll) { //if the item is a scroll
+                    String contents = ((Scroll) item).getContents(); //cast the item to scroll to call the method
+                    System.out.println("You read the " + item.getName() + ":\n" + contents);
+                    return; 
+                }
+            } else {
+                System.out.println(scrollName + " item isn't in your inventory or isn't a scroll. Try again.");
+            }
+        }    
+    }
+
+    //NPC methods
+    private void talkToNPC(Command command) {
+        Scanner scanner = new Scanner(System.in); // Create a Scanner instance for user input
+        if (!command.hasThirdWord()) { 
+            System.out.println("Talk to whom?");
+            return;
+        }  
+
+        String npcName = command.getThirdWord().toLowerCase();
+        Room currentLoc = player.getCurrentRoom();
+
+        //check the list of NPCs in the current room for both types    	
+    	List<NPC> npcs = currentLoc.getNPCs();
+
+        if (npcs == null || npcs.isEmpty()) {
+            System.out.println("There is no " + npcName + " here to talk to.");
+            return;
+        }
+
+        // search npcs for matching name
+        for (NPC npc : npcs) {
+            if (npc.getName().toLowerCase().contains(npcName)) {
+            npc.interact(scanner, player);
+            return;
+            }
+        }
+
+        // If not found
+        System.out.println("There is no " + npcName + " here to talk to.");
     }
 
     public static void main(String[] args) {
         AshesOfAlexandriaGame game = new AshesOfAlexandriaGame();
         game.play();
+
+        /*
+        if (player.getHealth() <= 0) {
+            System.out.println("You have perished in the library. Game over.");
+            return true;
+        } else if (player.hasItem("scroll of Eratosthenes")) {
+            System.out.println("Congratulations! You have secured the master scroll and escaped the burning library!");
+            return true;
+        } else {
+            System.out.println("The library burns around you, but you failed to secure the master scroll. Game over.");
+            return true;
+        }*/
     }
 }
