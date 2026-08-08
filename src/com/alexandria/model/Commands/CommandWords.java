@@ -29,11 +29,4 @@ public class CommandWords {
         return validCommands.containsKey(commandWord);
     }
 
-    public void showAll() {
-        //System.out.print("Valid commands are: ");
-        for (String command : validCommands.keySet()) {
-            System.out.print(command + " ");
-        }
-        System.out.println();
-    }
 }

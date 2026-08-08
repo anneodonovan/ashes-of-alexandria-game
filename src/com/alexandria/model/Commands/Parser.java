@@ -62,12 +62,12 @@ public class Parser {
             "light - Light a lightsource item\n" +
             "unlock - Unlock a door with a key\n" +
             "read - Read the contents of a scroll\n" +
-            "talk - Talk to an NPC";
+            "talk - Talk to an NPC" +
+            "cast - Cast a spell from a you inventory";
         return commands;
     }
 
     public String getInput() {
-        System.out.print("> ");
         String inputLine = reader.nextLine();
         return inputLine;
     }

@@ -10,11 +10,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 public class DialogueLoader {
-    /**
-     * Loads a dialogue JSON file from the classpath and returns a DialogueTree.
-     * @param fileName The base name of the JSON file (e.g. "cook" or "guardian_library")
-     * @return DialogueTree object, or null if something went wrong
-     */
+    
     public static DialogueTree loadDialogue(String fileName) {
         Gson gson = new Gson();
         String resourcePath = "/dialogues/" + fileName + "_dialogue.json";

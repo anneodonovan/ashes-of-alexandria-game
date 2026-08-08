@@ -8,12 +8,8 @@ import com.alexandria.model.Inventory.Item;
 import java.util.List;
 
 public class DialogueManager {
-    /**
-     * Starts a conversation using the provided DialogueTree.
-     * @param tree The DialogueTree loaded from JSON.
-     */
 
-    // Start a dialogue: return the first node and print its text
+    // start a dialogue: return the first node and print its text
     public DialogueNode startDialogue(DialogueTree tree, Player player, NPC npc, StringBuilder out) {
         if (tree == null) {
             out.append("Dialogue could not be loaded or found.\n");
@@ -24,26 +20,19 @@ public class DialogueManager {
         return node; // controller keeps track of this node
     }
 
-    // Helper to print a node's NPC line and options
+    // helper to print a node's NPC line and options
     public void printNode(DialogueNode node, NPC npc, StringBuilder out) {
-        out.append("\n")
-           .append(npc.getName())
-           .append(": ")
-           .append(node.getNpcLine())
-           .append("\n");
+        out.append("\n").append(npc.getName()).append(": ").append(node.getNpcLine()).append("\n");
 
         List<DialogueOption> options = node.getOptions();
         if (options != null) {
             for (int i = 0; i < options.size(); i++) {
-                out.append((i + 1))
-                   .append(". ")
-                   .append(options.get(i).getPlayerLine())
-                   .append("\n");
+                out.append((i + 1)).append(". ").append(options.get(i).getPlayerLine()).append("\n");
             }
         }
     }
 
-    // Advance dialogue when the player picks an option
+    // advance dialogue when the player picks an option
     public DialogueNode chooseOption(DialogueTree tree, DialogueNode current, int choiceIndex, Player player, NPC npc, StringBuilder out) {
         
         List<DialogueOption> options = current.getOptions();
@@ -64,7 +53,7 @@ public class DialogueManager {
             out.append(applyNodeEffects(next, player, npc));
             printNode(next, npc, out);
 
-            // If next node has no options, treat as end of conversation
+            // if next node has no options, treat as end of conversation
             if (next.getOptions() == null || next.getOptions().isEmpty()) {
                 return null; // signal end
             }

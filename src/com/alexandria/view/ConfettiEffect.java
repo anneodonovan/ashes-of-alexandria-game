@@ -17,6 +17,7 @@ public class ConfettiEffect {
 
     public void playConfetti() {
         for (int i = 0; i < 50; i++) { // number of confetti pieces
+            //create confetti pieces
             Rectangle confetti = new Rectangle(5, 10);
             confetti.setFill(Color.hsb(random.nextInt(360), 1.0, 1.0));
             confetti.setX(random.nextInt((int) pane.getWidth()));
@@ -24,15 +25,18 @@ public class ConfettiEffect {
 
             pane.getChildren().add(confetti);
 
+            //falling animation
             TranslateTransition fall = new TranslateTransition(Duration.seconds(3 + random.nextDouble()), confetti);
             fall.setFromY(-20);
             fall.setToY(pane.getHeight() + 20);
             fall.setInterpolator(Interpolator.LINEAR);
 
+            //rotation animation
             RotateTransition rotate = new RotateTransition(Duration.seconds(2 + random.nextDouble()), confetti);
             rotate.setByAngle(360);
             rotate.setCycleCount(Animation.INDEFINITE);
 
+            //combine animations
             ParallelTransition animation = new ParallelTransition(fall, rotate);
             animation.setOnFinished(e -> pane.getChildren().remove(confetti));
             animation.play();

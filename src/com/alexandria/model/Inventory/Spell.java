@@ -29,7 +29,7 @@ public class Spell<E extends Spell.SpellEffect> extends Item implements Serializ
         String apply(Player caster, Object target);
     }
 
-    // --- Concrete spell effects ---
+    // concrete spell effects
 
     public static class LightEffect implements SpellEffect {
         @Override
@@ -42,7 +42,9 @@ public class Spell<E extends Spell.SpellEffect> extends Item implements Serializ
     
     public static class AttackEffect implements SpellEffect {
         private int damage;
-        public AttackEffect(int damage) { this.damage = damage; }
+        public AttackEffect(int damage) { 
+            this.damage = damage; 
+        }
 
         @Override
         public String apply(Player caster, Object target) {
