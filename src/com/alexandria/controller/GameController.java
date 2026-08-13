@@ -8,7 +8,6 @@ import com.alexandria.view.CenterGamePanel;
 import com.alexandria.view.RightGamePanel;
 import com.alexandria.model.Commands.Command;
 import com.alexandria.model.Commands.Parser;
-import com.alexandria.model.Inventory.Item;
 import com.alexandria.model.Traversal.Direction;
 import com.alexandria.model.Traversal.Exit;
 import com.alexandria.model.Traversal.Room;
@@ -18,9 +17,9 @@ import com.alexandria.model.NPC.DialogueManager;
 import com.alexandria.model.NPC.DialogueTree;
 import com.alexandria.model.NPC.DialogueNode;
 import com.alexandria.model.NPC.DialogueOption;
+import com.alexandria.view.AssetManager;
 import com.alexandria.view.ConfettiEffect;
 
-import java.util.stream.Collectors;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextInputDialog;
 import java.util.Optional;
@@ -110,6 +109,7 @@ public class GameController {
                 currentDialogueNode = dialogueManager.startDialogue(tree, player, npc, out);
                 inConversation = true;
 
+                centerPanel.setNpcPortrait(AssetManager.getNpcPortrait(npc.getDialogueFileName()));
                 centerPanel.getOutputArea().appendText(out.toString());
                 showDialogueOptions(currentDialogueNode, npc); // show buttons
             } else {
@@ -123,7 +123,8 @@ public class GameController {
     private void updateUI() {
         rightPanel.getScoreLabel().setText(String.valueOf(player.getScore()));
         rightPanel.getHealthBar().setProgress(player.getHealthPercent());
-        rightPanel.getInventoryList().getItems().setAll(player.getInventoryItems().stream().map(Item::getName).collect(Collectors.toList()));
+        rightPanel.getInventoryList().getItems().setAll(player.getInventoryItems());
+        centerPanel.setRoomArt(AssetManager.getRoomArt(player.getCurrentRoom().getName()));
     }
 
     public static String askPlayerName() {
@@ -177,6 +178,7 @@ public class GameController {
                 inConversation = false;
                 centerPanel.getDialogueOptionsBox().getChildren().clear();
                 centerPanel.getDialogueOptionsBox().setVisible(false);
+                centerPanel.clearNpcPortrait();
             }
             updateUI();
         });
