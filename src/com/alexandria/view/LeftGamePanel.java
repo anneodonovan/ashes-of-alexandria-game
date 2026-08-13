@@ -17,15 +17,19 @@ public class LeftGamePanel extends VBox {
         setPrefWidth(150);
         setPadding(new Insets(20));
         setAlignment(Pos.TOP_CENTER);
+        getStyleClass().add("pixel-panel");
 
         Label titleLabel = new Label("Control Panel");
-        titleLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
+        titleLabel.getStyleClass().add("pixel-heading");
 
         saveButton = new Button("Save");
         reloadButton = new Button("Reload");
         helpButton = new Button("Help");
         quitButton = new Button("Quit");
-        quitButton.setStyle("-fx-background-color: red; -fx-text-fill: white;");
+        for (Button b : new Button[] { saveButton, reloadButton, helpButton, quitButton }) {
+            b.getStyleClass().add("pixel-button");
+        }
+        quitButton.getStyleClass().add("pixel-button-danger");
 
         getChildren().addAll(titleLabel, saveButton, reloadButton, helpButton, quitButton);
     }
