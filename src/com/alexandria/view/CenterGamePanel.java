@@ -22,8 +22,8 @@ import java.util.function.Consumer;
 
 public class CenterGamePanel extends BorderPane {
 
-    private static final int ROOM_ART_WIDTH = 360;
-    private static final int ROOM_ART_HEIGHT = 202;
+    private static final int ROOM_ART_WIDTH = 640;
+    private static final int ROOM_ART_HEIGHT = 360;
     private static final int NPC_PORTRAIT_SIZE = 96;
 
     private TextArea outputArea;
