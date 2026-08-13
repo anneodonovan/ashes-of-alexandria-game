@@ -5,37 +5,70 @@ import com.alexandria.model.Traversal.Room;
 import com.alexandria.model.Traversal.Direction;
 import com.alexandria.model.NPC.DialogueOption;
 
+import javafx.geometry.Pos;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.control.ChoiceDialog;
 import java.util.List;
 import java.util.Optional;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Button;
 import java.util.function.Consumer;
 
 public class CenterGamePanel extends BorderPane {
 
+    private static final int ROOM_ART_WIDTH = 480;
+    private static final int ROOM_ART_HEIGHT = 270;
+    private static final int NPC_PORTRAIT_SIZE = 96;
+
     private TextArea outputArea;
     private TextArea inputField;
     private VBox dialogueOptionsBox;
+    private ImageView roomArtView;
+    private ImageView npcPortraitView;
 
     public CenterGamePanel() {
+        roomArtView = new ImageView();
+        roomArtView.setFitWidth(ROOM_ART_WIDTH);
+        roomArtView.setFitHeight(ROOM_ART_HEIGHT);
+        roomArtView.setPreserveRatio(true);
+        roomArtView.setSmooth(false);
+        roomArtView.getStyleClass().add("pixel-panel");
+        HBox roomArtBox = new HBox(roomArtView);
+        roomArtBox.setAlignment(Pos.CENTER);
+
         outputArea = new TextArea();
         outputArea.setPrefHeight(600);
         outputArea.setEditable(false);
         outputArea.setWrapText(true);
+        outputArea.getStyleClass().add("pixel-output");
+
+        VBox topBox = new VBox(10, roomArtBox, outputArea);
+
+        npcPortraitView = new ImageView();
+        npcPortraitView.setFitWidth(NPC_PORTRAIT_SIZE);
+        npcPortraitView.setFitHeight(NPC_PORTRAIT_SIZE);
+        npcPortraitView.setPreserveRatio(true);
+        npcPortraitView.setSmooth(false);
+        npcPortraitView.setVisible(false);
 
         dialogueOptionsBox = new VBox();
         dialogueOptionsBox.setSpacing(10);
         dialogueOptionsBox.setVisible(false);
 
+        HBox dialogueBox = new HBox(10, npcPortraitView, dialogueOptionsBox);
+        dialogueBox.setAlignment(Pos.CENTER_LEFT);
+
         inputField = new TextArea();
         inputField.setPrefHeight(100);
         inputField.setWrapText(true);
+        inputField.getStyleClass().add("pixel-input");
 
-        setTop(outputArea);
-        setCenter(dialogueOptionsBox); // or setBottom(dialogueOptionsBox)
+        setTop(topBox);
+        setCenter(dialogueBox);
         setBottom(inputField);
     }
 
@@ -49,6 +82,20 @@ public class CenterGamePanel extends BorderPane {
 
     public VBox getDialogueOptionsBox() {
         return dialogueOptionsBox;
+    }
+
+    public void setRoomArt(Image image) {
+        roomArtView.setImage(image);
+    }
+
+    public void setNpcPortrait(Image image) {
+        npcPortraitView.setImage(image);
+        npcPortraitView.setVisible(true);
+    }
+
+    public void clearNpcPortrait() {
+        npcPortraitView.setImage(null);
+        npcPortraitView.setVisible(false);
     }
 
     // method to show a choice dialog for exits
