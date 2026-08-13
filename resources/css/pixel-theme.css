@@ -1,0 +1,124 @@
+/* Pixel-art theme for Ashes of Alexandria.
+   Border-image and font files referenced below live under resources/art/ui/
+   and resources/fonts/ and are optional at runtime: JavaFX silently falls back
+   to the flat -fx-background-color/-fx-border-color/-fx-font-family values
+   declared alongside each -fx-border-image-source / @font-face rule when the
+   referenced file is missing, so this theme renders correctly before any real
+   art or font assets have been added. */
+
+.root {
+    -pixel-bg: #1a1a2e;
+    -pixel-panel-bg: #16213e;
+    -pixel-border: #0f3460;
+    -pixel-accent: #e94560;
+    -pixel-text: #f1f1f1;
+    -pixel-heading: #f5d76e;
+    -pixel-danger: #ff6b6b;
+}
+
+@font-face {
+    src: url("/fonts/PressStart2P-Regular.ttf");
+}
+
+@font-face {
+    src: url("/fonts/VT323-Regular.ttf");
+}
+
+.pixel-root {
+    -fx-background-color: -pixel-bg;
+}
+
+.pixel-heading {
+    -fx-font-family: "Press Start 2P";
+    -fx-font-size: 14px;
+    -fx-text-fill: -pixel-heading;
+}
+
+.pixel-panel {
+    -fx-background-color: -pixel-panel-bg;
+    -fx-border-color: -pixel-border;
+    -fx-border-width: 4px;
+    -fx-border-image-source: url("/art/ui/panel-border.png");
+    -fx-border-image-slice: 8 8 8 8 fill;
+    -fx-border-image-width: 8;
+    -fx-border-image-repeat: stretch;
+    -fx-padding: 10px;
+}
+
+.pixel-output, .pixel-input {
+    -fx-control-inner-background: -pixel-panel-bg;
+    -fx-text-fill: -pixel-text;
+    -fx-font-family: "VT323";
+    -fx-font-size: 18px;
+    -fx-highlight-fill: -pixel-accent;
+}
+
+.pixel-button {
+    -fx-background-color: -pixel-panel-bg;
+    -fx-border-color: -pixel-border;
+    -fx-border-width: 3px;
+    -fx-border-image-source: url("/art/ui/button-up.png");
+    -fx-border-image-slice: 4 4 4 4 fill;
+    -fx-border-image-width: 4;
+    -fx-border-image-repeat: stretch;
+    -fx-text-fill: -pixel-text;
+    -fx-font-family: "Press Start 2P";
+    -fx-font-size: 10px;
+    -fx-padding: 8px 12px;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+}
+
+.pixel-button:hover {
+    -fx-background-color: -pixel-border;
+}
+
+.pixel-button:pressed, .pixel-button:armed {
+    -fx-border-image-source: url("/art/ui/button-down.png");
+}
+
+.pixel-button-danger {
+    -fx-text-fill: -pixel-danger;
+}
+
+.pixel-panel .label {
+    -fx-text-fill: -pixel-text;
+    -fx-font-family: "VT323";
+    -fx-font-size: 16px;
+}
+
+.dialog-pane, .dialog-pane .content, .dialog-pane .header-panel {
+    -fx-background-color: -pixel-panel-bg;
+    -fx-font-family: "VT323";
+}
+
+.dialog-pane .label {
+    -fx-text-fill: -pixel-text;
+}
+
+.progress-bar > .bar {
+    -fx-background-color: -pixel-accent;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-padding: 6px;
+}
+
+.progress-bar > .track {
+    -fx-background-color: -pixel-border;
+    -fx-background-radius: 0;
+}
+
+.list-view {
+    -fx-background-color: -pixel-panel-bg;
+}
+
+.list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: -pixel-text;
+    -fx-font-family: "VT323";
+    -fx-font-size: 16px;
+}
+
+.list-cell:filled:selected {
+    -fx-background-color: -pixel-border;
+}

@@ -43,7 +43,10 @@ public class GameFrame extends Application {
 
         centerPanel.getOutputArea().appendText(gameModel.printWelcome());
 
+        layeredRoot.getStyleClass().add("pixel-root");
+
         Scene scene = new Scene(layeredRoot, 1200, 800);
+        scene.getStylesheets().add(GameFrame.class.getResource("/css/pixel-theme.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();
     }
