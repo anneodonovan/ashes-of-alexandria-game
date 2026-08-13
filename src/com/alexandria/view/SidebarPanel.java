@@ -3,7 +3,6 @@ package com.alexandria.view;
 import com.alexandria.model.Inventory.Item;
 
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
@@ -43,10 +42,10 @@ public class SidebarPanel extends VBox {
         quitButton = new Button("Quit");
         for (Button b : new Button[] { saveButton, reloadButton, helpButton, quitButton }) {
             b.getStyleClass().add("pixel-button");
+            b.setMaxWidth(Double.MAX_VALUE);
         }
         quitButton.getStyleClass().add("pixel-button-danger");
-        HBox controlsBox = new HBox(8, saveButton, reloadButton, helpButton, quitButton);
-        controlsBox.setAlignment(Pos.CENTER_LEFT);
+        VBox controlsBox = new VBox(8, saveButton, reloadButton, helpButton, quitButton);
 
         Label scoreTitle = new Label("Score:");
         scoreTitle.getStyleClass().add("pixel-heading");
