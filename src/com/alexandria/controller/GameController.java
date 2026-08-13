@@ -3,9 +3,8 @@ package com.alexandria.controller;
 import com.alexandria.model.Gameplay.AshesOfAlexandriaGame; 
 import com.alexandria.model.Player.Player;
 import com.alexandria.view.GameFrame;
-import com.alexandria.view.LeftGamePanel;
 import com.alexandria.view.CenterGamePanel;
-import com.alexandria.view.RightGamePanel;
+import com.alexandria.view.SidebarPanel;
 import com.alexandria.model.Commands.Command;
 import com.alexandria.model.Commands.Parser;
 import com.alexandria.model.Traversal.Direction;
@@ -31,9 +30,8 @@ public class GameController {
     //handles input from the view and updates the model accordingly
     //listens to events from GamePanel and updates the AshesOfAlexandriaGame instance
 
-    private LeftGamePanel leftPanel;
+    private SidebarPanel sidebar;
     private CenterGamePanel centerPanel;
-    private RightGamePanel rightPanel;
     private final Pane confettiPane;
     private AshesOfAlexandriaGame gameModel;
     private Player player;
@@ -44,15 +42,14 @@ public class GameController {
     private NPC currentNpc;
     private boolean inConversation = false;
 
-    public GameController(LeftGamePanel leftPanel, CenterGamePanel centerPanel, RightGamePanel rightPanel, AshesOfAlexandriaGame gameModel, Player player, Pane confettiPane) {
-        this.leftPanel = leftPanel;
+    public GameController(SidebarPanel sidebar, CenterGamePanel centerPanel, AshesOfAlexandriaGame gameModel, Player player, Pane confettiPane) {
+        this.sidebar = sidebar;
         this.centerPanel = centerPanel;
-        this.rightPanel = rightPanel;
         this.gameModel = gameModel;
         this.player = player;
         this.parser = new Parser();
         this.confettiPane = confettiPane;
-        
+
         initializeListeners();
     }
 
@@ -61,11 +58,11 @@ public class GameController {
     }
 
     private void initializeListeners() {
-        // Add action listeners to buttons in leftPanel
-        leftPanel.getSaveButton().setOnAction(e -> saveGame()); // e = event
-        leftPanel.getReloadButton().setOnAction(e -> reloadGame());
-        leftPanel.getHelpButton().setOnAction(e -> help());
-        leftPanel.getQuitButton().setOnAction(e -> endGame());
+        // Add action listeners to buttons in sidebar
+        sidebar.getSaveButton().setOnAction(e -> saveGame()); // e = event
+        sidebar.getReloadButton().setOnAction(e -> reloadGame());
+        sidebar.getHelpButton().setOnAction(e -> help());
+        sidebar.getQuitButton().setOnAction(e -> endGame());
 
         centerPanel.getInputField().setOnKeyPressed(e -> {
             switch (e.getCode()) {
@@ -121,9 +118,9 @@ public class GameController {
     }
 
     private void updateUI() {
-        rightPanel.getScoreLabel().setText(String.valueOf(player.getScore()));
-        rightPanel.getHealthBar().setProgress(player.getHealthPercent());
-        rightPanel.getInventoryList().getItems().setAll(player.getInventoryItems());
+        sidebar.getScoreLabel().setText(String.valueOf(player.getScore()));
+        sidebar.getHealthBar().setProgress(player.getHealthPercent());
+        sidebar.getInventoryList().getItems().setAll(player.getInventoryItems());
         centerPanel.setRoomArt(AssetManager.getRoomArt(player.getCurrentRoom().getName()));
     }
 

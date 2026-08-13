@@ -15,30 +15,27 @@ import javafx.scene.layout.StackPane;
 public class GameFrame extends Application {
 
     private Player player;
-    private LeftGamePanel left;
+    private SidebarPanel sidebar;
     private CenterGamePanel centerPanel;
-    private RightGamePanel right;
 
     @Override
     public void start(Stage primaryStage) {
-        left = new LeftGamePanel();
+        sidebar = new SidebarPanel();
         centerPanel = new CenterGamePanel();
-        right = new RightGamePanel();
 
         AshesOfAlexandriaGame gameModel = new AshesOfAlexandriaGame();
         player = gameModel.getPlayer();
 
         BorderPane root = new BorderPane();
-        root.setLeft(left);
         root.setCenter(centerPanel);
-        root.setRight(right);
+        root.setRight(sidebar);
 
         // confetti overlay
         Pane confettiPane = new Pane();
         confettiPane.setPickOnBounds(false); // don’t block clicks
         StackPane layeredRoot = new StackPane(root, confettiPane);
 
-        GameController controller = new GameController(left, centerPanel, right, gameModel, player, confettiPane);
+        GameController controller = new GameController(sidebar, centerPanel, gameModel, player, confettiPane);
         controller.initUI();
 
         centerPanel.getOutputArea().appendText(gameModel.printWelcome());
