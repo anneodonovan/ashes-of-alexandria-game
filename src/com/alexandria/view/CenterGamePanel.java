@@ -55,6 +55,7 @@ public class CenterGamePanel extends BorderPane {
         npcPortraitView.setPreserveRatio(true);
         npcPortraitView.setSmooth(false);
         npcPortraitView.setVisible(false);
+        npcPortraitView.setManaged(false); // don't reserve layout space while hidden
 
         dialogueOptionsBox = new VBox();
         dialogueOptionsBox.setSpacing(10);
@@ -63,7 +64,7 @@ public class CenterGamePanel extends BorderPane {
         HBox dialogueBox = new HBox(10, npcPortraitView, dialogueOptionsBox);
         dialogueBox.setAlignment(Pos.CENTER_LEFT);
 
-        VBox centerBox = new VBox(10, outputArea, dialogueBox);
+        VBox centerBox = new VBox(2, outputArea, dialogueBox);
 
         inputField = new TextArea();
         inputField.setPrefHeight(80);
@@ -94,11 +95,13 @@ public class CenterGamePanel extends BorderPane {
     public void setNpcPortrait(Image image) {
         npcPortraitView.setImage(image);
         npcPortraitView.setVisible(true);
+        npcPortraitView.setManaged(true);
     }
 
     public void clearNpcPortrait() {
         npcPortraitView.setImage(null);
         npcPortraitView.setVisible(false);
+        npcPortraitView.setManaged(false);
     }
 
     // method to show a choice dialog for exits
