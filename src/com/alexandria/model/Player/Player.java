@@ -1,7 +1,5 @@
 package com.alexandria.model.Player;
 
-import com.alexandria.model.Traversal.Direction;
-import com.alexandria.model.Traversal.Exit;
 import com.alexandria.model.Traversal.Room;
 import com.alexandria.model.Inventory.Item;
 
@@ -41,32 +39,6 @@ public class Player implements Serializable{
         this.currentRoom = room;
     }
 
-    public void move(String dir) {
-        String directionStr = dir.toUpperCase();
-        Direction direction; // Convert string to Direction enum
-
-        try {
-            direction = Direction.valueOf(directionStr); // assign direction based on user input and convert to enum
-        } catch (Exception e) {
-            System.out.println("That's not a valid direction!");
-            return;
-        }
-        
-        Room nextRoom = null;
-        for (Exit exit : currentRoom.getExits()) {
-            if (exit.getDirectionFrom(currentRoom) == direction) {
-                nextRoom = exit.getOtherSide(currentRoom); //get the room on the other side of the exit
-                break;
-            }
-        }
-        if (nextRoom != null) {
-            currentRoom = nextRoom;
-            System.out.println("You moved to: " + currentRoom.getDescription());
-        } else {
-            System.out.println("You can't go that way!");
-        }
-    }
-    
     public void addItem(Item item) {
         inventory.add(item);
     }
