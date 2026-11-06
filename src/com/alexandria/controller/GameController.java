@@ -5,6 +5,7 @@ import com.alexandria.model.Player.Player;
 import com.alexandria.view.GameFrame;
 import com.alexandria.view.LeftGamePanel;
 import com.alexandria.view.CenterGamePanel;
+import com.alexandria.view.Theme;
 import com.alexandria.view.RightGamePanel;
 import com.alexandria.model.Commands.Command;
 import com.alexandria.model.Commands.Parser;
@@ -67,6 +68,7 @@ public class GameController {
         leftPanel.getReloadButton().setOnAction(e -> reloadGame());
         leftPanel.getHelpButton().setOnAction(e -> help());
         leftPanel.getQuitButton().setOnAction(e -> endGame());
+        leftPanel.getThemeButton().setOnAction(e -> Theme.dark.set(!Theme.dark.get()));
 
         centerPanel.getInputField().setOnKeyPressed(e -> {
             switch (e.getCode()) {
@@ -190,12 +192,14 @@ public class GameController {
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Game Saved!");
+            Theme.style(alert);
             alert.showAndWait();
 
             updateUI(); // refresh GUI if needed
         } catch (IOException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Save Failed");
+            Theme.style(alert);
             alert.setContentText("Could not save player state: " + e.getMessage());
             alert.showAndWait();
         }
@@ -210,12 +214,14 @@ public class GameController {
             runCommand("reload"); //just for output text
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Game Reloaded!");
+            Theme.style(alert);
             alert.showAndWait();
 
             updateUI();  // refreshes GUI with new player state
         } catch (IOException | ClassNotFoundException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Reload Failed");
+            Theme.style(alert);
             alert.setContentText("Could not reload player state.");
             alert.showAndWait();
         }
@@ -224,6 +230,7 @@ public class GameController {
     private void help() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Help");
+        Theme.style(alert);
         alert.setHeaderText("How to play");
         String message = "You are lost. You are alone. You wander around the library and it's grounds, in search of the master scroll." + "\nYour command words are: " + parser.showCommands();
         alert.setContentText(message);
@@ -243,6 +250,7 @@ public class GameController {
         if (player.getHealth() <= 0) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Failure");
+            Theme.style(alert);
             alert.setHeaderText("Game Over!");
             String message = "You have perished in the library. Game over.\n The game window will close when you click ok";
             alert.setContentText(message);
@@ -252,6 +260,7 @@ public class GameController {
             triggerWin();
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Success");
+            Theme.style(alert);
             alert.setHeaderText("Game Completed!");
             String message = "Congratulations! You escaped with the master scroll!\n The game window will close when you click ok";
             alert.setContentText(message);

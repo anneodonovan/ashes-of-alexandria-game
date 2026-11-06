@@ -1,0 +1,9 @@
+.dark {
+    -fx-base: #1c1c1c;
+    -fx-background: #121212;
+    -fx-control-inner-background: #0d0d0d;
+    -fx-text-base-color: #f2f2f2;
+    -fx-text-inner-color: #f2f2f2;
+    -fx-text-background-color: #f2f2f2;
+    -fx-accent: #4a90e2;
+}
