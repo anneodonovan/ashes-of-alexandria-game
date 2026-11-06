@@ -44,6 +44,7 @@ public class GameFrame extends Application {
         centerPanel.getOutputArea().appendText(gameModel.printWelcome());
 
         Scene scene = new Scene(layeredRoot, 1200, 800);
+        Theme.install(scene, layeredRoot);
         primaryStage.setScene(scene);
         primaryStage.show();
     }

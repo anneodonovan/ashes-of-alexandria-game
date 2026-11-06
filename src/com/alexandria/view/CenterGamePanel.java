@@ -138,6 +138,7 @@ public class CenterGamePanel extends BorderPane {
         dialog.setTitle("Choose Exit");
         dialog.setHeaderText("Multiple exits going " + direction.toLowerCase());
         dialog.setContentText("Select which exit to take:");
+        Theme.style(dialog);
         return dialog.showAndWait();
     }
 
