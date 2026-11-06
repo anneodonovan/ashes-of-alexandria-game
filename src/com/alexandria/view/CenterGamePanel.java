@@ -25,7 +25,7 @@ public class CenterGamePanel extends BorderPane {
     private VBox dialogueOptionsBox;
     private AsciiCanvasPanel asciiPanel;
     private Button toggleAsciiButton;
-    private String asciiRoom = AsciiRoomPatterns.NAMES[0];
+    private String asciiRoom = AsciiRoomPatterns.NAMES.get(0);
 
     public CenterGamePanel() {
         outputArea = new TextArea();
@@ -87,7 +87,7 @@ public class CenterGamePanel extends BorderPane {
     }
 
     public void setAsciiRoom(String roomName) {
-        if (!java.util.Arrays.asList(AsciiRoomPatterns.NAMES).contains(roomName)) {
+        if (!AsciiRoomPatterns.NAMES.contains(roomName)) {
             throw new IllegalArgumentException("Unknown room pattern: " + roomName);
         }
         asciiRoom = roomName;
