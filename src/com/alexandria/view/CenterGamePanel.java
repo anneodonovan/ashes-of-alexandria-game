@@ -6,8 +6,13 @@ import com.alexandria.model.Traversal.Direction;
 import com.alexandria.model.NPC.DialogueOption;
 import com.alexandria.view.ascii.AsciiCanvasPanel;
 import com.alexandria.view.ascii.AsciiDemoPatterns;
+import com.alexandria.view.ascii.AsciiRoomPatterns;
 
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.control.ChoiceDialog;
 import java.util.List;
@@ -24,6 +29,7 @@ public class CenterGamePanel extends BorderPane {
     private VBox dialogueOptionsBox;
     private AsciiCanvasPanel asciiPanel;
     private Button toggleAsciiButton;
+    private String asciiRoom = AsciiRoomPatterns.NAMES.get(0);
 
     public CenterGamePanel() {
         outputArea = new TextArea();
@@ -41,7 +47,7 @@ public class CenterGamePanel extends BorderPane {
         asciiPanel = new AsciiCanvasPanel(60, 30);
         asciiPanel.setVisible(false);
         asciiPanel.setManaged(false);
-        asciiPanel.setOnResize(this::redrawAsciiDemo);
+        asciiPanel.setOnResize(this::redrawAscii);
         outputArea.textProperty().addListener((obs, oldText, newText) -> {
             if (asciiPanel.isVisible()) {
                 toggleAsciiMode();
@@ -50,6 +56,22 @@ public class CenterGamePanel extends BorderPane {
 
         toggleAsciiButton = new Button("Toggle ASCII Mode");
         toggleAsciiButton.setOnAction(e -> toggleAsciiMode());
+        toggleAsciiButton.setTooltip(new Tooltip("F2: toggle ASCII mode, F3: next room"));
+        EventHandler<KeyEvent> asciiKeys = e -> {
+            if (e.getCode() == KeyCode.F2) {
+                toggleAsciiMode();
+            } else if (e.getCode() == KeyCode.F3 && asciiPanel.isVisible()) {
+                cycleAsciiRoom();
+            }
+        };
+        sceneProperty().addListener((obs, oldScene, newScene) -> {
+            if (oldScene != null) {
+                oldScene.removeEventFilter(KeyEvent.KEY_RELEASED, asciiKeys);
+            }
+            if (newScene != null) {
+                newScene.addEventFilter(KeyEvent.KEY_RELEASED, asciiKeys);
+            }
+        });
 
         StackPane centerStack = new StackPane(outputArea, asciiPanel);
 
@@ -70,18 +92,32 @@ public class CenterGamePanel extends BorderPane {
 
         if (!showingAscii) {
             ((StackPane) getCenter()).layout();
-            redrawAsciiDemo();
+            redrawAscii();
         }
     }
 
-    private void redrawAsciiDemo() {
+    private void redrawAscii() {
         if (!asciiPanel.isVisible()) {
             return;
         }
         int cols = asciiPanel.getCols();
         int rows = asciiPanel.getRows();
-        double[][] demo = AsciiDemoPatterns.radialGradient(cols, rows);
-        asciiPanel.draw(demo, AsciiDemoPatterns.waterTint(cols, rows, demo));
+        double[][] room = AsciiRoomPatterns.forName(asciiRoom, cols, rows);
+        asciiPanel.draw(room, AsciiDemoPatterns.waterTint(cols, rows, room));
+    }
+
+    private void cycleAsciiRoom() {
+        List<String> names = AsciiRoomPatterns.NAMES;
+        int next = (names.indexOf(asciiRoom) + 1) % names.size();
+        setAsciiRoom(names.get(next));
+    }
+
+    public void setAsciiRoom(String roomName) {
+        if (roomName == null || !AsciiRoomPatterns.NAMES.contains(roomName)) {
+            throw new IllegalArgumentException("Unknown room pattern: " + roomName);
+        }
+        asciiRoom = roomName;
+        redrawAscii();
     }
 
     public TextArea getOutputArea() {
