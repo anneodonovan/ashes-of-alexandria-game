@@ -42,6 +42,11 @@ public class CenterGamePanel extends BorderPane {
         asciiPanel.setVisible(false);
         asciiPanel.setManaged(false);
         asciiPanel.setOnResize(this::redrawAsciiDemo);
+        outputArea.textProperty().addListener((obs, oldText, newText) -> {
+            if (asciiPanel.isVisible()) {
+                toggleAsciiMode();
+            }
+        });
 
         toggleAsciiButton = new Button("Toggle ASCII Mode");
         toggleAsciiButton.setOnAction(e -> toggleAsciiMode());
@@ -64,6 +69,7 @@ public class CenterGamePanel extends BorderPane {
         outputArea.setManaged(showingAscii);
 
         if (!showingAscii) {
+            ((StackPane) getCenter()).layout();
             redrawAsciiDemo();
         }
     }
