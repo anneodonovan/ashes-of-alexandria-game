@@ -6,6 +6,7 @@ import com.alexandria.model.Traversal.Direction;
 import com.alexandria.model.NPC.DialogueOption;
 import com.alexandria.view.ascii.AsciiCanvasPanel;
 import com.alexandria.view.ascii.AsciiDemoPatterns;
+import com.alexandria.view.ascii.AsciiRoomPatterns;
 
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
@@ -24,6 +25,7 @@ public class CenterGamePanel extends BorderPane {
     private VBox dialogueOptionsBox;
     private AsciiCanvasPanel asciiPanel;
     private Button toggleAsciiButton;
+    private String asciiRoom = AsciiRoomPatterns.NAMES[0];
 
     public CenterGamePanel() {
         outputArea = new TextArea();
@@ -80,8 +82,13 @@ public class CenterGamePanel extends BorderPane {
         }
         int cols = asciiPanel.getCols();
         int rows = asciiPanel.getRows();
-        double[][] demo = AsciiDemoPatterns.radialGradient(cols, rows);
-        asciiPanel.draw(demo, AsciiDemoPatterns.waterTint(cols, rows, demo));
+        double[][] room = AsciiRoomPatterns.forName(asciiRoom, cols, rows);
+        asciiPanel.draw(room, AsciiDemoPatterns.waterTint(cols, rows, room));
+    }
+
+    public void setAsciiRoom(String name) {
+        asciiRoom = name;
+        redrawAsciiDemo();
     }
 
     public TextArea getOutputArea() {
