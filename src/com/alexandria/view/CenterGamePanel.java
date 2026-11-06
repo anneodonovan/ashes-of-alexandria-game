@@ -4,6 +4,8 @@ import com.alexandria.model.Traversal.Exit;
 import com.alexandria.model.Traversal.Room;
 import com.alexandria.model.Traversal.Direction;
 import com.alexandria.model.NPC.DialogueOption;
+import com.alexandria.view.ascii.AsciiCanvasPanel;
+import com.alexandria.view.ascii.AsciiDemoPatterns;
 
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
@@ -11,6 +13,7 @@ import javafx.scene.control.ChoiceDialog;
 import java.util.List;
 import java.util.Optional;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.control.Button;
 import java.util.function.Consumer;
 
@@ -19,10 +22,11 @@ public class CenterGamePanel extends BorderPane {
     private TextArea outputArea;
     private TextArea inputField;
     private VBox dialogueOptionsBox;
+    private AsciiCanvasPanel asciiPanel;
+    private Button toggleAsciiButton;
 
     public CenterGamePanel() {
         outputArea = new TextArea();
-        outputArea.setPrefHeight(600);
         outputArea.setEditable(false);
         outputArea.setWrapText(true);
 
@@ -34,9 +38,50 @@ public class CenterGamePanel extends BorderPane {
         inputField.setPrefHeight(100);
         inputField.setWrapText(true);
 
-        setTop(outputArea);
-        setCenter(dialogueOptionsBox); // or setBottom(dialogueOptionsBox)
-        setBottom(inputField);
+        asciiPanel = new AsciiCanvasPanel(60, 30);
+        asciiPanel.setVisible(false);
+        asciiPanel.setManaged(false);
+        asciiPanel.setOnResize(this::redrawAsciiDemo);
+        outputArea.textProperty().addListener((obs, oldText, newText) -> {
+            if (asciiPanel.isVisible()) {
+                toggleAsciiMode();
+            }
+        });
+
+        toggleAsciiButton = new Button("Toggle ASCII Mode");
+        toggleAsciiButton.setOnAction(e -> toggleAsciiMode());
+
+        StackPane centerStack = new StackPane(outputArea, asciiPanel);
+
+        VBox bottomBox = new VBox(dialogueOptionsBox, inputField);
+        bottomBox.setSpacing(5);
+
+        setTop(toggleAsciiButton);
+        setCenter(centerStack);
+        setBottom(bottomBox);
+    }
+
+    private void toggleAsciiMode() {
+        boolean showingAscii = asciiPanel.isVisible();
+        asciiPanel.setVisible(!showingAscii);
+        asciiPanel.setManaged(!showingAscii);
+        outputArea.setVisible(showingAscii);
+        outputArea.setManaged(showingAscii);
+
+        if (!showingAscii) {
+            ((StackPane) getCenter()).layout();
+            redrawAsciiDemo();
+        }
+    }
+
+    private void redrawAsciiDemo() {
+        if (!asciiPanel.isVisible()) {
+            return;
+        }
+        int cols = asciiPanel.getCols();
+        int rows = asciiPanel.getRows();
+        double[][] demo = AsciiDemoPatterns.radialGradient(cols, rows);
+        asciiPanel.draw(demo, AsciiDemoPatterns.waterTint(cols, rows, demo));
     }
 
     public TextArea getOutputArea() {
