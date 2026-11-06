@@ -86,8 +86,11 @@ public class CenterGamePanel extends BorderPane {
         asciiPanel.draw(room, AsciiDemoPatterns.waterTint(cols, rows, room));
     }
 
-    public void setAsciiRoom(String name) {
-        asciiRoom = name;
+    public void setAsciiRoom(String roomName) {
+        if (!java.util.Arrays.asList(AsciiRoomPatterns.NAMES).contains(roomName)) {
+            throw new IllegalArgumentException("Unknown room pattern: " + roomName);
+        }
+        asciiRoom = roomName;
         redrawAsciiDemo();
     }
 
