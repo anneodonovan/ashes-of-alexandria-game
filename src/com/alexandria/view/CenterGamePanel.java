@@ -13,6 +13,7 @@ import javafx.scene.control.ChoiceDialog;
 import java.util.List;
 import java.util.Optional;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.control.Button;
 import java.util.function.Consumer;
 
@@ -26,7 +27,6 @@ public class CenterGamePanel extends BorderPane {
 
     public CenterGamePanel() {
         outputArea = new TextArea();
-        outputArea.setPrefHeight(600);
         outputArea.setEditable(false);
         outputArea.setWrapText(true);
 
@@ -45,12 +45,14 @@ public class CenterGamePanel extends BorderPane {
         toggleAsciiButton = new Button("Toggle ASCII Mode");
         toggleAsciiButton.setOnAction(e -> toggleAsciiMode());
 
-        VBox topBox = new VBox(toggleAsciiButton, outputArea, asciiPanel);
-        topBox.setSpacing(5);
+        StackPane centerStack = new StackPane(outputArea, asciiPanel);
 
-        setTop(topBox);
-        setCenter(dialogueOptionsBox); // or setBottom(dialogueOptionsBox)
-        setBottom(inputField);
+        VBox bottomBox = new VBox(dialogueOptionsBox, inputField);
+        bottomBox.setSpacing(5);
+
+        setTop(toggleAsciiButton);
+        setCenter(centerStack);
+        setBottom(bottomBox);
     }
 
     private void toggleAsciiMode() {
