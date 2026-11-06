@@ -9,6 +9,8 @@ public class AsciiCanvasPanel extends Canvas {
     private static final double DEFAULT_CELL_SIZE = 10;
 
     private final AsciiRenderer renderer = new AsciiRenderer();
+    private final int cols;
+    private final int rows;
     private final double cellSize;
 
     public AsciiCanvasPanel(int cols, int rows) {
@@ -17,10 +19,21 @@ public class AsciiCanvasPanel extends Canvas {
 
     public AsciiCanvasPanel(int cols, int rows, double cellSize) {
         super(cols * cellSize, rows * cellSize);
+        if (cellSize <= 0) {
+            throw new IllegalArgumentException("cellSize must be positive, got " + cellSize);
+        }
+        this.cols = cols;
+        this.rows = rows;
         this.cellSize = cellSize;
     }
 
     public void draw(double[][] brightnessGrid) {
+        if (brightnessGrid.length != rows || (rows > 0 && brightnessGrid[0].length != cols)) {
+            throw new IllegalArgumentException(
+                "brightnessGrid must be " + rows + "x" + cols + ", got " + brightnessGrid.length
+                    + "x" + (brightnessGrid.length > 0 ? brightnessGrid[0].length : 0));
+        }
+
         GraphicsContext gc = getGraphicsContext2D();
         gc.setFill(Color.BLACK);
         gc.fillRect(0, 0, getWidth(), getHeight());
