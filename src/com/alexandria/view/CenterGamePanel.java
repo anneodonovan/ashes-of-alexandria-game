@@ -98,9 +98,9 @@ public class CenterGamePanel extends BorderPane {
     }
 
     private void cycleAsciiRoom() {
-        String[] names = AsciiRoomPatterns.NAMES;
-        int next = (java.util.Arrays.asList(names).indexOf(asciiRoom) + 1) % names.length;
-        setAsciiRoom(names[next]);
+        java.util.List<String> names = AsciiRoomPatterns.NAMES;
+        int next = (names.indexOf(asciiRoom) + 1) % names.size();
+        setAsciiRoom(names.get(next));
     }
 
     public void setAsciiRoom(String roomName) {
