@@ -1,6 +1,7 @@
 package com.alexandria.view;
 
 import java.net.URL;
+import java.util.prefs.Preferences;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -11,10 +12,17 @@ import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
 
 public final class Theme {
-    public static final BooleanProperty dark = new SimpleBooleanProperty(false);
+    private static final Preferences PREFS = Preferences.userNodeForPackage(Theme.class);
+    private static final String DARK_KEY = "darkMode";
+
+    public static final BooleanProperty dark = new SimpleBooleanProperty(PREFS.getBoolean(DARK_KEY, false));
 
     private static final String DARK_CLASS = "dark";
     private static final String STYLESHEET = findStylesheet();
+
+    static {
+        dark.addListener((obs, was, is) -> PREFS.putBoolean(DARK_KEY, is));
+    }
 
     private Theme() {}
 

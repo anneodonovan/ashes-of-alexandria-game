@@ -133,6 +133,7 @@ public class GameController {
         dialog.setTitle("Player Name");
         dialog.setHeaderText("Welcome to the Adventure!");
         dialog.setContentText("Please enter your name:");
+        Theme.style(dialog);
 
         Optional<String> result = dialog.showAndWait();
         return result.orElse("Player"); // fallback if user cancels
