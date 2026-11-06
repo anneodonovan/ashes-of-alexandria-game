@@ -14,6 +14,11 @@ import javafx.scene.layout.StackPane;
 
 public class GameFrame extends Application {
 
+    private static final String DARK_STYLE =
+        "-fx-base: #1c1c1c; -fx-background: #121212; -fx-control-inner-background: #0d0d0d;"
+        + " -fx-text-base-color: #f2f2f2; -fx-text-inner-color: #f2f2f2;"
+        + " -fx-text-background-color: #f2f2f2; -fx-accent: #4a90e2;";
+
     private Player player;
     private LeftGamePanel left;
     private CenterGamePanel centerPanel;
@@ -42,6 +47,13 @@ public class GameFrame extends Application {
         controller.initUI();
 
         centerPanel.getOutputArea().appendText(gameModel.printWelcome());
+
+        boolean[] dark = {false};
+        left.getThemeButton().setOnAction(e -> {
+            dark[0] = !dark[0];
+            layeredRoot.setStyle(dark[0] ? DARK_STYLE : "");
+            left.setDarkMode(dark[0]);
+        });
 
         Scene scene = new Scene(layeredRoot, 1200, 800);
         primaryStage.setScene(scene);

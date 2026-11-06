@@ -2,6 +2,7 @@ package com.alexandria.view;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.VBox;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -11,6 +12,7 @@ public class LeftGamePanel extends VBox {
     private Button reloadButton;
     private Button helpButton;
     private Button quitButton;
+    private Button themeButton;
 
     public LeftGamePanel() {
         super(20); // spacing
@@ -27,11 +29,21 @@ public class LeftGamePanel extends VBox {
         quitButton = new Button("Quit");
         quitButton.setStyle("-fx-background-color: red; -fx-text-fill: white;");
 
-        getChildren().addAll(titleLabel, saveButton, reloadButton, helpButton, quitButton);
+        themeButton = new Button();
+        themeButton.setStyle("-fx-font-size: 18px;");
+        setDarkMode(false);
+
+        getChildren().addAll(titleLabel, saveButton, reloadButton, helpButton, quitButton, themeButton);
+    }
+
+    public void setDarkMode(boolean dark) {
+        themeButton.setText(dark ? "☀" : "☾");
+        themeButton.setTooltip(new Tooltip(dark ? "Switch to light mode" : "Switch to dark mode"));
     }
 
     public Button getSaveButton() { return saveButton; }
     public Button getReloadButton() { return reloadButton; }
     public Button getHelpButton() { return helpButton; }
     public Button getQuitButton() { return quitButton; }
+    public Button getThemeButton() { return themeButton; }
 }
