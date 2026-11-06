@@ -76,3 +76,5 @@ If there are multiple exits in that direction, the GUI will prompt you to choose
   - `view/` – JavaFX GUI panels and main frame
   - `controller/` – `GameController` connecting GUI with the model
 - Save files are written to the project root, named after the player (e.g. `PlayerName.txt`).
+## ASCII Mode
+Click **Toggle ASCII Mode** above the output log to swap the text output for an ASCII-art view of the current room. Typing a command returns you to the text view so you can see the result.
