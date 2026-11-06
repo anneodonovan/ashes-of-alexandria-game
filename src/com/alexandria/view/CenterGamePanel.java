@@ -8,6 +8,8 @@ import com.alexandria.view.ascii.AsciiCanvasPanel;
 import com.alexandria.view.ascii.AsciiDemoPatterns;
 import com.alexandria.view.ascii.AsciiRoomPatterns;
 
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.control.ChoiceDialog;
@@ -52,6 +54,15 @@ public class CenterGamePanel extends BorderPane {
 
         toggleAsciiButton = new Button("Toggle ASCII Mode");
         toggleAsciiButton.setOnAction(e -> toggleAsciiMode());
+        addEventFilter(KeyEvent.KEY_PRESSED, e -> {
+            if (e.getCode() == KeyCode.F2) {
+                toggleAsciiMode();
+                e.consume();
+            } else if (e.getCode() == KeyCode.F3 && asciiPanel.isVisible()) {
+                cycleAsciiRoom();
+                e.consume();
+            }
+        });
 
         StackPane centerStack = new StackPane(outputArea, asciiPanel);
 
@@ -84,6 +95,12 @@ public class CenterGamePanel extends BorderPane {
         int rows = asciiPanel.getRows();
         double[][] room = AsciiRoomPatterns.forName(asciiRoom, cols, rows);
         asciiPanel.draw(room, AsciiDemoPatterns.waterTint(cols, rows, room));
+    }
+
+    private void cycleAsciiRoom() {
+        String[] names = AsciiRoomPatterns.NAMES;
+        int next = (java.util.Arrays.asList(names).indexOf(asciiRoom) + 1) % names.length;
+        setAsciiRoom(names[next]);
     }
 
     public void setAsciiRoom(String roomName) {
