@@ -10,7 +10,9 @@ import com.alexandria.view.ascii.AsciiRoomPatterns;
 
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.control.ChoiceDialog;
 import java.util.List;
@@ -54,13 +56,20 @@ public class CenterGamePanel extends BorderPane {
 
         toggleAsciiButton = new Button("Toggle ASCII Mode");
         toggleAsciiButton.setOnAction(e -> toggleAsciiMode());
-        addEventFilter(KeyEvent.KEY_PRESSED, e -> {
+        toggleAsciiButton.setTooltip(new Tooltip("F2: toggle ASCII mode, F3: next room"));
+        EventHandler<KeyEvent> asciiKeys = e -> {
             if (e.getCode() == KeyCode.F2) {
                 toggleAsciiMode();
-                e.consume();
             } else if (e.getCode() == KeyCode.F3 && asciiPanel.isVisible()) {
                 cycleAsciiRoom();
-                e.consume();
+            }
+        };
+        sceneProperty().addListener((obs, oldScene, newScene) -> {
+            if (oldScene != null) {
+                oldScene.removeEventFilter(KeyEvent.KEY_RELEASED, asciiKeys);
+            }
+            if (newScene != null) {
+                newScene.addEventFilter(KeyEvent.KEY_RELEASED, asciiKeys);
             }
         });
 
@@ -98,7 +107,7 @@ public class CenterGamePanel extends BorderPane {
     }
 
     private void cycleAsciiRoom() {
-        java.util.List<String> names = AsciiRoomPatterns.NAMES;
+        List<String> names = AsciiRoomPatterns.NAMES;
         int next = (names.indexOf(asciiRoom) + 1) % names.size();
         setAsciiRoom(names.get(next));
     }
