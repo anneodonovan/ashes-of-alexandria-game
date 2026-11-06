@@ -37,6 +37,11 @@ public class AsciiCanvasPanel extends Canvas {
                 "brightnessGrid must be " + rows + "x" + cols + ", got " + brightnessGrid.length
                     + "x" + (brightnessGrid.length > 0 ? brightnessGrid[0].length : 0));
         }
+        if (colorGrid != null && (colorGrid.length != rows || (rows > 0 && colorGrid[0].length != cols))) {
+            throw new IllegalArgumentException(
+                "colorGrid must be " + rows + "x" + cols + ", got " + colorGrid.length
+                    + "x" + (colorGrid.length > 0 ? colorGrid[0].length : 0));
+        }
 
         GraphicsContext gc = getGraphicsContext2D();
         gc.setFill(Color.BLACK);
