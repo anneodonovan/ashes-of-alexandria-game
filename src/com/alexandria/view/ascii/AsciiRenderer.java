@@ -4,6 +4,9 @@ public class AsciiRenderer {
     private static final String RAMP = " .:-=+*#%@";
 
     public char brightnessToChar(double brightness) {
+        if (Double.isNaN(brightness)) {
+            return RAMP.charAt(0); // e.g. a 0/0 upstream ratio; render as blank instead of relying on Math.round(NaN) == 0
+        }
         double clamped = Math.max(0.0, Math.min(1.0, brightness));
         int index = (int) Math.round(clamped * (RAMP.length() - 1));
         return RAMP.charAt(index);
