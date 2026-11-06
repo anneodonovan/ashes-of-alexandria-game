@@ -28,6 +28,10 @@ public class AsciiCanvasPanel extends Canvas {
     }
 
     public void draw(double[][] brightnessGrid) {
+        draw(brightnessGrid, null);
+    }
+
+    public void draw(double[][] brightnessGrid, Color[][] colorGrid) {
         if (brightnessGrid.length != rows || (rows > 0 && brightnessGrid[0].length != cols)) {
             throw new IllegalArgumentException(
                 "brightnessGrid must be " + rows + "x" + cols + ", got " + brightnessGrid.length
@@ -37,12 +41,12 @@ public class AsciiCanvasPanel extends Canvas {
         GraphicsContext gc = getGraphicsContext2D();
         gc.setFill(Color.BLACK);
         gc.fillRect(0, 0, getWidth(), getHeight());
-        gc.setFill(Color.LIMEGREEN);
         gc.setFont(Font.font("Monospaced", cellSize));
 
         char[][] chars = renderer.render(brightnessGrid);
         for (int r = 0; r < chars.length; r++) {
             for (int c = 0; c < chars[r].length; c++) {
+                gc.setFill(colorGrid != null ? colorGrid[r][c] : Color.LIMEGREEN);
                 gc.fillText(String.valueOf(chars[r][c]), c * cellSize, (r + 1) * cellSize);
             }
         }
