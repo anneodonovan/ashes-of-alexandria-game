@@ -43,7 +43,7 @@ public class CenterGamePanel extends BorderPane {
         asciiPanel = new AsciiCanvasPanel(60, 30);
         asciiPanel.setVisible(false);
         asciiPanel.setManaged(false);
-        asciiPanel.setOnResize(this::redrawAsciiDemo);
+        asciiPanel.setOnResize(this::redrawAscii);
         outputArea.textProperty().addListener((obs, oldText, newText) -> {
             if (asciiPanel.isVisible()) {
                 toggleAsciiMode();
@@ -72,11 +72,11 @@ public class CenterGamePanel extends BorderPane {
 
         if (!showingAscii) {
             ((StackPane) getCenter()).layout();
-            redrawAsciiDemo();
+            redrawAscii();
         }
     }
 
-    private void redrawAsciiDemo() {
+    private void redrawAscii() {
         if (!asciiPanel.isVisible()) {
             return;
         }
@@ -87,11 +87,11 @@ public class CenterGamePanel extends BorderPane {
     }
 
     public void setAsciiRoom(String roomName) {
-        if (!AsciiRoomPatterns.NAMES.contains(roomName)) {
+        if (roomName == null || !AsciiRoomPatterns.NAMES.contains(roomName)) {
             throw new IllegalArgumentException("Unknown room pattern: " + roomName);
         }
         asciiRoom = roomName;
-        redrawAsciiDemo();
+        redrawAscii();
     }
 
     public TextArea getOutputArea() {
