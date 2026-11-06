@@ -4,6 +4,8 @@ import com.alexandria.model.Traversal.Exit;
 import com.alexandria.model.Traversal.Room;
 import com.alexandria.model.Traversal.Direction;
 import com.alexandria.model.NPC.DialogueOption;
+import com.alexandria.view.ascii.AsciiCanvasPanel;
+import com.alexandria.view.ascii.AsciiDemoPatterns;
 
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
@@ -19,6 +21,8 @@ public class CenterGamePanel extends BorderPane {
     private TextArea outputArea;
     private TextArea inputField;
     private VBox dialogueOptionsBox;
+    private AsciiCanvasPanel asciiPanel;
+    private Button toggleAsciiButton;
 
     public CenterGamePanel() {
         outputArea = new TextArea();
@@ -34,9 +38,32 @@ public class CenterGamePanel extends BorderPane {
         inputField.setPrefHeight(100);
         inputField.setWrapText(true);
 
-        setTop(outputArea);
+        asciiPanel = new AsciiCanvasPanel(60, 30);
+        asciiPanel.setVisible(false);
+        asciiPanel.setManaged(false);
+
+        toggleAsciiButton = new Button("Toggle ASCII Mode");
+        toggleAsciiButton.setOnAction(e -> toggleAsciiMode());
+
+        VBox topBox = new VBox(toggleAsciiButton, outputArea, asciiPanel);
+        topBox.setSpacing(5);
+
+        setTop(topBox);
         setCenter(dialogueOptionsBox); // or setBottom(dialogueOptionsBox)
         setBottom(inputField);
+    }
+
+    private void toggleAsciiMode() {
+        boolean showingAscii = asciiPanel.isVisible();
+        asciiPanel.setVisible(!showingAscii);
+        asciiPanel.setManaged(!showingAscii);
+        outputArea.setVisible(showingAscii);
+        outputArea.setManaged(showingAscii);
+
+        if (!showingAscii) {
+            double[][] demo = AsciiDemoPatterns.radialGradient(60, 30);
+            asciiPanel.draw(demo, AsciiDemoPatterns.waterTint(60, 30, demo));
+        }
     }
 
     public TextArea getOutputArea() {
