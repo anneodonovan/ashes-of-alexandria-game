@@ -41,6 +41,7 @@ public class CenterGamePanel extends BorderPane {
         asciiPanel = new AsciiCanvasPanel(60, 30);
         asciiPanel.setVisible(false);
         asciiPanel.setManaged(false);
+        asciiPanel.setOnResize(this::redrawAsciiDemo);
 
         toggleAsciiButton = new Button("Toggle ASCII Mode");
         toggleAsciiButton.setOnAction(e -> toggleAsciiMode());
@@ -63,9 +64,18 @@ public class CenterGamePanel extends BorderPane {
         outputArea.setManaged(showingAscii);
 
         if (!showingAscii) {
-            double[][] demo = AsciiDemoPatterns.radialGradient(60, 30);
-            asciiPanel.draw(demo, AsciiDemoPatterns.waterTint(60, 30, demo));
+            redrawAsciiDemo();
         }
+    }
+
+    private void redrawAsciiDemo() {
+        if (!asciiPanel.isVisible()) {
+            return;
+        }
+        int cols = asciiPanel.getCols();
+        int rows = asciiPanel.getRows();
+        double[][] demo = AsciiDemoPatterns.radialGradient(cols, rows);
+        asciiPanel.draw(demo, AsciiDemoPatterns.waterTint(cols, rows, demo));
     }
 
     public TextArea getOutputArea() {
